@@ -8,20 +8,18 @@
             <ul>
                 <li><b>Name : </b>{{ $project['name'] }}</li>
                 <li><b>Status : </b>{{ $project['status'] }}</li>
-                <li><b>Budget : </b>{{ $project['budget'] }}</li>
-                <li><b>Currency : </b>{{ $project['currency'] }}</li>
-                <li><b>Tags : </b>
-                    {{-- @php
-                        $tags= json_decoded($project['tags']);
-                    @endphp --}}
+                <li><b>Client Name : </b>{{ $project['client'] }}</li>
+                <li><b>Client Email : </b>{{ $project['email'] }}</li>
+                {{-- <li><b>Tags : </b>
                     @foreach ($project['tags'] as $tag)
-                        {{ $tag }}, 
+                        {{ $tag }},
                     @endforeach
+                </li> --}}
                 <li><b>Started At : </b>{{ $project['started_at'] }}</li>
                 <li><b>Completed at : </b>{{ $project['completed_at'] ?? 'N/A' }}</li>
             </ul>
         </div>
-         <div class="col-4">
+        {{-- <div class="col-4">
             <h5 class="mt-4"> <b> Client Details</b></h5>
             <ul>
                 <li><b>Name : </b>{{ $project['client']['name'] }}</li>
@@ -54,10 +52,10 @@
                             <li><b>Created At : </b>{{ $comment['created_at'] ?? 'Not Found' }}</li>
                         @endforeach
                     @endif
-                   
+
                 </ul>
             @endforeach
-        </div>
+        </div> --}}
     </div>
 </div>
 @include('masterlayout.footer')
