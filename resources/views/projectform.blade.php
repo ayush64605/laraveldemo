@@ -3,7 +3,7 @@
 <div class="container">
     <h2>{{ isset($project) ? 'Edit Project' : 'Add Project' }}</h2>
 
-    <form class="mt-4" action="{{ route('project.save') }}" method="POST">
+    <form class="mt-4" action="{{ route('projectsave') }}" method="POST">
         @csrf
 
         {{-- ID --}}
@@ -59,7 +59,7 @@
                 <div class="form-group">
                     <label>Start Date</label>
                     <input type="date" class="form-control" name="start_date"
-                        value="{{ $project['started_at'] ?? '' }}">
+                        value="{{ $project['started_at'] ?? ''}}">
                 </div>
             </div>
 

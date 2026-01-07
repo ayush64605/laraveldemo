@@ -139,29 +139,29 @@ class ProjectController extends Controller
     public function projectadd()
     {
         $projects = $this->getProjects();
-        return view("projectadd", compact('projects'));
+        return view("projectform", compact('projects'));
     }
 
-    public function projectsave(Request $request)
-    {
-        $projects = session()->get('projects');
-        // dd( $projects);
-        $newproject = [
-            'id' => $request->id,
-            'name' => $request->name,
-            'status' => $request->status,
-            'client' => $request->client,
-            'email' => $request->email,
-            'started_at' => $request->start_date,
-            'completed_at' => $request->complete_date,
-            'image' => 'product1.jpg',
-        ];
+    // public function projectsave(Request $request)
+    // {
+    //     $projects = session()->get('projects');
+    //     // dd( $projects);
+    //     $newproject = [
+    //         'id' => $request->id,
+    //         'name' => $request->name,
+    //         'status' => $request->status,
+    //         'client' => $request->client,
+    //         'email' => $request->email,
+    //         'started_at' => $request->start_date,
+    //         'completed_at' => $request->complete_date,
+    //         'image' => 'product1.jpg',
+    //     ];
 
-        $projects[] = $newproject;
-        session()->put('projects', $projects);
-        // dd(session('projects'));
-        return redirect()->route('index');
-    }
+    //     $projects[] = $newproject;
+    //     session()->put('projects', $projects);
+    //     // dd(session('projects'));
+    //     return redirect()->route('index');
+    // }
     public function projectdetails($id)
     {
         // $projects = $this->getProjects();
@@ -176,28 +176,28 @@ class ProjectController extends Controller
         $projects = session('projects');
         $project = collect($projects)->firstWhere('id', (int) $id);
         // dd($project);
-        return view("projectupdate", compact('project'));
+        return view("projectform", compact('project'));
 
     }
 
-    public function projectedit(Request $request, $project_id)
-    {
-        $projects = session('projects', []);
-        $index = collect($projects)->search(function ($item) use ($project_id) {
-            return $item['id'] == (int) $project_id;
-        });
-        if ($index !== false) {
-            $projects[$index]['name'] = $request->name;
-            $projects[$index]['status'] = $request->status;
-            $projects[$index]['client'] = $request->client;
-            $projects[$index]['email'] = $request->email;
-            $projects[$index]['started_at'] = $request->start_date;
-            $projects[$index]['completed_at'] = $request->complete_date;
-            session(['projects' => $projects]);
-        }
+    // public function projectedit(Request $request, $project_id)
+    // {
+    //     $projects = session('projects', []);
+    //     $index = collect($projects)->search(function ($item) use ($project_id) {
+    //         return $item['id'] == (int) $project_id;
+    //     });
+    //     if ($index !== false) {
+    //         $projects[$index]['name'] = $request->name;
+    //         $projects[$index]['status'] = $request->status;
+    //         $projects[$index]['client'] = $request->client;
+    //         $projects[$index]['email'] = $request->email;
+    //         $projects[$index]['started_at'] = $request->start_date;
+    //         $projects[$index]['completed_at'] = $request->complete_date;
+    //         session(['projects' => $projects]);
+    //     }
 
-        return redirect()->route('index');
-    }
+    //     return redirect()->route('index');
+    // }
 
     public function projectdelete($project_id)
     {

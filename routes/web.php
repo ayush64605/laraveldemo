@@ -17,7 +17,7 @@ Route::get("/logout", [AuthController::class, "logout"])->name("logout");
 Route::middleware(AuthCheck::class)->group(function () {
     Route::get('/index', [ProjectController::class, 'index'])->name('index');
     Route::get('/projectadd', [ProjectController::class, 'projectadd'])->name('projectadd');
-    Route::post('/projectsave', [ProjectController::class, 'projectsave'])->name('projectsave');
+    Route::post('/projectsave', [ProjectController::class, 'saveProject'])->name('projectsave');
     Route::get('/projectupdate/{project}', [ProjectController::class, 'projectupdate'])->name('projectupdate');
     Route::post('/projectedit/{project}', [ProjectController::class, 'projectedit'])->name('projectedit');
     Route::get('/projectupdate/{project}', [ProjectController::class, 'projectupdate'])->name('projectupdate');
