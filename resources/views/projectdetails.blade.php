@@ -1,61 +1,81 @@
 @include('masterlayout.header')
-<div class="container mt-4">
-    <h2>{{ $project['name'] }}</h2>
-
-    <div class="row">
-        <div class="col-4">
-            <h5 class="mt-4"> <b> Project Details</b></h5>
-            <ul>
-                <li><b>Name : </b>{{ $project['name'] }}</li>
-                <li><b>Status : </b>{{ $project['status'] }}</li>
-                <li><b>Client Name : </b>{{ $project['client'] }}</li>
-                <li><b>Client Email : </b>{{ $project['email'] }}</li>
-                {{-- <li><b>Tags : </b>
-                    @foreach ($project['tags'] as $tag)
-                        {{ $tag }},
-                    @endforeach
-                </li> --}}
-                <li><b>Started At : </b>{{ $project['started_at'] }}</li>
-                <li><b>Completed at : </b>{{ $project['completed_at'] ?? 'N/A' }}</li>
-            </ul>
+<div class="max-w-[60rem] shadow-xl border-2 border-solid rounded-lg border-blue-600 mt-10 px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-2 gap-6">
+        <div class=" flex">
+            <div class="p-4 md:p-6">
+                <h3 class="text-2xl font-semibold text-black">
+                    Project Details
+                </h3>
+            </div>
         </div>
-        {{-- <div class="col-4">
-            <h5 class="mt-4"> <b> Client Details</b></h5>
-            <ul>
-                <li><b>Name : </b>{{ $project['client']['name'] }}</li>
-                <li><b>Email : </b>{{ $project['client']['email'] }}</li>
-                <li><b>Phone No. : </b>{{ $project['client']['phone'] }}</li>
-            </ul>
-            <h5 class="mt-4"> <b> Manager Details</b></h5>
-            <ul>
-                <li><b>Name : </b>{{ $project['manager']['name'] ?? 'Not Found' }}</li>
-                <li><b>Email : </b>{{ $project['manager']['email'] ?? 'Not Found' }}</li>
-            </ul>
+    </div>
+    <div class="flex flex-col">
+        <div class="-m-1.5 overflow-x-auto">
+            <div class="p-1.5 min-w-full inline-block align-middle">
+                <div class="overflow-hidden">
+                    <table class="min-w-full divide-y divide-gray-200 dark:divide-neutral-700">
+                        <tbody class="divide-y divide-gray-200 dark:divide-neutral-700">
+                            <tr>
+                                <td
+                                    class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
+                                    <b>Name:</b>
+                                </td>
+                                <td
+                                    class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
+                                    {{ $project['name'] }}</td>
+                            </tr>
+                            <tr>
+                                <td
+                                    class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
+                                    <b>Status:</b>
+                                </td>
+                                <td
+                                    class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
+                                    {{ $project['status'] }}</td>
+                            </tr>
+                            <tr>
+                                <td
+                                    class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
+                                    <b>Client Name :</b>
+                                </td>
+                                <td
+                                    class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
+                                    {{ $project['client'] }}</td>
+                            </tr>
+                            <tr>
+                                <td
+                                    class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
+                                    <b>Client Email :</b>
+                                </td>
+                                <td
+                                    class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
+                                    {{ $project['email'] }}</td>
+                            </tr>
+                            <tr>
+                                <td
+                                    class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
+                                    <b>Started At :</b>
+                                </td>
+                                <td
+                                    class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
+                                    {{ $project['started_at'] }}</td>
+                            </tr>
+                            <tr>
+                                <td
+                                    class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
+                                    <b>Completed at :</b>
+                                </td>
+                                <td
+                                    class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
+                                    {{ $project['completed_at'] }}</td>
+                            </tr>
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-        <div class="col-4">
-            @foreach ($project['tasks'] as $task)
-                <h5 class="mt-4"> <b> Tasks</b></h5>
-                <ul>
-                    <li><b>Name : </b>{{ $task['title'] }}</li>
-                    <li><b>Status : </b>{{ $task['status'] }}</li>
-                    <li><b>Priority : </b>{{ $task['priority'] }}</li>
-                    <li><b>Due Date : </b>{{ $task['due_date'] }}</li>
-                    <li><b>Completed Date : </b>{{ $task['completed_at'] }}</li>
-                    <h6 class="mt-4"> <b>Assign : </b></h6>
-                    <li><b>Name : </b>{{ $task['assignee']['name'] ?? 'Unassigned' }}</li>
-                    <li><b>Email : </b>{{ $task['assignee']['email'] ?? 'Unassigned' }}</li>
-
-                    <h6 class="mt-4"> <b>Comments : </b></h6>
-                    @if ($task['comments'])
-                        @foreach ($task['comments'] as $comment)
-                            <li><b>Message : </b>{{ $comment['message'] ?? 'Not Found' }}</li>
-                            <li><b>Created At : </b>{{ $comment['created_at'] ?? 'Not Found' }}</li>
-                        @endforeach
-                    @endif
-
-                </ul>
-            @endforeach
-        </div> --}}
     </div>
 </div>
 @include('masterlayout.footer')

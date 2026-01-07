@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Storage;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -108,7 +109,7 @@ class ProjectController extends Controller
                 'email' => 'client1@gmail.com',
                 'started_at' => '25-10-2025',
                 'completed_at' => '1-1-2026',
-                'image' => 'product1.jpg',
+                'image' => 'projectimage/product1.jpg',
             ],
             [
                 'id' => 2,
@@ -118,7 +119,7 @@ class ProjectController extends Controller
                 'email' => 'client3@gmail.com',
                 'started_at' => '25-10-2025',
                 'completed_at' => '1-1-2026',
-                'image' => 'product2.jpeg',
+                'image' => 'projectimage/product2.jpeg',
             ]
         ];
 
@@ -127,6 +128,7 @@ class ProjectController extends Controller
 
         return $project;
     }
+
     public function index()
     {
         $projects = session('projects');
@@ -135,11 +137,18 @@ class ProjectController extends Controller
 
         return view("index", compact('projects'));
     }
+    public function projects()
+    {
+        $projects = session('projects');
+        // $projects = $this->getProjects();
+        // dd(session('projects'));
+
+        return view("projects", compact('projects'));
+    }
 
     public function projectadd()
     {
-        $projects = $this->getProjects();
-        return view("projectform", compact('projects'));
+        return view("projectform");
     }
 
     // public function projectsave(Request $request)
@@ -206,17 +215,43 @@ class ProjectController extends Controller
             return $item['id'] == (int) $project_id;
         });
         if ($index !== false) {
+            Storage::disk('public')->delete($projects[$index]['image']);
             unset($projects[$index]);
             session(['projects' => array_values($projects)]);
         }
 
-        return redirect()->route('index');
+        return redirect()->route('project.show')->with('success', 'Project Deleted Successfilly.');
     }
 
     public function saveProject(Request $request)
     {
         $projects = session('projects', []);
-    
+
+        $index = collect($projects)->search(function ($item) use ($request) {
+            return $item['id'] == (int) $request->id;
+        });
+
+        $request->validate([
+            'name' => 'required',
+            'status' => 'required',
+            'client' => 'required',
+            'email' => 'required',
+            'start_date' => 'required',
+            'complete_date' => 'required',
+            'image' => $index !== false ? 'nullable|image' : 'required|image',
+        ]);
+
+        // dd($request->id);
+        if ($request->hasFile('image')) {
+            if ($index !== false) {
+                Storage::disk('public')->delete($projects[$index]['image']);
+                $image = $request->file('image')->store('projectimage', 'public');
+            } else {
+                $image = $request->file('image')->store('projectimage', 'public');
+            }
+        } else {
+            $image = $projects[$index]['image'];
+        }
         $projectData = [
             'id' => (int) $request->id,
             'name' => $request->name,
@@ -225,22 +260,23 @@ class ProjectController extends Controller
             'email' => $request->email,
             'started_at' => $request->start_date,
             'completed_at' => $request->complete_date,
-            'image' => 'product1.jpg',
+            'image' => $image,
         ];
-    
-        $index = collect($projects)->search(function ($item) use ($request) {
-            return $item['id'] == (int) $request->id;
-        });
-    
+
         if ($index !== false) {
             $projects[$index] = $projectData;
         } else {
             $projects[] = $projectData;
         }
-    
+
         session(['projects' => $projects]);
-    
-        return redirect()->route('index');
+
+        if ($index !== false) {
+            return redirect()->route('project.show')->with('success', 'Project Updated Successfully');
+        } else {
+            return redirect()->route('project.show')->with('success', 'Project Added Successfully');
+        }
+
     }
 
 

@@ -5,45 +5,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container">
-
-            <a class="navbar-brand" href="#"><img src="{{ URL::asset('assets/images/demo.png') }}" width="100"
-                    alt=""></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{{ route('index') }}">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('index') }}">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('index') }}">Projects</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('index') }}">Contact</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('projectadd') }}"><button class="btn btn-primary">+ Add Product</button></a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('logout') }}"><button class="btn btn-danger">Logout</button></a>
-                    </li>
-                </ul>
+    <header class="bg-blue-600">
+        <nav aria-label="Global" class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
+            <div class="flex lg:flex-1">
+                <a href="{{ route('index') }}" class="-m-1.5 p-1.5">
+                    <h2 class="text-white text-2xl font-bold">Project Management System</h2>
+                </a>
             </div>
-        </div>
-    </nav>
+
+            <el-popover-group class="hidden lg:flex lg:gap-x-12 items-center">
+                <a href="{{ route('index') }}" class="text-sm/6 font-semibold text-white">Home</a>
+                <a href="{{ route('project.show') }}" class="text-sm/6 font-semibold text-white">Projects</a>
+                <a href="{{ route('logout') }}" class="text-sm/6 font-semibold text-white"><button type="submit"
+                        class="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Logout</button></a>
+            </el-popover-group>
+        </nav>
+    </header>
+
 </body>
 
 </html>
