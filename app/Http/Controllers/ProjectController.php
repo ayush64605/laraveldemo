@@ -213,5 +213,35 @@ class ProjectController extends Controller
         return redirect()->route('index');
     }
 
+    public function saveProject(Request $request)
+    {
+        $projects = session('projects', []);
+    
+        $projectData = [
+            'id' => (int) $request->id,
+            'name' => $request->name,
+            'status' => $request->status,
+            'client' => $request->client,
+            'email' => $request->email,
+            'started_at' => $request->start_date,
+            'completed_at' => $request->complete_date,
+            'image' => 'product1.jpg',
+        ];
+    
+        $index = collect($projects)->search(function ($item) use ($request) {
+            return $item['id'] == (int) $request->id;
+        });
+    
+        if ($index !== false) {
+            $projects[$index] = $projectData;
+        } else {
+            $projects[] = $projectData;
+        }
+    
+        session(['projects' => $projects]);
+    
+        return redirect()->route('index');
+    }
+
 
 }
