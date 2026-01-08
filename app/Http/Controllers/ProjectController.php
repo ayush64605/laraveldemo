@@ -164,16 +164,22 @@ class ProjectController extends Controller
 
     public function index()
     {
-        $projects = session('projects');
-        // $projects = $this->getProjects();
+        if (session('projects')) {
+            $projects = session('projects');
+        } else {
+            $projects = $this->getProjects();
+        }
         // dd(session('projects'));
 
         return view("index", compact('projects'));
     }
     public function projects()
     {
-        $projects = session('projects');
-        // $projects = $this->getProjects();
+        if (session('projects')) {
+            $projects = session('projects');
+        } else {
+            $projects = $this->getProjects();
+        }
         // dd(session('projects'));
 
         return view("projects", compact('projects'));
