@@ -14,10 +14,18 @@
 
             <p class="text-sm text-gray-600 mb-6">Project & Client Details</p>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            @if (session('error'))
+                <x-alert type="error" :message="session('error')" />
+            @endif
+            @if (session('success'))
+                <x-alert type="success" :message="session('success')" />
+            @endif
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-900">Project Name</label>
+                    <label class="block text-sm font-medium text-gray-900">Project Name <span
+                            class="text-red-600">*</span>
+                    </label>
                     <input type="text" name="name" value="{{ $project['name'] ?? '' }}"
                         class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300 focus:outline-indigo-600">
                     @error('name')
@@ -26,10 +34,33 @@
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-900">Project Code</label>
+                    <label class="block text-sm font-medium text-gray-900">Project Code <span
+                            class="text-red-600">*</span></label>
                     <input type="text" name="project_code" value="{{ $project['project_code'] ?? '' }}"
                         class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300 focus:outline-indigo-600">
                     @error('project_code')
+                        <span class="text-red-600 text-sm">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-900">Project Key <span
+                            class="text-red-600 {{ $project['id'] ?? null ? 'hidden' : '' }}">*</span></label>
+                    <input type="text" name="project_key"
+                        placeholder="{{ $project['id'] ?? null ? '*****' : 'Enter Project Key' }}"
+                        class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300 focus:outline-indigo-600">
+                    @error('project_key')
+                        <span class="text-red-600 text-sm">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-900">Confirm Project Key <span
+                            class="text-red-600 {{ $project['id'] ?? null ? 'hidden' : '' }}">*</span></label>
+                    <input type="text" name="c_project_key"
+                        placeholder="{{ $project['id'] ?? null ? '*****' : 'Enter Confirm Project Key' }}"
+                        class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300 focus:outline-indigo-600">
+                    @error('project_key')
                         <span class="text-red-600 text-sm">{{ $message }}</span>
                     @enderror
                 </div>
@@ -72,7 +103,8 @@
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-900">Priority</label>
+                    <label class="block text-sm font-medium text-gray-900">Priority <span
+                            class="text-red-600">*</span></label>
                     <div class="flex gap-4 mt-2">
                         @foreach (['Low', 'Medium', 'High'] as $p)
                             <label class="flex items-center gap-2 text-sm">
@@ -115,7 +147,8 @@
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-900">Start Date</label>
+                    <label class="block text-sm font-medium text-gray-900">Start Date <span
+                            class="text-red-600">*</span></label>
                     <input type="date" name="start_date" value="{{ $project['started_at'] ?? '' }}"
                         class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300">
                     @error('start_date')
@@ -124,7 +157,8 @@
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-900">End Date</label>
+                    <label class="block text-sm font-medium text-gray-900">End Date <span
+                            class="text-red-600">*</span></label>
                     <input type="date" name="complete_date" value="{{ $project['completed_at'] ?? '' }}"
                         class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300">
                     @error('complete_date')
@@ -176,7 +210,6 @@
                     @enderror
                 </div>
 
-                {{-- Description --}}
                 <div class="md:col-span-3">
                     <label class="block text-sm font-medium text-gray-900">Description</label>
                     <textarea name="description" rows="3"
@@ -186,22 +219,22 @@
                     @enderror
                 </div>
 
-                {{-- Image --}}
                 <div>
-                    <label class="block text-sm font-medium text-gray-900">Project Image</label>
+                    <label class="block text-sm font-medium text-gray-900">Project Image <span
+                            class="text-red-600">*</span></label>
                     <input type="file" name="image" class="mt-2 block w-full text-sm">
                     @error('image')
                         <span class="text-red-600 text-sm">{{ $message }}</span>
                     @enderror
                 </div>
 
-                {{-- Client Details --}}
                 <div class="md:col-span-3 border-t pt-6 mt-6">
                     <h3 class="text-md font-semibold text-gray-900 mb-4">Client Details</h3>
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-900">Client Name</label>
+                    <label class="block text-sm font-medium text-gray-900">Client Name <span
+                            class="text-red-600">*</span></label>
                     <input type="text" name="client_name" value="{{ $project['client_name'] ?? '' }}"
                         class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300">
                     @error('client_name')
@@ -210,7 +243,8 @@
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-900">Client Email</label>
+                    <label class="block text-sm font-medium text-gray-900">Client Email <span
+                            class="text-red-600">*</span></label>
                     <input type="text" name="client_email" value="{{ $project['client_email'] ?? '' }}"
                         class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300">
                     @error('client_email')
@@ -237,7 +271,8 @@
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-900">Client Pan No.</label>
+                    <label class="block text-sm font-medium text-gray-900">Client Pan No. <span
+                            class="text-red-600">*</span></label>
                     <input type="text" name="client_pan" value="{{ $project['client_pan'] ?? '' }}"
                         class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300">
                     @error('client_pan')
@@ -266,10 +301,11 @@
             </div>
 
             <div class="mt-8 flex justify-end gap-4">
-                <a href="{{ route('project.show') }}"> <x-button
-                        type="button" color="red" text="Cancel" /> </a>
+                <a href="{{ route('project.show') }}"> <x-button type="button" color="red" text="Cancel"
+                        icon="cancel" />
                 </a>
-                <x-button type="submit" color="indigo" text="Save Project" /> </a>
+                </a>
+                <x-button type="submit" color="indigo" text="Save Project" icon="save" /> </a>
             </div>
 
         </form>

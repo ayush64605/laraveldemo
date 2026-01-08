@@ -31,13 +31,21 @@ class StorePostRequest extends FormRequest
             'project_type' => ['nullable', 'in:Internal,Client'],
             'description' => ['nullable', 'string', 'max:1000'],
 
+            'project_key' => [
+                $exists ? 'nullable' : 'required',
+            ],
+
+            'c_project_key' => [
+                $exists ? 'nullable' : 'required',
+            ],
+
             'start_date' => ['required', 'date'],
             'complete_date' => ['required_if:status,Completed', 'after_or_equal:start_date'],
             'deadline_time' => ['nullable', 'date_format:H:i'],
 
             'image' => [
                 $exists ? 'nullable' : 'required',
-                'image',    
+                'image',
                 'mimes:jpg,jpeg,png,webp',
                 'max:2048',
             ],
@@ -59,7 +67,7 @@ class StorePostRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required'=> 'Name Field is Required.',
+            'name.required' => 'Name Field is Required.',
         ];
     }
 }

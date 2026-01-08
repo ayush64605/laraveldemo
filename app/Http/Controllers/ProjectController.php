@@ -105,7 +105,8 @@ class ProjectController extends Controller
             [
                 'id' => 1,
                 'name' => 'Web Design',
-                'project_code' => 'WD-001',
+                'project_code' => 'cbt-001',
+                'project_key' => '55962',
                 'status' => 'Active',
                 'is_featured' => true,
                 'priority' => 'High',
@@ -130,7 +131,8 @@ class ProjectController extends Controller
             [
                 'id' => 2,
                 'name' => 'App Design',
-                'project_code' => 'AD-002',
+                'project_code' => 'cbt-002',
+                'project_key' => '52931',
                 'status' => 'Completed',
                 'is_featured' => false,
                 'priority' => 'Medium',
@@ -270,10 +272,23 @@ class ProjectController extends Controller
             $imagePath = ($index !== false) ? $projects[$index]['image'] : null;
         }
 
+        if ($request->project_key) {
+            if ($request->project_key == $request->c_project_key) {
+                $project_key = $request->project_key;
+            } else {
+                return redirect()->back()->with('error', 'Project key and confrim project key are not matched.');
+            }
+        } else {
+            $project_key = $projects[$index]['project_key'];
+        }
+
+
+
         $projectData = [
             'id' => (int) $request->id,
             'name' => $request->name,
             'project_code' => $request->project_code,
+            'project_key' => $project_key,
             'status' => $request->status ?? 'Completed',
             'priority' => $request->priority,
             'progress' => $request->progress ?? 0,

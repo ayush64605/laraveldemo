@@ -15,7 +15,7 @@
         <div class="flex items-center justify-end">
             <div class="p-4 md:p-6">
                 <a href="{{ route('project.add') }}" class="text-sm/6 font-semibold text-white"><button type="button"
-                        class="rounded-md bg-blue-600 px-3 py-2 text-lg font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">+
+                        class="rounded-md bg-indigo-600 px-3 py-2 text-lg font-semibold text-white shadow-xs hover:bg-indigo-500">+
                         Add New Project</button></a>
             </div>
         </div>
@@ -67,13 +67,13 @@
                                         {{ $project['status'] }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
                                         <a href="{{ route('project.details', ['project' => $project['id']]) }}"
-                                            class="text-sm/6 font-semibold text-white"><x-button type="button"
+                                            class="text-sm/6 font-semibold text-white"><x-button type="button" icon="eye"
                                                 color="indigo" text="View Detils" /></a>
                                         <a href="{{ route('project.update', ['project' => $project['id']]) }}"
-                                            class="text-sm/6 font-semibold text-white"><x-button type="button"
+                                            class="text-sm/6 font-semibold text-white"><x-button type="button" icon="edit"
                                                 color="indigo" text="Edit" /></a>
 
-                                        <x-button type="button" color="red" text="Delete"
+                                        <x-button type="button" color="red" text="Delete" icon="trash"
                                             onclick="document.getElementById('deleteModal-{{ $project['id'] }}').classList.remove('hidden')" />
 
                                         <div id="deleteModal-{{ $project['id'] }}"

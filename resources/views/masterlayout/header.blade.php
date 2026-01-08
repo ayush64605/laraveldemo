@@ -5,11 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" /> @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body>
-    <header class="bg-blue-600">
+    <header class="bg-indigo-600">
         <nav aria-label="Global" class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
             <div class="flex lg:flex-1">
                 <a href="{{ route('index') }}" class="-m-1.5 p-1.5">
@@ -20,8 +22,7 @@
             <el-popover-group class="hidden lg:flex lg:gap-x-12 items-center">
                 <a href="{{ route('index') }}" class="text-sm/6 font-semibold text-white">Home</a>
                 <a href="{{ route('project.show') }}" class="text-sm/6 font-semibold text-white">Projects</a>
-                <a href="{{ route('logout') }}"> <x-button type="button"
-                        color="red" text="Logout" /> </a>
+                <a href="{{ route('logout') }}"> <x-button type="button" color="red" text="Logout" icon="sign-out" /> </a>
                 </a>
             </el-popover-group>
         </nav>

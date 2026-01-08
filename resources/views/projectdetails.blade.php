@@ -1,6 +1,7 @@
 @include('masterlayout.header')
 
-<div class="max-w-[60rem] shadow-xl border-2 border-solid rounded-lg border-stone-200 mt-10 px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+<div
+    class="max-w-[60rem] shadow-xl border-2 border-solid rounded-lg border-stone-200 mt-10 px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
 
     <div class="grid sm:grid-cols-2 gap-6 mb-6">
         <div class="p-4 md:p-6">
@@ -26,9 +27,15 @@
                 </tr>
 
                 <tr>
+                    <td class="px-6 py-4 font-medium"><b>Project Key :</b></td>
+                    <td class="px-6 py-4">{{ $project['project_key'] ?? '-' }}</td>
+                </tr>
+
+                <tr>
                     <td class="px-6 py-4 font-medium"><b>Status :</b></td>
                     <td class="px-6 py-4">
-                        <span class="px-3 py-1 rounded-full text-sm font-semibold
+                        <span
+                            class="px-3 py-1 rounded-full text-sm font-semibold
                         {{ $project['status'] === 'Active' ? 'bg-green-100 text-green-700' : 'bg-gray-200 text-gray-700' }}">
                             {{ $project['status'] }}
                         </span>
@@ -38,7 +45,7 @@
                 <tr>
                     <td class="px-6 py-4 font-medium"><b>Featured :</b></td>
                     <td class="px-6 py-4">
-                        {{ ($project['is_featured'] ?? false) ? 'Yes' : 'No' }}
+                        {{ $project['is_featured'] ?? false ? 'Yes' : 'No' }}
                     </td>
                 </tr>
 
@@ -61,9 +68,9 @@
                 <tr>
                     <td class="px-6 py-4 font-medium"><b>Project URL :</b></td>
                     <td class="px-6 py-4">
-                        @if(!empty($project['project_url']))
+                        @if (!empty($project['project_url']))
                             <a href="{{ $project['project_url'] }}" target="_blank"
-                               class="text-indigo-600 hover:underline">
+                                class="text-indigo-600 hover:underline">
                                 {{ $project['project_url'] }}
                             </a>
                         @else
@@ -97,9 +104,9 @@
                 <tr>
                     <td class="px-6 py-4 font-medium"><b>Technologies :</b></td>
                     <td class="px-6 py-4">
-                        @if(!empty($project['technologies']))
+                        @if (!empty($project['technologies']))
                             <div class="flex gap-2 flex-wrap">
-                                @foreach($project['technologies'] as $tech)
+                                @foreach ($project['technologies'] as $tech)
                                     <span class="px-3 py-1 text-sm rounded-full bg-indigo-100 text-indigo-700">
                                         {{ $tech }}
                                     </span>
@@ -121,8 +128,7 @@
                 <tr>
                     <td class="px-6 py-4 font-medium"><b>Project Image :</b></td>
                     <td class="px-6 py-4">
-                        <img src="{{ asset('storage/'.$project['image']) }}"
-                             class="h-28 rounded-lg shadow">
+                        <img src="{{ asset('storage/' . $project['image']) }}" class="h-28 rounded-lg shadow">
                     </td>
                 </tr>
 
@@ -156,9 +162,9 @@
                 <tr>
                     <td class="px-6 py-4 font-medium"><b>Website :</b></td>
                     <td class="px-6 py-4">
-                        @if(!empty($project['client_website']))
+                        @if (!empty($project['client_website']))
                             <a href="{{ $project['client_website'] }}" target="_blank"
-                               class="text-indigo-600 hover:underline">
+                                class="text-indigo-600 hover:underline">
                                 {{ $project['client_website'] }}
                             </a>
                         @else
