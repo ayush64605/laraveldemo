@@ -269,6 +269,13 @@ class ProjectController extends Controller
         $projects = session('projects', []);
         $index = collect($projects)->search(fn($item) => $item['id'] == (int) $request->id);
 
+        $userexist = collect($projects)->search(fn($item) => $item['client_email'] == $request->client_email);
+        if (isset($index) == false) {
+            if ($userexist) {
+                return redirect()->back()->with('error', 'Email is already exist');
+            }
+        }
+
         if ($request->hasFile('image')) {
             if ($index !== false && isset($projects[$index]['image'])) {
                 Storage::disk('public')->delete($projects[$index]['image']);
