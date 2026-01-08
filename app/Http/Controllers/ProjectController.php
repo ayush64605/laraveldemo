@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorePostRequest;
 use Storage;
 use Illuminate\Http\Request;
 
@@ -251,7 +252,7 @@ class ProjectController extends Controller
         return redirect()->route('project.show')->with('success', 'Project Deleted Successfilly.');
     }
 
-     public function saveProject(Request $request)
+     public function saveProject(StorePostRequest $request)
     {
         $projects = session('projects', []);
 

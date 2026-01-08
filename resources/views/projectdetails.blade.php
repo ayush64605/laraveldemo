@@ -40,7 +40,7 @@
                                 </td>
                                 <td
                                     class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
-                                    {{ $project['client'] }}</td>
+                                    {{ $project['client_name'] }}</td>
                             </tr>
                             <tr>
                                 <td
@@ -49,7 +49,7 @@
                                 </td>
                                 <td
                                     class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
-                                    {{ $project['email'] }}</td>
+                                    {{ $project['client_email'] }}</td>
                             </tr>
                             <tr>
                                 <td

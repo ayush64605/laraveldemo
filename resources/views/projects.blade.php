@@ -81,14 +81,13 @@
                                         <div id="deleteModal-{{ $project['id'] }}"
                                             class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/50">
 
-                                            <div class="bg-white rounded-lg shadow-xl w-full max-w-md p-6">
+                                            <div class="bg-white rounded-lg shadow-xl w-full max-w-md p-6 text-left">
                                                 <h3 class="text-lg font-semibold text-gray-900">
                                                     Delete Project
                                                 </h3>
 
                                                 <p class="mt-2 text-sm text-gray-600">
                                                     Are you sure you want to delete this project?
-                                                    This action cannot be undone.
                                                 </p>
 
                                                 <div class="mt-6 flex justify-end gap-3">
