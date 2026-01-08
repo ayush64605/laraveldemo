@@ -104,23 +104,51 @@ class ProjectController extends Controller
             [
                 'id' => 1,
                 'name' => 'Web Design',
+                'project_code' => 'WD-001',
                 'status' => 'Active',
-                'client' => 'client 1',
-                'email' => 'client1@gmail.com',
-                'started_at' => '25-10-2025',
-                'completed_at' => '1-1-2026',
+                'is_featured' => true,
+                'priority' => 'High',
+                'progress' => 75,
+                'budget' => 150000,
+                'project_url' => 'https://webdesign.example.com',
+                'started_at' => '2025-10-25',
+                'completed_at' => '2026-01-01',
+                'deadline_time' => '18:00',
+                'project_type' => 'Client',
+                'technologies' => ['Laravel', 'React'],
+                'description' => 'Corporate website design with admin panel.',
                 'image' => 'projectimage/product1.jpg',
+                'client_name' => 'Client 1',
+                'client_email' => 'client1@gmail.com',
+                'client_phone' => '9876543210',
+                'client_company' => 'Client One Pvt Ltd',
+                'client_website' => 'https://client1.com',
+                'client_address' => 'Ahmedabad, Gujarat, India',
             ],
             [
                 'id' => 2,
                 'name' => 'App Design',
-                'status' => 'Complete',
-                'client' => 'client 2',
-                'email' => 'client3@gmail.com',
-                'started_at' => '25-10-2025',
-                'completed_at' => '1-1-2026',
+                'project_code' => 'AD-002',
+                'status' => 'Completed',
+                'is_featured' => false,
+                'priority' => 'Medium',
+                'progress' => 100,
+                'budget' => 250000,
+                'project_url' => 'https://appdesign.example.com',
+                'started_at' => '2025-10-25',
+                'completed_at' => '2026-01-01',
+                'deadline_time' => '20:30',
+                'project_type' => 'Internal',
+                'technologies' => ['Vue', 'Node'],
+                'description' => 'Mobile application UI/UX design.',
                 'image' => 'projectimage/product2.jpeg',
-            ]
+                'client_name' => 'Client 2',
+                'client_email' => 'client2@gmail.com',
+                'client_phone' => '9123456789',
+                'client_company' => 'Client Two Solutions',
+                'client_website' => 'https://client2.com',
+                'client_address' => 'Surat, Gujarat, India',
+            ],
         ];
 
         session()->put('projects', $project);
@@ -223,60 +251,104 @@ class ProjectController extends Controller
         return redirect()->route('project.show')->with('success', 'Project Deleted Successfilly.');
     }
 
-    public function saveProject(Request $request)
+     public function saveProject(Request $request)
     {
         $projects = session('projects', []);
 
-        $index = collect($projects)->search(function ($item) use ($request) {
-            return $item['id'] == (int) $request->id;
-        });
+        $index = collect($projects)->search(
+            fn($item) =>
+            $item['id'] == (int) $request->id
+        );
 
         $request->validate([
-            'name' => 'required',
-            'status' => 'required',
-            'client' => 'required',
-            'email' => 'required',
-            'start_date' => 'required',
-            'complete_date' => 'required',
-            'image' => $index !== false ? 'nullable|image' : 'required|image',
+
+            'name'           => ['required', 'string', 'min:3', 'max:100'],
+            'project_code'   => ['nullable', 'string', 'max:20', 'alpha_dash'],
+            'status'         => ['nullable', 'in:Active,Completed'],
+            'priority'       => ['required', 'in:Low,Medium,High'],
+            'progress'       => ['nullable', 'integer', 'min:0', 'max:100'],
+            'budget'         => ['nullable', 'numeric', 'min:0', 'max:99999999'],
+            'project_url'    => ['nullable', 'url', 'max:255'],
+            'project_type'   => ['nullable', 'in:Internal,Client'],
+            'description'    => ['nullable', 'string', 'max:1000'],
+
+            'start_date'     => ['required', 'date'],
+            'complete_date'  => ['required', 'date', 'after_or_equal:start_date'],
+            'deadline_time'  => ['nullable', 'date_format:H:i'],
+
+            'image' => array_filter([
+                $index !== false ? 'nullable' : 'required',
+                'image',
+                'mimes:jpg,jpeg,png,webp',
+                'max:2048',
+            ]),
+
+            'technologies'   => ['nullable', 'array'],
+            'technologies.*' => ['string', 'max:50'],
+
+            'is_featured'    => ['nullable', 'boolean'],
+
+            'client_name'    => ['required', 'string', 'min:3', 'max:100'],
+            'client_email'   => ['required', 'email', 'max:150'],
+            'client_phone'   => ['nullable', 'regex:/^[0-9+\-\s]{7,20}$/'],
+            'client_company' => ['nullable', 'string', 'max:150'],
+            'client_website' => ['nullable', 'url', 'max:255'],
+            'client_address' => ['nullable', 'string', 'max:300'],
         ]);
 
-        // dd($request->id);
+
         if ($request->hasFile('image')) {
-            if ($index !== false) {
+
+            if ($index !== false && isset($projects[$index]['image'])) {
                 Storage::disk('public')->delete($projects[$index]['image']);
-                $image = $request->file('image')->store('projectimage', 'public');
-            } else {
-                $image = $request->file('image')->store('projectimage', 'public');
             }
+
+            $image = $request->file('image')->store('projectimage', 'public');
         } else {
-            $image = $projects[$index]['image'];
+            $image = $projects[$index]['image'] ?? null;
         }
+
         $projectData = [
-            'id' => (int) $request->id,
-            'name' => $request->name,
-            'status' => $request->status,
-            'client' => $request->client,
-            'email' => $request->email,
-            'started_at' => $request->start_date,
-            'completed_at' => $request->complete_date,
-            'image' => $image,
+            'id'            => (int) $request->id,
+            'name'          => $request->name,
+            'project_code'  => $request->project_code,
+            'status'        => $request->status ?? 'Completed',
+            'priority'      => $request->priority,
+            'progress'      => $request->progress ?? 0,
+            'budget'        => $request->budget,
+            'project_url'   => $request->project_url,
+            'project_type'  => $request->project_type,
+            'description'   => $request->description,
+
+            'started_at'    => $request->start_date,
+            'completed_at'  => $request->complete_date,
+            'deadline_time' => $request->deadline_time,
+
+            'technologies'  => $request->technologies ?? [],
+            'is_featured'   => $request->boolean('is_featured'),
+
+            'image'         => $image,
+
+            'client_name'   => $request->client_name,
+            'client_email'  => $request->client_email,
+            'client_phone'  => $request->client_phone,
+            'client_company' => $request->client_company,
+            'client_website' => $request->client_website,
+            'client_address' => $request->client_address,
         ];
+
 
         if ($index !== false) {
             $projects[$index] = $projectData;
+            $msg = 'Project Updated Successfully';
         } else {
             $projects[] = $projectData;
+            $msg = 'Project Added Successfully';
         }
 
         session(['projects' => $projects]);
 
-        if ($index !== false) {
-            return redirect()->route('project.show')->with('success', 'Project Updated Successfully');
-        } else {
-            return redirect()->route('project.show')->with('success', 'Project Added Successfully');
-        }
-
+        return redirect()->route('project.show')->with('success', $msg);
     }
 
 
