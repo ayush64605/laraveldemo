@@ -1,7 +1,7 @@
 @include('masterlayout.header')
 
 <section class="flex justify-center gap-4 mt-5">
-    <div class="border-2 border-blue-600 rounded-lg p-10 shadow-xl">
+    <div class="border-2 border-stone-200 rounded-lg p-10 shadow-xl">
 
         <form class="w-[1100px]" action="{{ route('project.save') }}" method="POST" enctype="multipart/form-data">
             @csrf
@@ -211,7 +211,7 @@
 
                 <div>
                     <label class="block text-sm font-medium text-gray-900">Client Email</label>
-                    <input type="email" name="client_email" value="{{ $project['client_email'] ?? '' }}"
+                    <input type="text" name="client_email" value="{{ $project['client_email'] ?? '' }}"
                         class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300">
                     @error('client_email')
                         <span class="text-red-600 text-sm">{{ $message }}</span>
@@ -237,8 +237,17 @@
                 </div>
 
                 <div>
+                    <label class="block text-sm font-medium text-gray-900">Client Pan No.</label>
+                    <input type="text" name="client_pan" value="{{ $project['client_pan'] ?? '' }}"
+                        class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300">
+                    @error('client_pan')
+                        <span class="text-red-600 text-sm">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div>
                     <label class="block text-sm font-medium text-gray-900">Website</label>
-                    <input type="url" name="client_website" value="{{ $project['client_website'] ?? '' }}"
+                    <input type="text" name="client_website" value="{{ $project['client_website'] ?? '' }}"
                         class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300">
                     @error('client_website')
                         <span class="text-red-600 text-sm">{{ $message }}</span>
@@ -257,11 +266,10 @@
             </div>
 
             <div class="mt-8 flex justify-end gap-4">
-                <a href="{{ route('project.show') }}" class="text-sm font-semibold text-gray-900">Cancel</a>
-                <button
-                    class="rounded-md bg-indigo-600 px-5 py-2 text-sm font-semibold text-white hover:bg-indigo-500">
-                    Save Project
-                </button>
+                <a href="{{ route('project.show') }}"> <x-button
+                        type="button" color="red" text="Cancel" /> </a>
+                </a>
+                <x-button type="submit" color="indigo" text="Save Project" /> </a>
             </div>
 
         </form>

@@ -10,7 +10,7 @@
 
 <body>
     <section class="flex justify-center gap-4 mt-40">
-        <div class="border-2 border-solid rounded-lg border-blue-600 p-15 shadow-xl">
+        <div class="border-2 border-solid rounded-lg border-stone-200 p-15 shadow-xl">
             <form class="w-100" action="{{ route('loginprocess') }}" method="POST">
                 @csrf
                 <div class="space-y-12">

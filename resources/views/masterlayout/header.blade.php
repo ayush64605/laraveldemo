@@ -20,8 +20,9 @@
             <el-popover-group class="hidden lg:flex lg:gap-x-12 items-center">
                 <a href="{{ route('index') }}" class="text-sm/6 font-semibold text-white">Home</a>
                 <a href="{{ route('project.show') }}" class="text-sm/6 font-semibold text-white">Projects</a>
-                <a href="{{ route('logout') }}" class="text-sm/6 font-semibold text-white"><button type="submit"
-                        class="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Logout</button></a>
+                <a href="{{ route('logout') }}"> <x-button type="button"
+                        color="red" text="Logout" /> </a>
+                </a>
             </el-popover-group>
         </nav>
     </header>

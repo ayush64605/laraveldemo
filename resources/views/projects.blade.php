@@ -1,6 +1,6 @@
 @include('masterlayout.header')
 <div
-    class="max-w-[60rem] shadow-xl rounded-lg border-2 border-solid mt-10 border-blue-600 px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto ">
+    class="max-w-[60rem] shadow-xl rounded-lg border-2 border-solid mt-10 border-stone-200 px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto ">
     <div class="grid sm:grid-cols-2 lg:grid-cols-2 gap-6">
         <div class=" flex">
             <div class="p-4 md:p-6">
@@ -67,17 +67,15 @@
                                         {{ $project['status'] }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
                                         <a href="{{ route('project.details', ['project' => $project['id']]) }}"
-                                            class="text-sm/6 font-semibold text-white"><button type="button"
-                                                class="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">View
-                                                Details</button></a>
+                                            class="text-sm/6 font-semibold text-white"><x-button type="button"
+                                                color="indigo" text="View Detils" /></a>
                                         <a href="{{ route('project.update', ['project' => $project['id']]) }}"
-                                            class="text-sm/6 font-semibold text-white"><button type="button"
-                                                class="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Edit</button></a>
-                                        <button type="button"
-                                            onclick="document.getElementById('deleteModal-{{ $project['id'] }}').classList.remove('hidden')"
-                                            class="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-red-700">
-                                            Delete
-                                        </button>
+                                            class="text-sm/6 font-semibold text-white"><x-button type="button"
+                                                color="indigo" text="Edit" /></a>
+
+                                        <x-button type="button" color="red" text="Delete"
+                                            onclick="document.getElementById('deleteModal-{{ $project['id'] }}').classList.remove('hidden')" />
+
                                         <div id="deleteModal-{{ $project['id'] }}"
                                             class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/50">
 
@@ -91,16 +89,13 @@
                                                 </p>
 
                                                 <div class="mt-6 flex justify-end gap-3">
-                                                    <button type="button"
-                                                        onclick="document.getElementById('deleteModal-{{ $project['id'] }}').classList.add('hidden')"
-                                                        class="rounded-md bg-gray-200 px-4 py-2 text-sm font-semibold text-gray-800 hover:bg-gray-300">
-                                                        Cancel
-                                                    </button>
+                                                    <x-button type="button" color="indigo" text="Cancel"
+                                                        onclick="document.getElementById('deleteModal-{{ $project['id'] }}').classList.add('hidden')" />
 
-                                                    <a href="{{ route('project.delete', ['project' => $project['id']]) }}"
-                                                        class="rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700">
-                                                        Yes, Delete
-                                                    </a>
+
+                                                    <a
+                                                        href="{{ route('project.delete', ['project' => $project['id']]) }}">
+                                                        <x-button type="button" color="red" text="Yes, Delete" /> </a>
                                                 </div>
                                             </div>
                                         </div>

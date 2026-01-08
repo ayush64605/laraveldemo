@@ -30,7 +30,7 @@
                     Total Completed Projects
                 </h3>
                 <p class="mt-3 text-white text-xl">
-                    {{ collect($projects)->where('status', 'Complete')->count() }}
+                    {{ collect($projects)->where('status', 'Completed')->count() }}
                 </p>
             </div>
         </div>
