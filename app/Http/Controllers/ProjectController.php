@@ -295,7 +295,7 @@ class ProjectController extends Controller
             'name' => $request->name,
             'project_code' => $request->project_code,
             'project_key' => $project_key,
-            'status' => $request->status ?? 'Completed',
+            'status' => $request->status ?? 'Active',
             'priority' => $request->priority,
             'progress' => $request->progress ?? 0,
             'budget' => $request->budget,
