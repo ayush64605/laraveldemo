@@ -1,5 +1,5 @@
+@section('title', 'Project Details')
 @include('masterlayout.header')
-
 <div
     class="max-w-[60rem] shadow-xl border-2 border-solid rounded-lg border-stone-200 mt-10 px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
 

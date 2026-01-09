@@ -1,3 +1,4 @@
+@section('title', 'Project Form')
 @include('masterlayout.header')
 
 <section class="flex justify-center gap-4 mt-5">
