@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePostRequest;
+use App\Models\Project;
 use Storage;
 use Illuminate\Http\Request;
 
@@ -78,6 +79,7 @@ class ProjectController extends Controller
         } else {
             $projects = $this->getProjects();
         }
+
         return view("index", compact('projects'));
     }
     public function show()

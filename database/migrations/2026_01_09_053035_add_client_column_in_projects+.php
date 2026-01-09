@@ -10,7 +10,7 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        if (Schema::hasTable("projects")) {
+        if (Schema::hasTable("projects") && !Schema::hasColumn("projects", "client_name")) {
             Schema::table("projects", function (Blueprint $table) {
                 $table->after('image', function (Blueprint $table) {
                     $table->string('client_name');
@@ -30,7 +30,7 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        if (Schema::hasTable("projects")) {
+        if (Schema::hasTable("projects") && Schema::hasColumn("projects", "client_name")) {
             Schema::table(('projects'), function (Blueprint $table) {
                 $table->dropColumn('client_name');
                 $table->dropColumn('client_email');
