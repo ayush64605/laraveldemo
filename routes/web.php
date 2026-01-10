@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProjectcategoryController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Middleware\AuthCheck;
 use Illuminate\Support\Facades\Route;
@@ -11,7 +12,9 @@ use Illuminate\Support\Facades\Route;
 
 //////////////// Auth //////////////////
 Route::get("/", [AuthController::class, "login"])->name('login');
+Route::get("/register", [AuthController::class, "register"])->name('register');
 Route::post("/loginprocess", [AuthController::class, "loginprocess"])->name("loginprocess");
+Route::post("/registerprocess", [AuthController::class, "registerprocess"])->name("registerprocess");
 Route::get("/logout", [AuthController::class, "logout"])->name("logout");
 
 Route::middleware(AuthCheck::class)->group(function () {
@@ -27,5 +30,13 @@ Route::middleware(AuthCheck::class)->group(function () {
         Route::get('details/{project}', [ProjectController::class, 'details'])->name('details');
     });
 
+
+    Route::prefix('projectcategory')->name('projectcategory.')->group(function () {
+        Route::get('show', [ProjectcategoryController::class, 'show'])->name('show');
+        Route::get('add', [ProjectcategoryController::class, 'add'])->name('add');
+        Route::post('save', [ProjectcategoryController::class, 'save'])->name('save');
+        Route::get('update/{projectcategory}', [ProjectcategoryController::class, 'update'])->name('update');
+        Route::get('delete/{projectcategory}', [ProjectcategoryController::class, 'delete'])->name('delete');
+    });
 });
 

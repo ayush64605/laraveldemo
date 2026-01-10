@@ -13,6 +13,8 @@ class ProjectSeeder extends Seeder
      */
     public function run(): void
     {
-        Project::factory()->count(5)->create();
+        if (count(Project::all()) == 0) {
+            Project::factory()->count(1)->create();
+        }
     }
 }

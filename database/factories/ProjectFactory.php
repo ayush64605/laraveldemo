@@ -17,6 +17,7 @@ class ProjectFactory extends Factory
     public function definition(): array
     {
         return [
+            'product_category' => fake()->numberBetween(1, 3),
             'name' => fake()->sentence(3),
             'project_code' => fake()->unique()->bothify('cbt-####'),
             'project_key' => fake()->numberBetween(11111, 99999),
@@ -37,7 +38,7 @@ class ProjectFactory extends Factory
             'client_email' => fake()->safeEmail(),
             'client_phone' => fake()->phoneNumber(),
             'client_company' => fake()->company(),
-            'client_pan' => fake()->regexify('[A-Z]{5}[0-9]{4}[A-Z]{1}'),
+            'client_pan' => fake()->regexify('[A-Z]{3}[PCHFATBLJG]{1}[A-Z]{1}[0-9]{4}[A-Z]{1}'),
             'client_website' => fake()->url(),
             'client_address' => fake()->address(),
         ];

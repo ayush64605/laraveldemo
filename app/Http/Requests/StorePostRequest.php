@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Project;
 use App\Rules\PanNumberValidation;
 use App\Rules\projectValidation;
 use Illuminate\Foundation\Http\FormRequest;
@@ -15,10 +16,9 @@ class StorePostRequest extends FormRequest
 
     public function rules(): array
     {
-        $projects = session('projects', []);
         $projectId = (int) $this->id;
 
-        $exists = collect($projects)->contains(fn($item) => $item['id'] == $projectId);
+        $exists = Project::find($projectId);
 
         return [
             'name' => ['required', 'string', 'min:3', 'max:100'],
@@ -41,7 +41,7 @@ class StorePostRequest extends FormRequest
 
             'start_date' => ['required', 'date'],
             'complete_date' => ['required_if:status,Completed', 'after_or_equal:start_date'],
-            'deadline_time' => ['nullable', 'date_format:H:i'],
+            'deadline_time' => ['nullable'],
 
             'image' => [
                 $exists ? 'nullable' : 'required',

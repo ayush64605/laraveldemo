@@ -1,3 +1,5 @@
+@section('title', 'Project Form')
+
 @include('masterlayout.header')
 
 <section class="flex justify-center gap-4 mt-5">
@@ -6,7 +8,7 @@
         <form class="w-[1100px]" action="{{ route('project.save') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
-            <input type="hidden" name="id" value="{{ $project['id'] ?? count(session('projects') ?? []) + 1 }}">
+            <input type="hidden" name="id" value="{{ $project['id'] ?? $last_project->id + 1 }}">
 
             <h2 class="text-lg font-semibold text-gray-900">
                 {{ isset($project) ? 'Edit Project' : 'Add Project' }}
@@ -23,10 +25,28 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
 
                 <div>
+                    <label class="block text-sm font-medium text-gray-900">Project Category</label>
+                    <select name="project_category"
+                        class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300">
+                        <option value="">Select</option>
+                        @foreach ($projectcategories as $category)
+                            <option value="{{ $category->id }}"
+                                {{ $category->id == ($project['project_category'] ?? '') ? 'selected' : '' }}>
+                                {{ $category->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('project_category')
+                        <span class="text-red-600 text-sm">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div>
                     <label class="block text-sm font-medium text-gray-900">Project Name <span
                             class="text-red-600">*</span>
                     </label>
-                    <input type="text" name="name" value="{{ $project['name'] ?? '' }}" placeholder="Enter project Name"
+                    <input type="text" name="name" value="{{ $project['name'] ?? '' }}"
+                        placeholder="Enter project Name"
                         class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300 focus:outline-indigo-600">
                     @error('name')
                         <span class="text-red-600 text-sm">{{ $message }}</span>
@@ -36,7 +56,8 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-900">Project Code <span
                             class="text-red-600">*</span></label>
-                    <input type="text" name="project_code" value="{{ $project['project_code'] ?? '' }}" placeholder="Enter Project Code (ex. cbt-000)"
+                    <input type="text" name="project_code" value="{{ $project['project_code'] ?? '' }}"
+                        placeholder="Enter Project Code (ex. cbt-000)"
                         class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300 focus:outline-indigo-600">
                     @error('project_code')
                         <span class="text-red-600 text-sm">{{ $message }}</span>
@@ -131,7 +152,8 @@
 
                 <div>
                     <label class="block text-sm font-medium text-gray-900">Budget</label>
-                    <input type="number" name="budget" value="{{ $project['budget'] ?? '' }}"  placeholder="Enter Budget"
+                    <input type="number" name="budget" value="{{ $project['budget'] ?? '' }}"
+                        placeholder="Enter Budget"
                         class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300">
                     @error('budget')
                         <span class="text-red-600 text-sm">{{ $message }}</span>
@@ -140,7 +162,8 @@
 
                 <div>
                     <label class="block text-sm font-medium text-gray-900">Project URL</label>
-                    <input type="url" name="project_url" value="{{ $project['project_url'] ?? '' }}" placeholder="Enter Project URl"
+                    <input type="url" name="project_url" value="{{ $project['project_url'] ?? '' }}"
+                        placeholder="Enter Project URl"
                         class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300">
                     @error('project_url')
                         <span class="text-red-600 text-sm">{{ $message }}</span>
@@ -195,7 +218,11 @@
                     <label class="block text-sm font-medium text-gray-900">Technologies</label>
                     @php
                         $techs = ['Laravel', 'React', 'Vue', 'Node'];
-                        $sel = $project['technologies'] ?? [];
+                        if (isset($project)) {
+                            $sel = json_decode($project->technologies);
+                        } else {
+                            $sel = [];
+                        }
                     @endphp
                     <div class="grid grid-cols-2 gap-2 mt-2">
                         @foreach ($techs as $t)
@@ -223,7 +250,8 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-900">Project Image <span
                             class="text-red-600">*</span></label>
-                    <input type="file" name="image" class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300">
+                    <input type="file" name="image"
+                        class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300">
                     @error('image')
                         <span class="text-red-600 text-sm">{{ $message }}</span>
                     @enderror
@@ -236,7 +264,8 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-900">Client Name <span
                             class="text-red-600">*</span></label>
-                    <input type="text" name="client_name" value="{{ $project['client_name'] ?? '' }}" placeholder="Enter Client Name"
+                    <input type="text" name="client_name" value="{{ $project['client_name'] ?? '' }}"
+                        placeholder="Enter Client Name"
                         class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300">
                     @error('client_name')
                         <span class="text-red-600 text-sm">{{ $message }}</span>
@@ -246,7 +275,8 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-900">Client Email <span
                             class="text-red-600">*</span></label>
-                    <input type="text" name="client_email" value="{{ $project['client_email'] ?? '' }}" placeholder="Enter Client Email"
+                    <input type="text" name="client_email" value="{{ $project['client_email'] ?? '' }}"
+                        placeholder="Enter Client Email"
                         class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300">
                     @error('client_email')
                         <span class="text-red-600 text-sm">{{ $message }}</span>
@@ -255,7 +285,8 @@
 
                 <div>
                     <label class="block text-sm font-medium text-gray-900">Client Phone</label>
-                    <input type="tel" name="client_phone" value="{{ $project['client_phone'] ?? '' }}"  placeholder="Enter Client Phone No."
+                    <input type="tel" name="client_phone" value="{{ $project['client_phone'] ?? '' }}"
+                        placeholder="Enter Client Phone No."
                         class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300">
                     @error('client_phone')
                         <span class="text-red-600 text-sm">{{ $message }}</span>
@@ -264,7 +295,8 @@
 
                 <div>
                     <label class="block text-sm font-medium text-gray-900">Company</label>
-                    <input type="text" name="client_company" value="{{ $project['client_company'] ?? '' }}" placeholder="Enter Company"
+                    <input type="text" name="client_company" value="{{ $project['client_company'] ?? '' }}"
+                        placeholder="Enter Company"
                         class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300">
                     @error('client_company')
                         <span class="text-red-600 text-sm">{{ $message }}</span>
@@ -274,7 +306,8 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-900">Client Pan No. <span
                             class="text-red-600">*</span></label>
-                    <input type="text" name="client_pan" value="{{ $project['client_pan'] ?? '' }}" placeholder="Enter Pan No.(Ex. AAAAA1234A)"
+                    <input type="text" name="client_pan" value="{{ $project['client_pan'] ?? '' }}"
+                        placeholder="Enter Pan No.(Ex. AAAAA1234A)"
                         class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300">
                     @error('client_pan')
                         <span class="text-red-600 text-sm">{{ $message }}</span>
@@ -283,7 +316,8 @@
 
                 <div>
                     <label class="block text-sm font-medium text-gray-900">Website</label>
-                    <input type="text" name="client_website" value="{{ $project['client_website'] ?? '' }}" placeholder="Enter Company's Website"
+                    <input type="text" name="client_website" value="{{ $project['client_website'] ?? '' }}"
+                        placeholder="Enter Company's Website"
                         class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300">
                     @error('client_website')
                         <span class="text-red-600 text-sm">{{ $message }}</span>
