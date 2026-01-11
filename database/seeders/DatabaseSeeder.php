@@ -15,10 +15,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-       $this->call([
+        $this->call([
+            ProjectcategorySeeder::class,
             ProjectSeeder::class,
             AdminSeeder::class,
-            ProjectcategorySeeder::class,
-       ]);
+        ]);
     }
 }

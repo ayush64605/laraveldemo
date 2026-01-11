@@ -33,28 +33,28 @@
         <div class="-m-1.5 overflow-x-auto">
             <div class="p-1.5 min-w-full inline-block align-middle">
                 <div class="overflow-hidden">
-                    <table class="min-w-full divide-y divide-gray-200 dark:divide-neutral-700">
+                    <table class="min-w-full divide-y divide-gray-200">
                         <thead>
                             <tr>
                                 <th scope="col"
-                                    class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
+                                    class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
                                     #</th>
                                 <th scope="col"
-                                    class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
+                                    class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
                                     Name</th>
                                 <th scope="col"
-                                    class="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
+                                    class="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase">
                                     Action</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-gray-200 dark:divide-neutral-700">
+                        <tbody class="divide-y divide-gray-200">
                             @foreach ($projectcategories as $index => $projectcategory)
                                 <tr>
                                     <td
-                                        class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
+                                        class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
                                         {{ $index + 1 }}</td>
                                     <td
-                                        class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
+                                        class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
                                         {{ $projectcategory['name'] }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
                                         <a href="{{ route('projectcategory.update', ['projectcategory' => $projectcategory['id']]) }}"

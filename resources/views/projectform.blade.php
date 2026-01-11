@@ -219,7 +219,7 @@
                     @php
                         $techs = ['Laravel', 'React', 'Vue', 'Node'];
                         if (isset($project)) {
-                            $sel = json_decode($project->technologies);
+                            $sel = $project->technologies;
                         } else {
                             $sel = [];
                         }

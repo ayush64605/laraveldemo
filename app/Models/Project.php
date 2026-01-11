@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Project extends Model
 {
     use HasFactory;
+
+    protected $table = 'projects';
     protected $fillable = [
         'name',
         'project_code',
@@ -34,4 +36,23 @@ class Project extends Model
         'client_website',
         'client_address'
     ];
+
+    protected $casts = [
+        'is_featured'   => 'boolean',
+        'progress'      => 'integer',
+        'budget'        => 'float',
+        'technologies'  => 'array',
+        'started_at'    => 'datetime',
+        'completed_at'  => 'datetime',
+        'deadline_time' => 'datetime',
+    ];
+
+    protected $hidden = [
+        'client_pan',
+    ];
+
+    public function category()
+    {
+        return $this->belongsTo(Projectcategory::class, 'project_category');
+    }
 }

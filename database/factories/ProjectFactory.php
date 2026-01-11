@@ -17,7 +17,7 @@ class ProjectFactory extends Factory
     public function definition(): array
     {
         return [
-            'product_category' => fake()->numberBetween(1, 3),
+            'project_category' => 1,
             'name' => fake()->sentence(3),
             'project_code' => fake()->unique()->bothify('cbt-####'),
             'project_key' => fake()->numberBetween(11111, 99999),

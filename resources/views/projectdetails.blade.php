@@ -107,7 +107,7 @@
                     <td class="px-6 py-4">
                         @if (!empty($project['technologies']))
                             <div class="flex gap-2 flex-wrap">
-                                @foreach (json_decode($project['technologies']) as $tech)
+                                @foreach ($project['technologies'] as $tech)
                                     <span class="px-3 py-1 text-sm rounded-full bg-indigo-100 text-indigo-700">
                                         {{ $tech }}
                                     </span>
