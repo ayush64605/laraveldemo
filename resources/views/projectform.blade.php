@@ -45,7 +45,7 @@
                     <label class="block text-sm font-medium text-gray-900">Project Name <span
                             class="text-red-600">*</span>
                     </label>
-                    <input type="text" name="name" value="{{ $project['name'] ?? '' }}"
+                    <input type="text" name="name" value="{{ $project['name'] ?? old('name') }}"
                         placeholder="Enter project Name"
                         class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300 focus:outline-indigo-600">
                     @error('name')
@@ -56,7 +56,8 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-900">Project Code <span
                             class="text-red-600">*</span></label>
-                    <input type="text" name="project_code" value="{{ $project['project_code'] ?? '' }}"
+                    <input type="text" name="project_code"
+                        value="{{ $project['project_code'] ?? old('project_code') }}"
                         placeholder="Enter Project Code (ex. cbt-000)"
                         class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300 focus:outline-indigo-600">
                     @error('project_code')
@@ -91,7 +92,8 @@
                     <label class="relative inline-flex items-center cursor-pointer">
                         <span class="ml-3 text-sm text-gray-700">Active</span> &nbsp;&nbsp;
                         <input type="checkbox" name="status" value="Completed"
-                            {{ ($project['status'] ?? '') === 'Completed' ? 'checked' : '' }} class="sr-only peer">
+                            {{ (old('status') ?? ($project['status'] ?? '')) === 'Completed' ? 'checked' : '' }}
+                            class="sr-only peer">
                         <div
                             class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-indigo-600
                             after:content-[''] after:absolute after:top-0.5 after:left-15.5
@@ -111,7 +113,8 @@
                     <label class="block text-sm font-medium text-gray-900 mb-2">Featured Project</label>
                     <label class="relative inline-flex items-center cursor-pointer">
                         <input type="checkbox" name="is_featured" value="1"
-                            {{ $project['is_featured'] ?? false ? 'checked' : '' }} class="sr-only peer">
+                            {{ old('is_featured') ?? ($project['is_featured'] ?? false) ? 'checked' : '' }}
+                            class="sr-only peer">
                         <div
                             class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-green-600
                             after:content-[''] after:absolute after:top-0.5 after:left-0.5
@@ -131,7 +134,7 @@
                         @foreach (['Low', 'Medium', 'High'] as $p)
                             <label class="flex items-center gap-2 text-sm">
                                 <input type="radio" name="priority" value="{{ $p }}"
-                                    {{ ($project['priority'] ?? '') == $p ? 'checked' : '' }}>
+                                    {{ (old('priority') ?? ($project['priority'] ?? '')) == $p ? 'checked' : '' }}>
                                 {{ $p }}
                             </label>
                         @endforeach
@@ -144,7 +147,7 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-900">Progress (%)</label>
                     <input type="range" name="progress" min="0" max="100"
-                        value="{{ $project['progress'] ?? 0 }}" class="mt-3 w-full accent-indigo-600">
+                        value="{{ $project['progress'] ?? old('progress') }}" class="mt-3 w-full accent-indigo-600">
                     @error('progress')
                         <span class="text-red-600 text-sm">{{ $message }}</span>
                     @enderror
@@ -152,7 +155,7 @@
 
                 <div>
                     <label class="block text-sm font-medium text-gray-900">Budget</label>
-                    <input type="number" name="budget" value="{{ $project['budget'] ?? '' }}"
+                    <input type="text" name="budget" value="{{ $project['budget'] ?? old('budget') }}"
                         placeholder="Enter Budget"
                         class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300">
                     @error('budget')
@@ -162,8 +165,8 @@
 
                 <div>
                     <label class="block text-sm font-medium text-gray-900">Project URL</label>
-                    <input type="url" name="project_url" value="{{ $project['project_url'] ?? '' }}"
-                        placeholder="Enter Project URl"
+                    <input type="url" name="project_url"
+                        value="{{ $project['project_url'] ?? old('project_url') }}" placeholder="Enter Project URl"
                         class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300">
                     @error('project_url')
                         <span class="text-red-600 text-sm">{{ $message }}</span>
@@ -173,7 +176,8 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-900">Start Date <span
                             class="text-red-600">*</span></label>
-                    <input type="date" name="start_date" value="{{ $project['started_at'] ? $project['started_at']->format('Y-m-d') : '' }}"
+                    <input type="date" name="start_date"
+                        value="{{ $project['started_at'] ?? null ? $project['started_at']->format('Y-m-d') : '' }}"
                         class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300">
                     @error('start_date')
                         <span class="text-red-600 text-sm">{{ $message }}</span>
@@ -183,7 +187,8 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-900">End Date <span
                             class="text-red-600">*</span></label>
-                    <input type="date" name="complete_date" value="{{ $project['completed_at'] ? $project['completed_at']->format('Y-m-d') : '' }}"
+                    <input type="date" name="complete_date"
+                        value="{{ $project['started_at'] ?? null ? $project['started_at']->format('Y-m-d') : '' }}"
                         class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300">
                     @error('complete_date')
                         <span class="text-red-600 text-sm">{{ $message }}</span>
@@ -192,7 +197,8 @@
 
                 <div>
                     <label class="block text-sm font-medium text-gray-900">Deadline Time</label>
-                    <input type="time" name="deadline_time" value="{{ $project['deadline_time'] ?? '' }}"
+                    <input type="time" name="deadline_time"
+                        value="{{ $project['deadline_time'] ?? old('deadline_time') }}"
                         class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300">
                     @error('deadline_time')
                         <span class="text-red-600 text-sm">{{ $message }}</span>
@@ -205,8 +211,10 @@
                         class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300">
                         <option value="">Select</option>
                         <option value="Internal"
-                            {{ ($project['project_type'] ?? '') == 'Internal' ? 'selected' : '' }}>Internal</option>
-                        <option value="Client" {{ ($project['project_type'] ?? '') == 'Client' ? 'selected' : '' }}>
+                            {{ (old('priority') ?? ($project['project_type'] ?? '')) == 'Internal' ? 'selected' : '' }}>
+                            Internal</option>
+                        <option value="Client"
+                            {{ (old('priority') ?? ($project['project_type'] ?? '')) == 'Client' ? 'selected' : '' }}>
                             Client</option>
                     </select>
                     @error('project_type')
@@ -228,8 +236,7 @@
                         @foreach ($techs as $t)
                             <label class="flex items-center gap-2 text-sm">
                                 <input type="checkbox" name="technologies[]" value="{{ $t }}"
-                                    {{ in_array($t, $sel) ? 'checked' : '' }}>
-                                {{ $t }}
+                                    @checked(in_array($t, old('technologies', $sel)))> {{ $t }}
                             </label>
                         @endforeach
                     </div>
@@ -241,7 +248,7 @@
                 <div class="md:col-span-3">
                     <label class="block text-sm font-medium text-gray-900">Description</label>
                     <textarea name="description" rows="3" placeholder="Enter Description"
-                        class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300">{{ $project['description'] ?? '' }}</textarea>
+                        class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300">{{ $project['description'] ?? old('description') }}</textarea>
                     @error('description')
                         <span class="text-red-600 text-sm">{{ $message }}</span>
                     @enderror
@@ -264,8 +271,8 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-900">Client Name <span
                             class="text-red-600">*</span></label>
-                    <input type="text" name="client_name" value="{{ $project['client_name'] ?? '' }}"
-                        placeholder="Enter Client Name"
+                    <input type="text" name="client_name"
+                        value="{{ $project['client_name'] ?? old('client_name') }}" placeholder="Enter Client Name"
                         class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300">
                     @error('client_name')
                         <span class="text-red-600 text-sm">{{ $message }}</span>
@@ -275,7 +282,8 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-900">Client Email <span
                             class="text-red-600">*</span></label>
-                    <input type="text" name="client_email" value="{{ $project['client_email'] ?? '' }}"
+                    <input type="text" name="client_email"
+                        value="{{ $project['client_email'] ?? old('client_email') }}"
                         placeholder="Enter Client Email"
                         class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300">
                     @error('client_email')
@@ -285,7 +293,8 @@
 
                 <div>
                     <label class="block text-sm font-medium text-gray-900">Client Phone</label>
-                    <input type="tel" name="client_phone" value="{{ $project['client_phone'] ?? '' }}"
+                    <input type="tel" name="client_phone"
+                        value="{{ $project['client_phone'] ?? old('clinet_phone') }}"
                         placeholder="Enter Client Phone No."
                         class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300">
                     @error('client_phone')
@@ -295,8 +304,8 @@
 
                 <div>
                     <label class="block text-sm font-medium text-gray-900">Company</label>
-                    <input type="text" name="client_company" value="{{ $project['client_company'] ?? '' }}"
-                        placeholder="Enter Company"
+                    <input type="text" name="client_company"
+                        value="{{ $project['client_company'] ?? old('client_company') }}" placeholder="Enter Company"
                         class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300">
                     @error('client_company')
                         <span class="text-red-600 text-sm">{{ $message }}</span>
@@ -306,7 +315,8 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-900">Client Pan No. <span
                             class="text-red-600">*</span></label>
-                    <input type="text" name="client_pan" value="{{ $project['client_pan'] ?? '' }}"
+                    <input type="text" name="client_pan"
+                        value="{{ $project['client_pan'] ?? old('client_pan') }}"
                         placeholder="Enter Pan No.(Ex. AAAAA1234A)"
                         class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300">
                     @error('client_pan')
@@ -316,7 +326,8 @@
 
                 <div>
                     <label class="block text-sm font-medium text-gray-900">Website</label>
-                    <input type="text" name="client_website" value="{{ $project['client_website'] ?? '' }}"
+                    <input type="text" name="client_website"
+                        value="{{ $project['client_website'] ?? old('client_website') }}"
                         placeholder="Enter Company's Website"
                         class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300">
                     @error('client_website')
@@ -327,7 +338,7 @@
                 <div class="md:col-span-2">
                     <label class="block text-sm font-medium text-gray-900">Address</label>
                     <textarea name="client_address" rows="2" placeholder="Enter Address"
-                        class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300">{{ $project['client_address'] ?? '' }}</textarea>
+                        class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300">{{ $project['client_address'] ?? old('client_address') }}</textarea>
                     @error('client_address')
                         <span class="text-red-600 text-sm">{{ $message }}</span>
                     @enderror

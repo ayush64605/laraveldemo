@@ -1,4 +1,4 @@
-@section('title', 'Projects')
+@section('title', 'Tasks')
 
 @include('masterlayout.header')
 <div
@@ -7,19 +7,19 @@
         <div class=" flex">
             <div class="p-4 md:p-6">
                 <h3 class="text-2xl font-semibold text-black">
-                    All Project Category
+                    All Tasks
                 </h3>
                 <p class="mt-3 text-grey text-lg">
-                    Total {{ count($projectcategories) }} Project Category
+                    Total {{ count($tasks) }} Tasks
                 </p>
             </div>
         </div>
         <div class="flex items-center justify-end">
             <div class="p-4 md:p-6">
-                <a href="{{ route('projectcategory.add') }}" class="text-sm/6 font-semibold text-white"><button
-                        type="button"
+                <a href="{{ route('project.task.add', ['project' => $project]) }}"
+                    class="text-sm/6 font-semibold text-white"><button type="button"
                         class="rounded-md bg-indigo-600 px-3 py-2 text-lg font-semibold text-white shadow-xs hover:bg-indigo-500">+
-                        Add Project Category</button></a>
+                        Add Tasks</button></a>
             </div>
         </div>
     </div>
@@ -41,60 +41,43 @@
                                     #</th>
                                 <th scope="col"
                                     class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
-                                    Name</th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
-                                    Total Projects</th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
-                                    Projects Name</th>
+                                    Task</th>
                                 <th scope="col"
                                     class="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase">
                                     Action</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200">
-                            @foreach ($projectcategories as $index => $projectcategory)
+                            @foreach ($tasks as $index => $task)
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
                                         {{ $index + 1 }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
-                                        {{ $projectcategory['name'] }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
-                                        {{ count($projectcategory->projects) }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
-                                    @foreach ($projectcategory->projects as $project)
-                                        {{ $project->name }},
-                                    @endforeach
-                                    </td>
+                                        {{ $task['task'] }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                                        <a href="{{ route('projectcategory.update', ['projectcategory' => $projectcategory['id']]) }}"
-                                            class="text-sm/6 font-semibold text-white"><x-button type="button"
-                                                icon="edit" color="indigo" text="Edit" /></a>
-
                                         <x-button type="button" color="red" text="Delete" icon="trash"
-                                            onclick="document.getElementById('deleteModal-{{ $projectcategory['id'] }}').classList.remove('hidden')" />
+                                            onclick="document.getElementById('deleteModal-{{ $task['id'] }}').classList.remove('hidden')" />
 
-                                        <div id="deleteModal-{{ $projectcategory['id'] }}"
+                                        <div id="deleteModal-{{ $task['id'] }}"
                                             class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/50">
 
                                             <div class="bg-white rounded-lg shadow-xl w-full max-w-md p-6 text-left">
                                                 <h3 class="text-lg font-semibold text-gray-900">
-                                                    Delete Project Category
+                                                    Delete Task?
                                                 </h3>
 
                                                 <p class="mt-2 text-sm text-gray-600">
-                                                    Are you sure you want to delete this project category? <br>If Yes then project also will delete of this categoty
+                                                    Are you sure you want to delete this task?
                                                 </p>
 
                                                 <div class="mt-6 flex justify-end gap-3">
                                                     <x-button type="button" color="indigo" text="Cancel"
                                                         icon="cancel"
-                                                        onclick="document.getElementById('deleteModal-{{ $projectcategory['id'] }}').classList.add('hidden')" />
+                                                        onclick="document.getElementById('deleteModal-{{ $task['id'] }}').classList.add('hidden')" />
 
 
                                                     <a
-                                                        href="{{ route('projectcategory.delete', ['projectcategory' => $projectcategory['id']]) }}">
+                                                        href="{{ route('project.task.delete', ['task' => $task['id']]) }}">
                                                         <x-button type="button" color="red" text="Yes, Delete"
                                                             icon="trash" /> </a>
                                                 </div>

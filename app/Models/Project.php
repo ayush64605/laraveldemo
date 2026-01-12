@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Project extends Model
@@ -58,6 +59,11 @@ class Project extends Model
 
     public function users()
     {
-        return $this->hasOne(Projectuser::class, 'project_id','id');
+        return $this->hasOne(Projectuser::class, 'project_id', 'id');
+    }
+
+    public function latestTask(): HasOne
+    {
+        return $this->hasOne(Task::class, 'project_id')->latestOfMany();
     }
 }

@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProjectcategoryController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectuserController;
+use App\Http\Controllers\TaskController;
 use App\Http\Middleware\AuthCheck;
 use Illuminate\Support\Facades\Route;
 
@@ -37,6 +38,14 @@ Route::middleware(AuthCheck::class)->group(function () {
         Route::post('save/{project}', [ProjectuserController::class, 'save'])->name('save');
         Route::get('delete/{project}', [ProjectuserController::class, 'delete'])->name('delete');
     });
+
+    Route::prefix('project/task')->name('project.task.')->group(function () {
+        Route::get('show/{project}', [TaskController::class, 'show'])->name('show');
+        Route::get('add/{project}', [TaskController::class, 'add'])->name('add');
+        Route::post('save/', [TaskController::class, 'save'])->name('save');
+        Route::get('delete/{task}', [TaskController::class, 'delete'])->name('delete');
+    });
+
 
 
     Route::prefix('projectcategory')->name('projectcategory.')->group(function () {

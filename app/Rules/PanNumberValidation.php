@@ -21,4 +21,4 @@ class PanNumberValidation implements ValidationRule
             $fail('The :attribute has an invalid 4th character for entity type.');
         }
     }
-}
+}   

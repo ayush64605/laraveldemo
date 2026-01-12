@@ -22,7 +22,7 @@ class StorePostRequest extends FormRequest
 
         return [
             'name' => ['required', 'string', 'min:3', 'max:100'],
-            'project_code' => ['required', 'string', 'max:20', 'alpha_dash', new projectValidation()],
+            'project_code' => ['required', 'string', 'max:20', new projectValidation()],
             'status' => ['nullable', 'in:Active,Completed'],
             'priority' => ['required', 'in:Low,Medium,High'],
             'progress' => ['nullable', 'integer', 'min:0', 'max:100'],

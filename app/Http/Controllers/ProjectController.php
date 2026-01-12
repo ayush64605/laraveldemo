@@ -13,7 +13,10 @@ class ProjectController extends Controller
     public function index()
     {
         $projects = Project::all();
-        return view("index", compact('projects'));
+        $latestprojects = Projectcategory::with('latestProject')->get();
+        $largestprojects = Projectcategory::with('largestProject')->get();
+        $latesttask = Project::with('latestTask')->get();
+        return view("index", compact('projects', 'latestprojects', 'largestprojects', 'latesttask'));
     }
     public function show()
     {
