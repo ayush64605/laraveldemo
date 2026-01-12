@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProjectcategoryController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ProjectuserController;
 use App\Http\Middleware\AuthCheck;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +29,13 @@ Route::middleware(AuthCheck::class)->group(function () {
         Route::get('update/{project}', [ProjectController::class, 'update'])->name('update');
         Route::get('delete/{project}', [ProjectController::class, 'delete'])->name('delete');
         Route::get('details/{project}', [ProjectController::class, 'details'])->name('details');
+    });
+
+
+    Route::prefix('project/user')->name('project.user.')->group(function () {
+        Route::get('add/{project}', [ProjectuserController::class, 'add'])->name('add');
+        Route::post('save/{project}', [ProjectuserController::class, 'save'])->name('save');
+        Route::get('delete/{project}', [ProjectuserController::class, 'delete'])->name('delete');
     });
 
 

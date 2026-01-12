@@ -19,7 +19,7 @@
                 <a href="{{ route('projectcategory.add') }}" class="text-sm/6 font-semibold text-white"><button
                         type="button"
                         class="rounded-md bg-indigo-600 px-3 py-2 text-lg font-semibold text-white shadow-xs hover:bg-indigo-500">+
-                       Add Project Category</button></a>
+                        Add Project Category</button></a>
             </div>
         </div>
     </div>
@@ -43,6 +43,12 @@
                                     class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
                                     Name</th>
                                 <th scope="col"
+                                    class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
+                                    Total Projects</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
+                                    Projects Name</th>
+                                <th scope="col"
                                     class="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase">
                                     Action</th>
                             </tr>
@@ -50,12 +56,17 @@
                         <tbody class="divide-y divide-gray-200">
                             @foreach ($projectcategories as $index => $projectcategory)
                                 <tr>
-                                    <td
-                                        class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
                                         {{ $index + 1 }}</td>
-                                    <td
-                                        class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
                                         {{ $projectcategory['name'] }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
+                                        {{ count($projectcategory->projects) }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
+                                    @foreach ($projectcategory->projects as $project)
+                                        {{ $project->name }},
+                                    @endforeach
+                                    </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
                                         <a href="{{ route('projectcategory.update', ['projectcategory' => $projectcategory['id']]) }}"
                                             class="text-sm/6 font-semibold text-white"><x-button type="button"

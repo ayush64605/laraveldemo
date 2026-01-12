@@ -14,8 +14,7 @@ class ProjectcategoryController extends Controller
     }
     public function show()
     {
-
-        $projectcategories = Projectcategory::all();
+        $projectcategories = Projectcategory::with('projects')->get();
         return view("projectcategory", compact('projectcategories'));
     }
 

@@ -38,12 +38,12 @@ class Project extends Model
     ];
 
     protected $casts = [
-        'is_featured'   => 'boolean',
-        'progress'      => 'integer',
-        'budget'        => 'float',
-        'technologies'  => 'array',
-        'started_at'    => 'datetime',
-        'completed_at'  => 'datetime',
+        'is_featured' => 'boolean',
+        'progress' => 'integer',
+        'budget' => 'float',
+        'technologies' => 'array',
+        'started_at' => 'date',
+        'completed_at' => 'date',
         'deadline_time' => 'datetime',
     ];
 
@@ -54,5 +54,10 @@ class Project extends Model
     public function category()
     {
         return $this->belongsTo(Projectcategory::class, 'project_category');
+    }
+
+    public function users()
+    {
+        return $this->hasOne(Projectuser::class, 'project_id','id');
     }
 }

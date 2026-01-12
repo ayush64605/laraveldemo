@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Projectcategory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -14,10 +15,12 @@ class ProjectFactory extends Factory
      *
      * @return array<string, mixed>
      */
+
+
     public function definition(): array
     {
         return [
-            'project_category' => 1,
+            'project_category' => Projectcategory::first()?->id ?? Projectcategory::factory(),
             'name' => fake()->sentence(3),
             'project_code' => fake()->unique()->bothify('cbt-####'),
             'project_key' => fake()->numberBetween(11111, 99999),
@@ -31,7 +34,7 @@ class ProjectFactory extends Factory
             'completed_at' => fake()->dateTimeBetween('now', '+1 year'),
             'deadline_time' => fake()->dateTimeBetween('now', '+6 months'),
             'project_type' => fake()->randomElement(['Internal', 'Client']),
-            'technologies' => json_encode(fake()->randomElements(['Laravel', 'React', 'Vue', 'Node'], 2)),
+            'technologies' => fake()->randomElements(['Laravel', 'React', 'Vue', 'Node'], 2),
             'description' => fake()->paragraph(),
             'image' => fake()->imageUrl(640, 480, 'projects'),
             'client_name' => fake()->name(),

@@ -2,7 +2,7 @@
 
 @include('masterlayout.header')
 <div
-    class="max-w-[65rem] shadow-xl rounded-lg border-2 border-solid mt-10 border-stone-200 px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto ">
+    class="max-w-[100rem] shadow-xl rounded-lg border-2 border-solid mt-10 border-stone-200 px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto ">
     <div class="grid sm:grid-cols-3 lg:grid-cols-3 gap-6">
         <div class=" flex">
             <div class="p-4 md:p-6">
@@ -59,6 +59,9 @@
                                     class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
                                     Status</th>
                                 <th scope="col"
+                                    class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
+                                    User</th>
+                                <th scope="col"
                                     class="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase">
                                     Action</th>
                             </tr>
@@ -66,14 +69,11 @@
                         <tbody class="divide-y divide-gray-200">
                             @foreach ($projects as $index => $project)
                                 <tr>
-                                    <td
-                                        class="px-6 py-4 whitespace-nowrap text-sm font-medium text-black-800">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-black-800">
                                         {{ $index + 1 }}</td>
-                                    <td
-                                        class="px-6 py-4 whitespace-nowrap text-sm font-medium text-black-800">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-black-800">
                                         {{ $project->category->name ?? 'Unknown' }}</td>
-                                    <td
-                                        class="px-6 py-4 whitespace-nowrap text-sm font-medium text-black-800">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-black-800">
                                         {{ $project['name'] }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-black-800">
                                         <img src="{{ asset('/storage/' . $project['image']) }}" alt=""
@@ -81,10 +81,31 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-black-800">
                                         {{ $project['status'] }}</td>
+
+                                    @if ($project->users)
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-black-800">
+                                            {{ $project->users->name ?? 'Unknown' }}
+                                            ({{ $project->users->email ?? 'Unknown' }})
+                                        </td>
+                                    @else
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-black-800">Not
+                                            Added</td>
+                                    @endif
+
                                     <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
                                         <a href="{{ route('project.details', ['project' => $project['id']]) }}"
                                             class="text-sm/6 font-semibold text-white"><x-button type="button"
                                                 icon="eye" color="indigo" text="View Detils" /></a>
+                                        @if ($project->users)
+                                            <a href="{{ route('project.user.delete', ['project' => $project['id']]) }}"
+                                                class="text-sm/6 font-semibold text-white"><x-button type="button"
+                                                    icon="trash" color="red" text="Delete User" /></a>
+                                        @else
+                                            <a href="{{ route('project.user.add', ['project' => $project['id']]) }}"
+                                                class="text-sm/6 font-semibold text-white"><x-button type="button"
+                                                    icon="eye" color="indigo" text="Add User" /></a>
+                                        @endif
+
                                         <a href="{{ route('project.update', ['project' => $project['id']]) }}"
                                             class="text-sm/6 font-semibold text-white"><x-button type="button"
                                                 icon="edit" color="indigo" text="Edit" /></a>

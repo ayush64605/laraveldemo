@@ -173,7 +173,7 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-900">Start Date <span
                             class="text-red-600">*</span></label>
-                    <input type="date" name="start_date" value="{{ $project['started_at'] ?? '' }}"
+                    <input type="date" name="start_date" value="{{ $project['started_at'] ? $project['started_at']->format('Y-m-d') : '' }}"
                         class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300">
                     @error('start_date')
                         <span class="text-red-600 text-sm">{{ $message }}</span>
@@ -183,7 +183,7 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-900">End Date <span
                             class="text-red-600">*</span></label>
-                    <input type="date" name="complete_date" value="{{ $project['completed_at'] ?? '' }}"
+                    <input type="date" name="complete_date" value="{{ $project['completed_at'] ? $project['completed_at']->format('Y-m-d') : '' }}"
                         class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300">
                     @error('complete_date')
                         <span class="text-red-600 text-sm">{{ $message }}</span>

@@ -17,7 +17,7 @@ class ProjectController extends Controller
     }
     public function show()
     {
-        $projects = Project::with('category')->get();
+        $projects = Project::with('category', 'users')->get();
         return view("projects", compact('projects'));
     }
 
@@ -99,7 +99,7 @@ class ProjectController extends Controller
         $project->started_at = $request->start_date;
         $project->completed_at = $request->complete_date;
         $project->deadline_time = $request->deadline_time;
-        $project->technologies = json_encode($request->technologies) ?? [];
+        $project->technologies = $request->technologies ?? [];
         $project->is_featured = $request->boolean('is_featured');
         $project->image = $imagePath;
         $project->client_name = $request->client_name;
