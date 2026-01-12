@@ -119,7 +119,7 @@
     </div>
 </div>
 <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
-    <div class="grid sm:grid-cols-2 lg:grid-cols-1 gap-6">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-2 gap-6">
         <div class="group flex shadow-xl flex-col h-full border border-gray-200 shadow-2xs rounded-xl">
             <div class="p-4 md:p-6 flex justify-between">
                 <h3 class="text-2xl font-semibold text-black">
@@ -153,6 +153,42 @@
                                     </td>
                                 </tr>
                             @endif
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="group flex shadow-xl flex-col h-full border border-gray-200 shadow-2xs rounded-xl">
+            <div class="p-4 md:p-6 flex justify-between">
+                <h3 class="text-2xl font-semibold text-black">
+                    Latest task by category
+                </h3>
+            </div>
+            <div class="overflow-hidden">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
+                                #</th>
+                            <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
+                                Project</th>
+                            <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
+                                Task</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        @foreach ($taskbycategory as $index => $task)
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
+                                    {{ $index + 1 }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                                    {{ $task->name }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                                    {{ $task->getTask->task ?? 'No tasks Found' }}
+                                </td>
+                            </tr>
                         @endforeach
                     </tbody>
                 </table>

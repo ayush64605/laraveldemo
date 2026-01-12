@@ -16,7 +16,8 @@ class ProjectController extends Controller
         $latestprojects = Projectcategory::with('latestProject')->get();
         $largestprojects = Projectcategory::with('largestProject')->get();
         $latesttask = Project::with('latestTask')->get();
-        return view("index", compact('projects', 'latestprojects', 'largestprojects', 'latesttask'));
+        $taskbycategory=Projectcategory::with('getTask')->get();
+        return view("index", compact('projects', 'latestprojects', 'largestprojects', 'latesttask','taskbycategory'));
     }
     public function show()
     {

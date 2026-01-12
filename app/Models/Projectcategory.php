@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class Projectcategory extends Model
 {
@@ -20,5 +21,10 @@ class Projectcategory extends Model
     public function largestProject(): HasOne
     {
         return $this->hasOne(Project::class, 'project_category')->ofMany('budget', 'max');
+    }
+
+    public function getTask(): HasOneThrough
+    {
+        return $this->hasOneThrough(Task::class, Project::class, 'project_category');
     }
 }

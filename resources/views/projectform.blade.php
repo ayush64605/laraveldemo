@@ -347,11 +347,11 @@
             </div>
 
             <div class="mt-8 flex justify-end gap-4">
-                <a href="{{ route('project.show') }}"> <x-button type="button" color="red" text="Cancel"
+                <a href="{{ route('project.show') }}"> <x-button type="button" color="bg-red-600" text="Cancel"
                         icon="cancel" />
                 </a>
                 </a>
-                <x-button type="submit" color="indigo" text="Save Project" icon="save" /> </a>
+                <x-button type="submit" color="bg-indigo-600" text="Save Project" icon="save" /> </a>
             </div>
 
         </form>

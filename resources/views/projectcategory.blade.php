@@ -70,9 +70,9 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
                                         <a href="{{ route('projectcategory.update', ['projectcategory' => $projectcategory['id']]) }}"
                                             class="text-sm/6 font-semibold text-white"><x-button type="button"
-                                                icon="edit" color="indigo" text="Edit" /></a>
+                                                icon="edit" color="bg-indigo-600" text="Edit" /></a>
 
-                                        <x-button type="button" color="red" text="Delete" icon="trash"
+                                        <x-button type="button" color="bg-red-600" text="Delete" icon="trash"
                                             onclick="document.getElementById('deleteModal-{{ $projectcategory['id'] }}').classList.remove('hidden')" />
 
                                         <div id="deleteModal-{{ $projectcategory['id'] }}"
@@ -88,14 +88,14 @@
                                                 </p>
 
                                                 <div class="mt-6 flex justify-end gap-3">
-                                                    <x-button type="button" color="indigo" text="Cancel"
+                                                    <x-button type="button" color="bg-indigo-600" text="Cancel"
                                                         icon="cancel"
                                                         onclick="document.getElementById('deleteModal-{{ $projectcategory['id'] }}').classList.add('hidden')" />
 
 
                                                     <a
                                                         href="{{ route('projectcategory.delete', ['projectcategory' => $projectcategory['id']]) }}">
-                                                        <x-button type="button" color="red" text="Yes, Delete"
+                                                        <x-button type="button" color="bg-red-600" text="Yes, Delete"
                                                             icon="trash" /> </a>
                                                 </div>
                                             </div>

@@ -55,7 +55,7 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
                                         {{ $task['task'] }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                                        <x-button type="button" color="red" text="Delete" icon="trash"
+                                        <x-button type="button" color="bg-red-600" text="Delete" icon="trash"
                                             onclick="document.getElementById('deleteModal-{{ $task['id'] }}').classList.remove('hidden')" />
 
                                         <div id="deleteModal-{{ $task['id'] }}"
@@ -71,14 +71,14 @@
                                                 </p>
 
                                                 <div class="mt-6 flex justify-end gap-3">
-                                                    <x-button type="button" color="indigo" text="Cancel"
+                                                    <x-button type="button" color="bg-indigo-600" text="Cancel"
                                                         icon="cancel"
                                                         onclick="document.getElementById('deleteModal-{{ $task['id'] }}').classList.add('hidden')" />
 
 
                                                     <a
                                                         href="{{ route('project.task.delete', ['task' => $task['id']]) }}">
-                                                        <x-button type="button" color="red" text="Yes, Delete"
+                                                        <x-button type="button" color="bg-red-600" text="Yes, Delete"
                                                             icon="trash" /> </a>
                                                 </div>
                                             </div>
