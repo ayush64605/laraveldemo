@@ -10,12 +10,12 @@ class TaskController extends Controller
     public function show($project)
     {
         $tasks = Task::where("project_id", $project)->get();
-        return view("tasks", compact("tasks", 'project'));
+        return view("task.show", compact("tasks", 'project'));
     }
 
     public function add($project)
     {
-        return view('taskform', compact('project'));
+        return view('task.add', compact('project'));
     }
 
     public function save(Request $request)

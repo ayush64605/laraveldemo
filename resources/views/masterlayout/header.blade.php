@@ -24,7 +24,9 @@
             <el-popover-group class="hidden lg:flex lg:gap-x-12 items-center">
                 <a href="{{ route('index') }}" class="text-sm/6 font-semibold text-white">Home</a>
                 <a href="{{ route('project.show') }}" class="text-sm/6 font-semibold text-white">Projects</a>
-                <a href="{{ route('logout') }}"> <x-button type="button" color="red" text="Logout" icon="sign-out" /> </a>
+                <a href="{{ route('employee.show') }}" class="text-sm/6 font-semibold text-white">Employees</a>
+                <a href="{{ route('logout') }}"> <x-button type="button" color="bg-orange-600" text="Logout"
+                        icon="sign-out" /> </a>
                 </a>
             </el-popover-group>
         </nav>

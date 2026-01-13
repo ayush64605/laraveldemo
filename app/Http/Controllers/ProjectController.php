@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePostRequest;
 use App\Models\Project;
 use App\Models\Projectcategory;
+use Session;
 use Storage;
 use Illuminate\Http\Request;
 
@@ -16,31 +17,37 @@ class ProjectController extends Controller
         $latestprojects = Projectcategory::with('latestProject')->get();
         $largestprojects = Projectcategory::with('largestProject')->get();
         $latesttask = Project::with('latestTask')->get();
-        $taskbycategory=Projectcategory::with('getTask')->get();
-        return view("index", compact('projects', 'latestprojects', 'largestprojects', 'latesttask','taskbycategory'));
+        $taskbycategory = Projectcategory::with('getTask')->get();
+        return view("index", compact('projects', 'latestprojects', 'largestprojects', 'latesttask', 'taskbycategory'));
     }
     public function show()
     {
         $projects = Project::with('category', 'users')->get();
-        return view("projects", compact('projects'));
+        return view("project.show", compact('projects'));
     }
 
     public function add()
     {
         $last_project = Project::orderBy('id', 'desc')->first();
         $projectcategories = Projectcategory::orderBy('id', 'desc')->get();
-        return view("projectform", compact('last_project', 'projectcategories'));
+        return view("project.add", compact('last_project', 'projectcategories'));
+    }
+
+    public function assignemployee($project)
+    {
+        $projects = Project::with('employees')->findOrFail($project);
+        return view("project.employee", compact('projects'));
     }
 
     public function details(Project $project)
     {
-        return view("projectdetails", compact('project'));
+        return view("project.details", compact('project'));
     }
 
     public function update(Request $request, Project $project)
     {
         $projectcategories = Projectcategory::orderBy('id', 'desc')->get();
-        return view("projectform", compact('project', 'projectcategories'));
+        return view("project.add", compact('project', 'projectcategories'));
     }
 
     public function delete(Project $project)

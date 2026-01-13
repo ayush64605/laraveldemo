@@ -57,7 +57,7 @@ class AuthController extends Controller
 
     public function logout()
     {
-        session()->forget('userId');
+        session()->forget('admindata');
         return redirect()->route('login');
     }
 }

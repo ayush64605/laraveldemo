@@ -347,7 +347,7 @@
             </div>
 
             <div class="mt-8 flex justify-end gap-4">
-                <a href="{{ route('project.show') }}"> <x-button type="button" color="bg-red-600" text="Cancel"
+                <a href="{{ route('project.show') }}"> <x-button type="button" color="bg-orange-600" text="Cancel"
                         icon="cancel" />
                 </a>
                 </a>

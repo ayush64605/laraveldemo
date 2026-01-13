@@ -16,10 +16,8 @@
         </div>
         <div class="flex items-center justify-end">
             <div class="p-4 md:p-6">
-                <a href="{{ route('projectcategory.add') }}" class="text-sm/6 font-semibold text-white"><button
-                        type="button"
-                        class="rounded-md bg-indigo-600 px-3 py-2 text-lg font-semibold text-white shadow-xs hover:bg-indigo-500">+
-                        Add Project Category</button></a>
+                <a href="{{ route('projectcategory.add') }}" class="text-sm/6 font-semibold text-white"><x-button
+                            type="button" icon="plus" color="bg-indigo-600" text="Add Project Category" /></a>
             </div>
         </div>
     </div>
@@ -72,7 +70,7 @@
                                             class="text-sm/6 font-semibold text-white"><x-button type="button"
                                                 icon="edit" color="bg-indigo-600" text="Edit" /></a>
 
-                                        <x-button type="button" color="bg-red-600" text="Delete" icon="trash"
+                                        <x-button type="button" color="bg-orange-600" text="Delete" icon="trash"
                                             onclick="document.getElementById('deleteModal-{{ $projectcategory['id'] }}').classList.remove('hidden')" />
 
                                         <div id="deleteModal-{{ $projectcategory['id'] }}"
@@ -95,7 +93,7 @@
 
                                                     <a
                                                         href="{{ route('projectcategory.delete', ['projectcategory' => $projectcategory['id']]) }}">
-                                                        <x-button type="button" color="bg-red-600" text="Yes, Delete"
+                                                        <x-button type="button" color="bg-orange-600" text="Yes, Delete"
                                                             icon="trash" /> </a>
                                                 </div>
                                             </div>

@@ -10,7 +10,7 @@ class ProjectuserController extends Controller
 {
     public function add(Project $project)
     {
-        return view("projectadduserform", compact("project"));
+        return view("project.adduser", compact("project"));
     }
 
     public function save(Request $request, Project $project)

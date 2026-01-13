@@ -15,19 +15,19 @@ class ProjectcategoryController extends Controller
     public function show()
     {
         $projectcategories = Projectcategory::with('projects')->get();
-        return view("projectcategory", compact('projectcategories'));
+        return view("projectcategory.show", compact('projectcategories'));
     }
 
     public function add()
     {
         $last_projectcategory = Projectcategory::orderBy('id', 'desc')->first();
-        return view("projectcategoryform", compact('last_projectcategory'));
+        return view("projectcategory.add", compact('last_projectcategory'));
     }
 
 
     public function update(Request $request, Projectcategory $projectcategory)
     {
-        return view("projectcategoryform", compact('projectcategory'));
+        return view("projectcategory.add", compact('projectcategory'));
     }
 
     public function delete(Projectcategory $projectcategory)

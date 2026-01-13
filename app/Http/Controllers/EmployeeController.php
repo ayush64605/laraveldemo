@@ -1,0 +1,45 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Employee;
+use App\Models\EmployeeProject;
+use App\Models\Project;
+use Illuminate\Http\Request;
+
+class EmployeeController extends Controller
+{
+    public function show()
+    {
+        $employees = Employee::all();
+        return view("employee.show", compact("employees"));
+    }
+
+    public function add()
+    {
+        return view("employee.add");
+    }
+
+    public function save(Request $request)
+    {
+        $request->validate([
+            'name' => "required|string",
+            'email' => 'required|email',
+            'number' => 'required|regex:/^[0-9+\-\s]{7,20}$/',
+        ]);
+
+        $employee = new Employee();
+        $employee->name = $request->name;
+        $employee->email = $request->email;
+        $employee->number = $request->number;
+        $employee->save();
+        return redirect()->route('employee.show')->with('success', 'Employee Added Successfully!');
+    }
+
+    public function delete(Employee $employee)
+    {
+        $employee->delete();
+        return redirect()->route('employee.show')->with('success', 'Employee Delete Successfully');
+    }
+
+}

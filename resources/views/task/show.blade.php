@@ -17,9 +17,8 @@
         <div class="flex items-center justify-end">
             <div class="p-4 md:p-6">
                 <a href="{{ route('project.task.add', ['project' => $project]) }}"
-                    class="text-sm/6 font-semibold text-white"><button type="button"
-                        class="rounded-md bg-indigo-600 px-3 py-2 text-lg font-semibold text-white shadow-xs hover:bg-indigo-500">+
-                        Add Tasks</button></a>
+                    class="text-sm/6 font-semibold text-white"><x-button
+                            type="button" icon="plus" color="bg-indigo-600" text="Add Tasks" /></a>
             </div>
         </div>
     </div>
@@ -55,7 +54,7 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
                                         {{ $task['task'] }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                                        <x-button type="button" color="bg-red-600" text="Delete" icon="trash"
+                                        <x-button type="button" color="bg-orange-600" text="Delete" icon="trash"
                                             onclick="document.getElementById('deleteModal-{{ $task['id'] }}').classList.remove('hidden')" />
 
                                         <div id="deleteModal-{{ $task['id'] }}"
@@ -78,7 +77,7 @@
 
                                                     <a
                                                         href="{{ route('project.task.delete', ['task' => $task['id']]) }}">
-                                                        <x-button type="button" color="bg-red-600" text="Yes, Delete"
+                                                        <x-button type="button" color="bg-orange-600" text="Yes, Delete"
                                                             icon="trash" /> </a>
                                                 </div>
                                             </div>

@@ -2,7 +2,7 @@
 
 @include('masterlayout.header')
 <div
-    class="max-w-[100rem] shadow-xl rounded-lg border-2 border-solid mt-10 border-stone-200 px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto ">
+    class="max-w-[120rem] shadow-xl rounded-lg border-2 border-solid mt-10 border-stone-200 px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto ">
     <div class="grid sm:grid-cols-2 lg:grid-cols-2 gap-6">
         <div class=" flex">
             <div class="p-4 md:p-6">
@@ -16,18 +16,15 @@
         </div>
         <div class="flex items-center justify-end">
             <div>
-                <div class="p-4 md:p-6">
-                    <a href="{{ route('project.add') }}" class="text-sm/6 font-semibold text-white"><button type="button"
-                            class="rounded-md bg-indigo-600 px-3 py-2 text-lg font-semibold text-white shadow-xs hover:bg-indigo-500">+
-                            Add New Project</button></a>
+                <div class="p-2">
+                    <a href="{{ route('project.add') }}" class="text-sm/6 font-semibold text-white"><x-button
+                            type="button" icon="plus" color="bg-indigo-600" text="Add Project" /></a>
                 </div>
             </div>
             <div>
-                <div class="p-4 md:p-6">
-                    <a href="{{ route('projectcategory.show') }}" class="text-sm/6 font-semibold text-white"><button
-                            type="button"
-                            class="rounded-md bg-indigo-600 px-3 py-2 text-lg font-semibold text-white shadow-xs hover:bg-indigo-500">+
-                            Project Category</button></a>
+                <div class="p-2">
+                    <a href="{{ route('projectcategory.show') }}" class="text-sm/6 font-semibold text-white"><x-button
+                            type="button" icon="plus" color="bg-indigo-600" text="Project Category" /></a>
                 </div>
             </div>
         </div>
@@ -98,8 +95,12 @@
                                         <a href="{{ route('project.details', ['project' => $project['id']]) }}"
                                             class="text-sm/6 font-semibold text-white"><x-button type="button"
                                                 icon="eye" color="bg-indigo-600" text="View Detils" /></a>
+                                        <a href="{{ route('project.assignemployee', ['project' => $project['id']]) }}"
+                                            class="text-sm/6 font-semibold text-white"><x-button type="button"
+                                                icon="eye" color="bg-indigo-600" text="View Employee" /></a>
                                         @if ($project->users)
-                                            <x-button type="button" icon="user" color="bg-red-600" text="Delete User"
+                                            <x-button type="button" icon="user" color="bg-orange-600"
+                                                text="Delete User"
                                                 onclick="document.getElementById('deleteUserModal-{{ $project['id'] }}').classList.remove('hidden')" />
                                         @else
                                             <a href="{{ route('project.user.add', ['project' => $project['id']]) }}"
@@ -115,7 +116,7 @@
                                             class="text-sm/6 font-semibold text-white"><x-button type="button"
                                                 icon="edit" color="bg-indigo-600" text="Edit" /></a>
 
-                                        <x-button type="button" color="bg-red-600" text="Delete" icon="trash"
+                                        <x-button type="button" color="bg-orange-600" text="Delete" icon="trash"
                                             onclick="document.getElementById('deleteModal-{{ $project['id'] }}').classList.remove('hidden')" />
 
                                         <div id="deleteModal-{{ $project['id'] }}"
@@ -138,8 +139,8 @@
 
                                                     <a
                                                         href="{{ route('project.delete', ['project' => $project['id']]) }}">
-                                                        <x-button type="button" color="bg-red-600" text="Yes, Delete"
-                                                            icon="trash" /> </a>
+                                                        <x-button type="button" color="bg-orange-600"
+                                                            text="Yes, Delete" icon="trash" /> </a>
                                                 </div>
                                             </div>
                                         </div>
@@ -163,8 +164,8 @@
 
                                                     <a
                                                         href="{{ route('project.user.delete', ['project' => $project['id']]) }}">
-                                                        <x-button type="button" color="bg-red-600" text="Yes, Delete"
-                                                            icon="trash" /> </a>
+                                                        <x-button type="button" color="bg-orange-600"
+                                                            text="Yes, Delete" icon="trash" /> </a>
                                                 </div>
                                             </div>
                                         </div>

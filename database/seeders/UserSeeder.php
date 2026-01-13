@@ -2,23 +2,24 @@
 
 namespace Database\Seeders;
 
-use App\Models\Admin;
+use App\Models\User;
 use Hash;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class AdminSeeder extends Seeder
+class UserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        if (Admin::count() == 0) {
-            $admin = new Admin();
+        if (User::count() == 0) {
+            $admin = new User();
             $admin->name = "Admin";
             $admin->email = "admin@gmail.com";
             $admin->password = Hash::make("12345");
+            $admin->role = "admin";
             $admin->save();
         }
     }
