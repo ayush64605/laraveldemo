@@ -1,4 +1,4 @@
-@section('title', 'employees')
+@section('title', 'Users')
 
 @include('masterlayout.header')
 <div
@@ -7,19 +7,11 @@
         <div class=" flex">
             <div class="p-4 md:p-6">
                 <h3 class="text-2xl font-semibold text-black">
-                    All Employees
+                    All users
                 </h3>
                 <p class="mt-3 text-grey text-lg">
-                    Total {{ count($employees) }} Employees
+                    Total {{ count($users) }} users
                 </p>
-            </div>
-        </div>
-        <div class="flex items-center justify-end">
-            <div>
-                <div class="p-2">
-                    <a href="{{ route('employee.add') }}" class="text-sm/6 font-semibold text-white"><x-button
-                            type="button" icon="plus" color="bg-indigo-600" text="Add Employee" /></a>
-                </div>
             </div>
         </div>
     </div>
@@ -47,55 +39,51 @@
                                     Email</th>
                                 <th scope="col"
                                     class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
-                                    Number</th>
+                                    Role</th>
                                 <th scope="col"
                                     class="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase">
                                     Action</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200">
-                            @foreach ($employees as $index => $employee)
+                            @foreach ($users as $index => $user)
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-black-800">
                                         {{ $index + 1 }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-black-800">
-                                        {{ $employee->name ?? 'Unknown' }}</td>
+                                        {{ $user->name ?? 'Unknown' }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-black-800">
-                                        {{ $employee->email }}</td>
+                                        {{ $user->email }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-black-800">
-                                        {{ $employee->number }}</td>
+                                        {{ $user->role }}</td>
 
                                     <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                                        <a href="{{ route('employee.update', ['employee' => $employee->id]) }}"
+                                        <a href="{{ route('user.update', ['user' => $user->id]) }}"
                                             class="text-sm/6 font-semibold text-white"><x-button type="button"
                                                 icon="edit" color="bg-indigo-600" text="Edit" /></a>
-                                        <a href="{{ route('employee-project.show', ['employee' => $employee->id]) }}"
-                                            class="text-sm/6 font-semibold text-white"><x-button type="button"
-                                                icon="eye" color="bg-indigo-600" text="Assign Project" /></a>
-
                                         <x-button type="button" color="bg-orange-600" text="Delete" icon="trash"
-                                            onclick="document.getElementById('deleteModal-{{ $employee->id }}').classList.remove('hidden')" />
+                                            onclick="document.getElementById('deleteModal-{{ $user->id }}').classList.remove('hidden')" />
 
-                                        <div id="deleteModal-{{ $employee->id }}"
+                                        <div id="deleteModal-{{ $user->id }}"
                                             class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/50">
 
                                             <div class="bg-white rounded-lg shadow-xl w-full max-w-md p-6 text-left">
                                                 <h3 class="text-lg font-semibold text-gray-900">
-                                                    Delete Employee
+                                                    Delete user
                                                 </h3>
 
                                                 <p class="mt-2 text-sm text-gray-600">
-                                                    Are you sure you want to delete this employee?
+                                                    Are you sure you want to delete this user?
                                                 </p>
 
                                                 <div class="mt-6 flex justify-end gap-3">
                                                     <x-button type="button" color="bg-indigo-600" text="Cancel"
                                                         icon="cancel"
-                                                        onclick="document.getElementById('deleteModal-{{ $employee->id }}').classList.add('hidden')" />
+                                                        onclick="document.getElementById('deleteModal-{{ $user->id }}').classList.add('hidden')" />
 
 
                                                     <a
-                                                        href="{{ route('employee.delete', ['employee' => $employee->id]) }}">
+                                                        href="{{ route('user.delete', ['user' => $user->id]) }}">
                                                         <x-button type="button" color="bg-orange-600"
                                                             text="Yes, Delete" icon="trash" /> </a>
                                                 </div>

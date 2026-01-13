@@ -64,7 +64,7 @@ class ProjectController extends Controller
         $index = Project::find($request->id);
 
         if ($index) {
-            $project = Project::find($request->id);
+            $project = $index;
         } else {
             $project = new Project();
         }
@@ -95,7 +95,6 @@ class ProjectController extends Controller
             $project_key = $project->project_key;
         }
 
-        $project->id = (int) $request->id;
         $project->name = $request->name;
         $project->project_category = $request->project_category;
         $project->project_code = $request->project_code;
@@ -131,4 +130,5 @@ class ProjectController extends Controller
 
         return redirect()->route('project.show')->with('success', $msg);
     }
+    
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use Auth;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +17,7 @@ class AuthCheck
     public function handle(Request $request, Closure $next): Response
     {
 
-        if (!Session()->has('admindata')) {
+        if (!Auth::check()) {
             return redirect()->route('login')->with('error', 'You have to login first.');
         }
         return $next($request);

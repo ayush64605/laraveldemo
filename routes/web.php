@@ -7,6 +7,7 @@ use App\Http\Controllers\ProjectcategoryController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectuserController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\UserController;
 use App\Http\Middleware\AuthCheck;
 use Illuminate\Support\Facades\Route;
 
@@ -46,6 +47,7 @@ Route::middleware(AuthCheck::class)->group(function () {
         Route::get('show/{project}', [TaskController::class, 'show'])->name('show');
         Route::get('add/{project}', [TaskController::class, 'add'])->name('add');
         Route::post('save/', [TaskController::class, 'save'])->name('save');
+        Route::get('update/{task}', [TaskController::class, 'update'])->name('update');
         Route::get('delete/{task}', [TaskController::class, 'delete'])->name('delete');
     });
 
@@ -53,11 +55,16 @@ Route::middleware(AuthCheck::class)->group(function () {
         Route::get('show/', [EmployeeController::class, 'show'])->name('show');
         Route::get('add/', [EmployeeController::class, 'add'])->name('add');
         Route::post('save/', [EmployeeController::class, 'save'])->name('save');
+        Route::get('update/{employee}', [EmployeeController::class, 'update'])->name('update');
         Route::get('delete/{employee}', [EmployeeController::class, 'delete'])->name('delete');
-        Route::get('assignedprojects/{employee}', [EmployeeController::class, 'assignedprojects'])->name('assignedprojects');
-        Route::get('assign/{employee}', [EmployeeController::class, 'assign'])->name('assign');
-        Route::post('assignsave/{employee}', [EmployeeController::class, 'assignsave'])->name('assignsave');
-        Route::get('assigndelete/{employee}/{project}', [EmployeeController::class, 'assigndelete'])->name('assigndelete');
+    });
+
+    Route::prefix('user')->name('user.')->group(function () {
+        Route::get('show/', [UserController::class, 'show'])->name('show');
+        Route::get('add/', [UserController::class, 'add'])->name('add');
+        Route::post('save/', [UserController::class, 'save'])->name('save');
+        Route::get('update/{user}', [UserController::class, 'update'])->name('update');
+        Route::get('delete/{user}', [UserController::class, 'delete'])->name('delete');
     });
 
     Route::prefix('employee_project')->name('employee-project.')->group(function () {

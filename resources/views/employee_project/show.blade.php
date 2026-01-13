@@ -17,7 +17,7 @@
         <div class="flex items-center justify-end">
             <div>
                 <div class="p-2">
-                    <a href="{{ route('employee.assign', ['employee' => $employee]) }}"
+                    <a href="{{ route('employee-project.add', ['employee' => $employee]) }}"
                         class="text-sm/6 font-semibold text-white"><x-button type="button" icon="plus"
                             color="bg-indigo-600" text="Assign Project" /></a>
                 </div>
@@ -71,7 +71,7 @@
                                                     <button type="button"
                                                         onclick="document.getElementById('deleteModal-{{ $project->id }}').classList.add('hidden')">Cancel</button>
                                                     <a
-                                                        href="{{ route('employee.assigndelete', ['employee' => $employee->id, 'project' => $project->id]) }}">
+                                                        href="{{ route('employee-project.delete', ['employee' => $employee->id, 'project' => $project->id]) }}">
                                                         <x-button type="button" color="bg-orange-600" icon="trash"
                                                             text="Yes, Delete" />
                                                     </a>

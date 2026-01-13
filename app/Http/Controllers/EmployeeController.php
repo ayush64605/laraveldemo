@@ -28,12 +28,24 @@ class EmployeeController extends Controller
             'number' => 'required|regex:/^[0-9+\-\s]{7,20}$/',
         ]);
 
-        $employee = new Employee();
+        $index = Employee::find($request->id);
+
+        if ($index) {
+            $employee = $index;
+        } else {
+            $employee = new Employee();
+        }
+
         $employee->name = $request->name;
         $employee->email = $request->email;
         $employee->number = $request->number;
         $employee->save();
         return redirect()->route('employee.show')->with('success', 'Employee Added Successfully!');
+    }
+
+    public function update(Employee $employee)
+    {
+        return view("employee.add", compact('employee'));
     }
 
     public function delete(Employee $employee)

@@ -14,20 +14,23 @@
                 </p>
             </div>
         </div>
-        <div class="flex items-center justify-end">
-            <div>
-                <div class="p-2">
-                    <a href="{{ route('project.add') }}" class="text-sm/6 font-semibold text-white"><x-button
-                            type="button" icon="plus" color="bg-indigo-600" text="Add Project" /></a>
+        @if (Auth::user()->role == 'admin')
+            <div class="flex items-center justify-end">
+                <div>
+                    <div class="p-2">
+                        <a href="{{ route('project.add') }}" class="text-sm/6 font-semibold text-white"><x-button
+                                type="button" icon="plus" color="bg-indigo-600" text="Add Project" /></a>
+                    </div>
+                </div>
+                <div>
+                    <div class="p-2">
+                        <a href="{{ route('projectcategory.show') }}"
+                            class="text-sm/6 font-semibold text-white"><x-button type="button" icon="plus"
+                                color="bg-indigo-600" text="Project Category" /></a>
+                    </div>
                 </div>
             </div>
-            <div>
-                <div class="p-2">
-                    <a href="{{ route('projectcategory.show') }}" class="text-sm/6 font-semibold text-white"><x-button
-                            type="button" icon="plus" color="bg-indigo-600" text="Project Category" /></a>
-                </div>
-            </div>
-        </div>
+        @endif
     </div>
     @if (session('error'))
         <x-alert type="error" :message="session('error')" />
@@ -91,85 +94,89 @@
                                             Added</td>
                                     @endif
 
-                                    <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                                        <a href="{{ route('project.details', ['project' => $project['id']]) }}"
-                                            class="text-sm/6 font-semibold text-white"><x-button type="button"
-                                                icon="eye" color="bg-indigo-600" text="View Detils" /></a>
-                                        <a href="{{ route('project.assignemployee', ['project' => $project['id']]) }}"
-                                            class="text-sm/6 font-semibold text-white"><x-button type="button"
-                                                icon="eye" color="bg-indigo-600" text="View Employee" /></a>
-                                        @if ($project->users)
-                                            <x-button type="button" icon="user" color="bg-orange-600"
-                                                text="Delete User"
-                                                onclick="document.getElementById('deleteUserModal-{{ $project['id'] }}').classList.remove('hidden')" />
-                                        @else
-                                            <a href="{{ route('project.user.add', ['project' => $project['id']]) }}"
+                                    @if (Auth::user()->role == 'admin')
+                                        <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
+                                            <a href="{{ route('project.details', ['project' => $project['id']]) }}"
                                                 class="text-sm/6 font-semibold text-white"><x-button type="button"
-                                                    icon="user" color="bg-indigo-600" text="Add User" /></a>
-                                        @endif
+                                                    icon="eye" color="bg-indigo-600" text="View Detils" /></a>
+                                            <a href="{{ route('project.assignemployee', ['project' => $project['id']]) }}"
+                                                class="text-sm/6 font-semibold text-white"><x-button type="button"
+                                                    icon="users" color="bg-indigo-600" text="View Employee" /></a>
+                                            @if ($project->users)
+                                                <x-button type="button" icon="user" color="bg-orange-600"
+                                                    text="Delete User"
+                                                    onclick="document.getElementById('deleteUserModal-{{ $project['id'] }}').classList.remove('hidden')" />
+                                            @else
+                                                <a href="{{ route('project.user.add', ['project' => $project['id']]) }}"
+                                                    class="text-sm/6 font-semibold text-white"><x-button type="button"
+                                                        icon="user" color="bg-indigo-600" text="Add User" /></a>
+                                            @endif
 
-                                        <a href="{{ route('project.task.show', ['project' => $project['id']]) }}"
-                                            class="text-sm/6 font-semibold text-white"><x-button type="button"
-                                                icon="edit" color="bg-indigo-600" text="All Tasks" /></a>
+                                            <a href="{{ route('project.task.show', ['project' => $project['id']]) }}"
+                                                class="text-sm/6 font-semibold text-white"><x-button type="button"
+                                                    icon="tasks" color="bg-indigo-600" text="All Tasks" /></a>
 
-                                        <a href="{{ route('project.update', ['project' => $project['id']]) }}"
-                                            class="text-sm/6 font-semibold text-white"><x-button type="button"
-                                                icon="edit" color="bg-indigo-600" text="Edit" /></a>
+                                            <a href="{{ route('project.update', ['project' => $project['id']]) }}"
+                                                class="text-sm/6 font-semibold text-white"><x-button type="button"
+                                                    icon="edit" color="bg-indigo-600" text="Edit" /></a>
 
-                                        <x-button type="button" color="bg-orange-600" text="Delete" icon="trash"
-                                            onclick="document.getElementById('deleteModal-{{ $project['id'] }}').classList.remove('hidden')" />
+                                            <x-button type="button" color="bg-orange-600" text="Delete" icon="trash"
+                                                onclick="document.getElementById('deleteModal-{{ $project['id'] }}').classList.remove('hidden')" />
 
-                                        <div id="deleteModal-{{ $project['id'] }}"
-                                            class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/50">
+                                            <div id="deleteModal-{{ $project['id'] }}"
+                                                class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/50">
 
-                                            <div class="bg-white rounded-lg shadow-xl w-full max-w-md p-6 text-left">
-                                                <h3 class="text-lg font-semibold text-gray-900">
-                                                    Delete Project
-                                                </h3>
+                                                <div
+                                                    class="bg-white rounded-lg shadow-xl w-full max-w-md p-6 text-left">
+                                                    <h3 class="text-lg font-semibold text-gray-900">
+                                                        Delete Project
+                                                    </h3>
 
-                                                <p class="mt-2 text-sm text-gray-600">
-                                                    Are you sure you want to delete this project?
-                                                </p>
+                                                    <p class="mt-2 text-sm text-gray-600">
+                                                        Are you sure you want to delete this project?
+                                                    </p>
 
-                                                <div class="mt-6 flex justify-end gap-3">
-                                                    <x-button type="button" color="bg-indigo-600" text="Cancel"
-                                                        icon="cancel"
-                                                        onclick="document.getElementById('deleteModal-{{ $project['id'] }}').classList.add('hidden')" />
+                                                    <div class="mt-6 flex justify-end gap-3">
+                                                        <x-button type="button" color="bg-indigo-600" text="Cancel"
+                                                            icon="cancel"
+                                                            onclick="document.getElementById('deleteModal-{{ $project['id'] }}').classList.add('hidden')" />
 
 
-                                                    <a
-                                                        href="{{ route('project.delete', ['project' => $project['id']]) }}">
-                                                        <x-button type="button" color="bg-orange-600"
-                                                            text="Yes, Delete" icon="trash" /> </a>
+                                                        <a
+                                                            href="{{ route('project.delete', ['project' => $project['id']]) }}">
+                                                            <x-button type="button" color="bg-orange-600"
+                                                                text="Yes, Delete" icon="trash" /> </a>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div id="deleteUserModal-{{ $project['id'] }}"
-                                            class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/50">
+                                            <div id="deleteUserModal-{{ $project['id'] }}"
+                                                class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/50">
 
-                                            <div class="bg-white rounded-lg shadow-xl w-full max-w-md p-6 text-left">
-                                                <h3 class="text-lg font-semibold text-gray-900">
-                                                    Delete User
-                                                </h3>
+                                                <div
+                                                    class="bg-white rounded-lg shadow-xl w-full max-w-md p-6 text-left">
+                                                    <h3 class="text-lg font-semibold text-gray-900">
+                                                        Delete User
+                                                    </h3>
 
-                                                <p class="mt-2 text-sm text-gray-600">
-                                                    Are you sure you want to delete this user?
-                                                </p>
+                                                    <p class="mt-2 text-sm text-gray-600">
+                                                        Are you sure you want to delete this user?
+                                                    </p>
 
-                                                <div class="mt-6 flex justify-end gap-3">
-                                                    <x-button type="button" color="bg-indigo-600" text="Cancel"
-                                                        icon="cancel"
-                                                        onclick="document.getElementById('deleteUserModal-{{ $project['id'] }}').classList.add('hidden')" />
+                                                    <div class="mt-6 flex justify-end gap-3">
+                                                        <x-button type="button" color="bg-indigo-600" text="Cancel"
+                                                            icon="cancel"
+                                                            onclick="document.getElementById('deleteUserModal-{{ $project['id'] }}').classList.add('hidden')" />
 
 
-                                                    <a
-                                                        href="{{ route('project.user.delete', ['project' => $project['id']]) }}">
-                                                        <x-button type="button" color="bg-orange-600"
-                                                            text="Yes, Delete" icon="trash" /> </a>
+                                                        <a
+                                                            href="{{ route('project.user.delete', ['project' => $project['id']]) }}">
+                                                            <x-button type="button" color="bg-orange-600"
+                                                                text="Yes, Delete" icon="trash" /> </a>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </td>
+                                        </td>
+                                    @endif
                                 </tr>
                             @endforeach
                         </tbody>

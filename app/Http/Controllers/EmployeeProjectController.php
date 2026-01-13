@@ -36,14 +36,14 @@ class EmployeeProjectController extends Controller
         $employeeproject->project_id = $request->project;
         $employeeproject->employee_id = $employee;
         $employeeproject->save();
-        return redirect()->route('employee.assignedprojects', ['employee' => $employee])->with('success', 'Project Assign Successfully!');
+        return redirect()->route('employee-project.show', ['employee' => $employee])->with('success', 'Project Assign Successfully!');
     }
 
     public function assigndelete($employee, $project)
     {
         $employeeproject = EmployeeProject::where('employee_id', $employee)->where('project_id', $project)->first();
         $employeeproject->delete();
-        return redirect()->route('employee.assignedprojects', ['employee' => $employee])->with('success', 'Assignment deleted successfully!');
+        return redirect()->route('employee-project.show', ['employee' => $employee])->with('success', 'Assignment deleted successfully!');
 
     }
 }

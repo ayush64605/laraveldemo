@@ -5,7 +5,7 @@
 <section class="flex justify-center gap-4 mt-5">
     <div class="border-2 border-stone-200 rounded-lg p-10 shadow-xl">
 
-        <form class="w-[500px]" action="{{ route('employee.assignsave', ['employee' => $employee]) }}" method="POST"
+        <form class="w-[500px]" action="{{ route('employee-project.save', ['employee' => $employee]) }}" method="POST"
             enctype="multipart/form-data">
             @csrf
 
@@ -38,7 +38,7 @@
             </div>
 
             <div class="mt-8 flex justify-end gap-4">
-                <a href="{{ route('employee.assignedprojects', ['employee' => $employee]) }}"> <x-button type="button"
+                <a href="{{ route('employee-project.show', ['employee' => $employee]) }}"> <x-button type="button"
                         color="bg-orange-600" text="Cancel" icon="cancel" />
                 </a>
                 </a>

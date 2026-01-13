@@ -1,4 +1,4 @@
-@section('title', 'Add Employee')
+@section('title', 'Employee')
 
 @include('masterlayout.header')
 
@@ -9,7 +9,7 @@
             @csrf
 
             <h2 class="text-lg font-semibold text-gray-900">
-                Add Employee
+               Assign Project
             </h2>
 
             @if (session('error'))
@@ -18,12 +18,16 @@
             @if (session('success'))
                 <x-alert type="success" :message="session('success')" />
             @endif
+
+            <input type="hidden" name="id" value="{{ $employee->id ?? '' }}">
+
             <div class="grid grid-cols-1 md:grid-cols-1 gap-6 mt-4">
 
                 <div>
                     <label class="block text-sm font-medium text-gray-900">Name<span class="text-red-600">*</span>
                     </label>
-                    <input type="text" name="name" value="{{ old('name') }}" placeholder="Enter Emaployee name"
+                    <input type="text" name="name" value="{{ $employee->name ?? old('name') }}"
+                        placeholder="Enter Emaployee name"
                         class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300 focus:outline-indigo-600">
                     @error('name')
                         <span class="text-red-600 text-sm">{{ $message }}</span>
@@ -33,7 +37,8 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-900">Mobile No.<span class="text-red-600">*</span>
                     </label>
-                    <input type="text" name="number" value="{{ old('number') }}" placeholder="Enter Mobile No."
+                    <input type="text" name="number" value="{{ $employee->number ?? old('number') }}"
+                        placeholder="Enter Mobile No."
                         class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300 focus:outline-indigo-600">
                     @error('number')
                         <span class="text-red-600 text-sm">{{ $message }}</span>
@@ -43,7 +48,8 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-900">Email<span class="text-red-600">*</span>
                     </label>
-                    <input type="text" name="email" value="{{ old('email') }}" placeholder="Enter Emaployee email"
+                    <input type="text" name="email" value="{{ $employee->email ?? old('email') }}"
+                        placeholder="Enter Emaployee email"
                         class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300 focus:outline-indigo-600">
                     @error('email')
                         <span class="text-red-600 text-sm">{{ $message }}</span>

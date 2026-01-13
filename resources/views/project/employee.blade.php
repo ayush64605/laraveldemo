@@ -7,10 +7,10 @@
         <div class=" flex">
             <div class="p-4 md:p-6">
                 <h3 class="text-2xl font-semibold text-black">
-                    All Assigned Projects
+                    All Assigned Employee
                 </h3>
                 <p class="mt-3 text-grey text-lg">
-                    Total {{ count($projects->employees) }} Assigned Projects
+                    Total {{ count($projects->employees) }} Assigned Employee
                 </p>
             </div>
         </div>
@@ -76,7 +76,7 @@
                                                     <button type="button"
                                                         onclick="document.getElementById('deleteModal-{{ $employee->id }}').classList.add('hidden')">Cancel</button>
                                                     <a
-                                                        href="{{ route('employee.assigndelete', ['employee' => $employee->id, 'project' => $projects->id]) }}">
+                                                        href="{{ route('employee-project.delete', ['employee' => $employee->id, 'project' => $projects->id]) }}">
                                                         <x-button type="button" color="bg-orange-600" icon="trash"
                                                             text="Yes, Delete" />
                                                     </a>
