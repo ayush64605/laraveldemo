@@ -34,6 +34,7 @@ class TaskController extends Controller
     public function delete(Task $task)
     {
         $task->delete();
+        $task->comments()->delete();
         return redirect()->back()->with('success', 'Project User Deleted Successfilly.');
     }
 }
