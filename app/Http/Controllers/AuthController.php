@@ -35,6 +35,11 @@ class AuthController extends Controller
         $user->role = $request->role;
         $user->save();
 
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('users', 'public');
+            $user->image()->create(['url' => $path]);
+        }
+
         return redirect()->route('login')->with('success', 'Register successfully, Please Login!');
     }
     public function loginprocess(Request $request)

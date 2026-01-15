@@ -9,7 +9,7 @@ class TaskController extends Controller
 {
     public function show($project)
     {
-        $tasks = Task::where("project_id", $project)->get();
+        $tasks = Task::with('comments')->where("project_id", $project)->get();
         return view("task.show", compact("tasks", 'project'));
     }
 

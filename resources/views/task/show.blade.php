@@ -14,13 +14,15 @@
                 </p>
             </div>
         </div>
-        <div class="flex items-center justify-end">
-            <div class="p-4 md:p-6">
-                <a href="{{ route('project.task.add', ['project' => $project]) }}"
-                    class="text-sm/6 font-semibold text-white"><x-button
-                            type="button" icon="plus" color="bg-indigo-600" text="Add Tasks" /></a>
+        @if (Auth::user())
+            <div class="flex items-center justify-end">
+                <div class="p-4 md:p-6">
+                    <a href="{{ route('project.task.add', ['project' => $project]) }}"
+                        class="text-sm/6 font-semibold text-white"><x-button type="button" icon="plus"
+                            color="bg-indigo-600" text="Add Tasks" /></a>
+                </div>
             </div>
-        </div>
+        @endif
     </div>
     @if (session('error'))
         <x-alert type="error" :message="session('error')" />
@@ -54,9 +56,18 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
                                         {{ $task['task'] }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                                        <x-button type="button" color="bg-orange-600" text="Delete" icon="trash"
-                                            onclick="document.getElementById('deleteModal-{{ $task['id'] }}').classList.remove('hidden')" />
-
+                                        @if (Auth::user())
+                                            <x-button type="button" icon="eye" color="bg-indigo-600"
+                                                text="View Comments"
+                                                onclick="document.getElementById('commentModal-{{ $task->id }}').classList.remove('hidden')" />
+                                            <x-button type="button" color="bg-orange-600" text="Delete" icon="trash"
+                                                onclick="document.getElementById('deleteModal-{{ $task['id'] }}').classList.remove('hidden')" />
+                                        @endif
+                                        @if (session('employeedata'))
+                                            <a href="{{ route('comment.task.add', ['post' => $task->id]) }}"
+                                                class="text-sm/6 font-semibold text-white"><x-button type="button"
+                                                    icon="plus" color="bg-indigo-600" text="Add Comments" /></a>
+                                        @endif
                                         <div id="deleteModal-{{ $task['id'] }}"
                                             class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/50">
 
@@ -77,8 +88,32 @@
 
                                                     <a
                                                         href="{{ route('project.task.delete', ['task' => $task['id']]) }}">
-                                                        <x-button type="button" color="bg-orange-600" text="Yes, Delete"
-                                                            icon="trash" /> </a>
+                                                        <x-button type="button" color="bg-orange-600"
+                                                            text="Yes, Delete" icon="trash" /> </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="commentModal-{{ $task['id'] }}"
+                                            class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/50">
+
+                                            <div class="bg-white rounded-lg shadow-xl w-full max-w-md p-6 text-left">
+                                                <h3 class="text-lg font-semibold text-gray-900">
+                                                    All Comments
+                                                </h3>
+
+                                                <p class="mt-2 text-sm text-gray-600">
+                                                    @foreach ($task->comments as $comment)
+                                                        <ul>
+                                                            <li>
+                                                                {{ $comment->body }}
+                                                            </li>
+                                                        </ul>
+                                                    @endforeach
+                                                </p>
+                                                <div class="mt-6 flex justify-end gap-3">
+                                                    <x-button type="button" color="bg-indigo-600" text="Cancel"
+                                                        icon="cancel"
+                                                        onclick="document.getElementById('commentModal-{{ $task['id'] }}').classList.add('hidden')" />
                                                 </div>
                                             </div>
                                         </div>

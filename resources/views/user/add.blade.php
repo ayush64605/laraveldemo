@@ -46,6 +46,17 @@
                 </div>
 
                 <div>
+                    <label class="block text-sm font-medium text-gray-900">User Image <span
+                            class="text-red-600">*</span></label>
+                    <input type="file" name="image"
+                        class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300">
+                    @error('image')
+                        <span class="text-red-600 text-sm">{{ $message }}</span>
+                    @enderror
+                </div>
+
+
+                <div>
                     <label for="username" class="block text-sm font-medium text-gray-900">Role<span
                             class="text-red-600">*</span></label>
                     <div class="mt-2">

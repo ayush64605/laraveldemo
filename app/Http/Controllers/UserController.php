@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Auth;
 use Hash;
+use Storage;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -37,6 +38,18 @@ class UserController extends Controller
             $user->password = Hash::make($request->password);
         }
 
+        if ($request->hasFile('image')) {
+            if ($user->image) {
+                Storage::disk('public')->delete($user->image->url);
+            }
+
+            $path = $request->file('image')->store('users', 'public');
+            $user->image()->updateOrCreate(
+                ['imageable_id' => $user->id, 'imageable_type' => User::class],
+                ['url' => $path]
+            );
+        }
+
         $user->save();
 
         return redirect()->route('user.show')->with('success', 'User updated successfully!');
@@ -44,7 +57,11 @@ class UserController extends Controller
 
     public function delete(User $user)
     {
-        $user= User::findOrFail($user->id);
+        $user = User::findOrFail($user->id);
+        if ($user->image) {
+            Storage::disk('public')->delete($user->image->url);
+            $user->image->delete();
+        }
         $user->delete();
         return redirect()->route('user.show')->with('success', 'User Delete Successfully');
     }

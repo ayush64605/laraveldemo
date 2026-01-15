@@ -14,24 +14,44 @@
 
 <body>
     <header class="bg-indigo-600">
-        <nav aria-label="Global" class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
+        <nav aria-label="Global" class="mx-auto flex max-w-8xl items-center justify-between p-6 lg:px-8">
             <div class="flex lg:flex-1">
                 <a href="{{ route('index') }}" class="-m-1.5 p-1.5">
                     <h2 class="text-white text-2xl font-bold">Project Management System</h2>
                 </a>
             </div>
 
-            <el-popover-group class="hidden lg:flex lg:gap-x-12 items-center">
-                <a href="{{ route('index') }}" class="text-sm/6 font-semibold text-white">Home</a>
-                <a href="{{ route('project.show') }}" class="text-sm/6 font-semibold text-white">Projects</a>
-                @if (Auth::user()->role == 'admin')
-                    <a href="{{ route('employee.show') }}" class="text-sm/6 font-semibold text-white">Employees</a>
-                    <a href="{{ route('user.show') }}" class="text-sm/6 font-semibold text-white">Users</a>
-                @endif
-                <a href="{{ route('logout') }}"> <x-button type="button" color="bg-orange-600" text="Logout"
+            @if (Auth::user())
+                <div class="flex lg:flex-1">
+                    <el-popover-group class="hidden lg:flex lg:gap-x-12 items-center">
+                        <a href="{{ route('index') }}" class="text-sm/6 font-semibold text-white">Home</a>
+                        <a href="{{ route('project.show') }}" class="text-sm/6 font-semibold text-white">Projects</a>
+                        @if (Auth::user()->role == 'admin')
+                            <a href="{{ route('employee.show') }}"
+                                class="text-sm/6 font-semibold text-white">Employees</a>
+                            <a href="{{ route('user.show') }}" class="text-sm/6 font-semibold text-white">Users</a>
+                        @endif
+                        <a href="{{ route('logout') }}"> <x-button type="button" color="bg-orange-600" text="Logout"
+                                icon="sign-out" /> </a>
+                    </el-popover-group>
+                </div>
+            @endif
+
+            @if (Auth::user())
+                <div class="flex lg:flex-1 justify-end items-center">
+                    <img src="{{ Auth::user()->image ? asset('storage/' . Auth::user()->image->url) : asset('assets/images/user.png') }}"
+                        alt="" width="40">&nbsp;
+                    <p class="text-sm/6 font-semibold text-white">{{ Auth::user()->name }}</p>
+                </div>
+            @else
+                <div class="flex lg:flex-1 justify-end items-center">
+                    <p class="text-sm/6 font-semibold text-white"> Welcome, {{ session()->get('employeedata')->name }}
+                    </p>
+                </div>
+                &nbsp;&nbsp;
+                <a href="{{ route('employee.logout') }}"> <x-button type="button" color="bg-orange-600" text="Logout"
                         icon="sign-out" /> </a>
-                </a>
-            </el-popover-group>
+            @endif
         </nav>
     </header>
 

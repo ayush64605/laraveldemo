@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EmployeeProjectController;
 use App\Http\Controllers\ProjectcategoryController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\ProjectuserController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\AuthCheck;
+use App\Http\Middleware\Employee;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -21,6 +23,7 @@ Route::get("/register", [AuthController::class, "register"])->name('register');
 Route::post("/loginprocess", [AuthController::class, "loginprocess"])->name("loginprocess");
 Route::post("/registerprocess", [AuthController::class, "registerprocess"])->name("registerprocess");
 Route::get("/logout", [AuthController::class, "logout"])->name("logout");
+
 
 Route::middleware(AuthCheck::class)->group(function () {
 
@@ -43,13 +46,7 @@ Route::middleware(AuthCheck::class)->group(function () {
         Route::get('delete/{project}', [ProjectuserController::class, 'delete'])->name('delete');
     });
 
-    Route::prefix('project/task')->name('project.task.')->group(function () {
-        Route::get('show/{project}', [TaskController::class, 'show'])->name('show');
-        Route::get('add/{project}', [TaskController::class, 'add'])->name('add');
-        Route::post('save/', [TaskController::class, 'save'])->name('save');
-        Route::get('update/{task}', [TaskController::class, 'update'])->name('update');
-        Route::get('delete/{task}', [TaskController::class, 'delete'])->name('delete');
-    });
+
 
     Route::prefix('employee')->name('employee.')->group(function () {
         Route::get('show/', [EmployeeController::class, 'show'])->name('show');
@@ -81,5 +78,36 @@ Route::middleware(AuthCheck::class)->group(function () {
         Route::get('update/{projectcategory}', [ProjectcategoryController::class, 'update'])->name('update');
         Route::get('delete/{projectcategory}', [ProjectcategoryController::class, 'delete'])->name('delete');
     });
+});
+
+Route::prefix('project/task')->name('project.task.')->group(function () {
+    Route::get('show/{project}', [TaskController::class, 'show'])->name('show');
+    Route::get('add/{project}', [TaskController::class, 'add'])->name('add');
+    Route::post('save/', [TaskController::class, 'save'])->name('save');
+    Route::get('update/{task}', [TaskController::class, 'update'])->name('update');
+    Route::get('delete/{task}', [TaskController::class, 'delete'])->name('delete');
+});
+
+Route::prefix('comment')->name('comment.')->group(function () {
+    Route::get('show/{post}', [CommentController::class, 'show'])->name('show');
+    Route::get('/task/show/{post}', [CommentController::class, 'taskcommnetshow'])->name('task.show');
+    Route::get('task/add/{post}', [CommentController::class, 'addcommenttask'])->name('task.add');
+    Route::get('project/add/{post}', [CommentController::class, 'addcommentproject'])->name('project.add');
+    Route::post('save/', [CommentController::class, 'save'])->name('save');
+    Route::get('update/{post}', [CommentController::class, 'update'])->name('update');
+    Route::get('delete/{post}', [CommentController::class, 'delete'])->name('delete');
+});
+
+Route::get("/employee/login", [EmployeeController::class, "login"])->name('employee.login');
+Route::post("/employee/loginprocess", [EmployeeController::class, "employeelogin"])->name("employee.loginprocess");
+Route::get("/employee/logout", [EmployeeController::class, "logout"])->name("employee.logout");
+
+Route::middleware(Employee::class)->group(function () {
+    Route::prefix('employee')->name('employee.')->group(function () {
+        Route::get('index', [EmployeeController::class, 'index'])->name('index');
+    });
+
+
+
 });
 

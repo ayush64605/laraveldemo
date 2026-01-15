@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePostRequest;
 use App\Models\Project;
 use App\Models\Projectcategory;
-use Session;
 use Storage;
 use Illuminate\Http\Request;
 
@@ -53,6 +52,11 @@ class ProjectController extends Controller
     public function delete(Project $project)
     {
         Storage::disk('public')->delete($project->id);
+        if ($project->image) {
+            Storage::disk('public')->delete($project->image->url);
+            $project->image->delete();
+        }
+        $project->comments()->delete();
         $project->delete();
         return redirect()->route('project.show')->with('success', 'Project Deleted Successfilly.');
     }
@@ -76,13 +80,17 @@ class ProjectController extends Controller
             }
         }
 
-        if ($request->hasFile('image')) {
-            if ($index !== false && isset($project->image)) {
-                Storage::disk('public')->delete($project->image);
+        if ($index) {
+            if ($request->hasFile('image')) {
+                if ($project->image) {
+                    Storage::disk('public')->delete($project->image->url);
+                }
+                $path = $request->file('image')->store('projectimage', 'public');
+                $project->image()->updateOrCreate(
+                    ['imageable_id' => $project->id, 'imageable_type' => Project::class],
+                    ['url' => $path]
+                );
             }
-            $imagePath = $request->file('image')->store('projectimage', 'public');
-        } else {
-            $imagePath = ($index !== false) ? $project->image : null;
         }
 
         if ($request->project_key) {
@@ -111,7 +119,6 @@ class ProjectController extends Controller
         $project->deadline_time = $request->deadline_time;
         $project->technologies = $request->technologies ?? [];
         $project->is_featured = $request->boolean('is_featured');
-        $project->image = $imagePath;
         $project->client_name = $request->client_name;
         $project->client_email = $request->client_email;
         $project->client_phone = $request->client_phone;
@@ -122,7 +129,14 @@ class ProjectController extends Controller
         $project->save();
 
 
-        if ($index !== false) {
+        if (!$index) {
+            if ($request->hasFile('image')) {
+                $path = $request->file('image')->store('projectimage', 'public');
+                $project->image()->create(['url' => $path]);
+            }
+        }
+
+        if ($index) {
             $msg = 'Project Updated Successfully';
         } else {
             $msg = 'Project Added Successfully';
@@ -130,5 +144,5 @@ class ProjectController extends Controller
 
         return redirect()->route('project.show')->with('success', $msg);
     }
-    
+
 }

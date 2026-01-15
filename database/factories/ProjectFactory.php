@@ -36,7 +36,6 @@ class ProjectFactory extends Factory
             'project_type' => fake()->randomElement(['Internal', 'Client']),
             'technologies' => fake()->randomElements(['Laravel', 'React', 'Vue', 'Node'], 2),
             'description' => fake()->paragraph(),
-            'image' => fake()->imageUrl(640, 480, 'projects'),
             'client_name' => fake()->name(),
             'client_email' => fake()->safeEmail(),
             'client_phone' => fake()->phoneNumber(),

@@ -78,8 +78,8 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-black-800">
                                         {{ $project['name'] }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-black-800">
-                                        <img src="{{ asset('/storage/' . $project['image']) }}" alt=""
-                                            width="100">
+                                        <img src="{{ $project->image ? asset('storage/' . $project->image->url) : '' }}"
+                                            alt="" width="100">
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-black-800">
                                         {{ $project['status'] }}</td>
@@ -102,14 +102,18 @@
                                             <a href="{{ route('project.assignemployee', ['project' => $project['id']]) }}"
                                                 class="text-sm/6 font-semibold text-white"><x-button type="button"
                                                     icon="users" color="bg-indigo-600" text="View Employee" /></a>
+                                            <x-button type="button" icon="eye" color="bg-indigo-600"
+                                                text="View Comments"
+                                                onclick="document.getElementById('commentModal-{{ $project->id }}').classList.remove('hidden')" />
                                             @if ($project->users)
                                                 <x-button type="button" icon="user" color="bg-orange-600"
-                                                    text="Delete User"
+                                                    text="Delete Project User"
                                                     onclick="document.getElementById('deleteUserModal-{{ $project['id'] }}').classList.remove('hidden')" />
                                             @else
                                                 <a href="{{ route('project.user.add', ['project' => $project['id']]) }}"
                                                     class="text-sm/6 font-semibold text-white"><x-button type="button"
-                                                        icon="user" color="bg-indigo-600" text="Add User" /></a>
+                                                        icon="user" color="bg-indigo-600"
+                                                        text="Add Project User" /></a>
                                             @endif
 
                                             <a href="{{ route('project.task.show', ['project' => $project['id']]) }}"
@@ -172,6 +176,31 @@
                                                             href="{{ route('project.user.delete', ['project' => $project['id']]) }}">
                                                             <x-button type="button" color="bg-orange-600"
                                                                 text="Yes, Delete" icon="trash" /> </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="commentModal-{{ $project->id }}"
+                                                class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/50">
+
+                                                <div
+                                                    class="bg-white rounded-lg shadow-xl w-full max-w-md p-6 text-left">
+                                                    <h3 class="text-lg font-semibold text-gray-900">
+                                                        All Comments
+                                                    </h3>
+
+                                                    <p class="mt-2 text-sm text-gray-600">
+                                                        @foreach ($project->comments as $comment)
+                                                            <ul>
+                                                                <li>
+                                                                    {{ $comment->body }}
+                                                                </li>
+                                                            </ul>
+                                                        @endforeach
+                                                    </p>
+                                                    <div class="mt-6 flex justify-end gap-3">
+                                                        <x-button type="button" color="bg-indigo-600" text="Cancel"
+                                                            icon="cancel"
+                                                            onclick="document.getElementById('commentModal-{{ $project['id'] }}').classList.add('hidden')" />
                                                     </div>
                                                 </div>
                                             </div>
