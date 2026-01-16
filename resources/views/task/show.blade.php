@@ -23,7 +23,8 @@
                                 $tags = App\Models\Tag::all();
                             @endphp
                             <select name="tag_id" onchange="document.getElementById('filterForm').submit()"
-                                class="block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300">
+                                class="block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300"
+                                style="width: 120px;">
                                 <option value="">All Tags</option>
                                 @foreach ($tags as $tag)
                                     <option value="{{ $tag->id }}"

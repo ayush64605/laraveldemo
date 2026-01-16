@@ -129,7 +129,8 @@
                     <tr>
                         <td class="px-6 py-4 font-medium"><b>Project Image :</b></td>
                         <td class="px-6 py-4">
-                            <img src="{{ asset('storage/' . $project['image']) }}" class="h-28 rounded-lg shadow">
+                            <img src="{{ $project->image ? asset('storage/' . $project->image->url) : '' }}"
+                                class="h-28 rounded-lg shadow">
                         </td>
                     </tr>
 

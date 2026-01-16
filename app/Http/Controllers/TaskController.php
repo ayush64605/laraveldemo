@@ -10,14 +10,20 @@ class TaskController extends Controller
 {
     public function show(Request $request, $project)
     {
-        $tasks = Task::with('comments')->where("project_id", $project)->get();
+        $query = Task::with('comments')->where("project_id", $project);
 
         if ($request->filled('tag_id')) {
-            $tasks = Tag::where('id', $request->tag_id)->first()->tasks;
+            $query->whereHas('tags', function ($q) use ($request) {
+                $q->where('tags.id', $request->tag_id);
+            });
         }
+
+        $tasks = $query->get();
 
         return view("task.show", compact("tasks", 'project'));
     }
+
+
 
     public function add($project)
     {

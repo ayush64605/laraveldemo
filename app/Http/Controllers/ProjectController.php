@@ -35,6 +35,10 @@ class ProjectController extends Controller
     public function add()
     {
         $last_project = Project::orderBy('id', 'desc')->first();
+        if (!$last_project) {
+            $last_project = new Project();
+            $last_project->id = 0;
+        }
         $projectcategories = Projectcategory::orderBy('id', 'desc')->get();
         return view("project.add", compact('last_project', 'projectcategories'));
     }

@@ -2,16 +2,17 @@
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
-            <div class="flex items-center">
-                <!-- Logo -->
-                <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
-                    </a>
-                </div>
+            @if (Auth::user())
+                <div class="flex items-center">
+                    <!-- Logo -->
+                    <div class="shrink-0 flex items-center">
+                        <a href="{{ route('dashboard') }}">
+                            <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                        </a>
+                    </div>
 
-                <!-- Navigation Links -->
-                @if (Auth::user() && Auth::user()->role == 'admin')
+                    <!-- Navigation Links -->
+
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                         <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                             {{ __('Dashboard') }}
@@ -22,37 +23,48 @@
                             {{ __('Projects') }}
                         </x-nav-link>
                     </div>
-                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link :href="route('employee.show')" :active="request()->routeIs('employee.*')">
-                            {{ __('Employees') }}
-                        </x-nav-link>
-                    </div>
-                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link :href="route('user.show')" :active="request()->routeIs('user.*')">
-                            {{ __('Users') }}
-                        </x-nav-link>
-                    </div>
-                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link :href="route('tag.show')" :active="request()->routeIs('tag.*')">
-                            {{ __('Tags') }}
-                        </x-nav-link>
-                    </div>
-                @else
-                    <div class="flex lg:flex-1 justify-end items-center">
-                        <p class="text-md/6 font-semibold text-black"> Welcome,
-                            {{ session()->get('employeedata')->name }}
-                        </p>
-                    </div>
-                    &nbsp;&nbsp;
-                    <a href="{{ route('employee.logout') }}"> <x-danger-button
-                            class="ms-3">{{ __('Logout') }}</x-danger-button></a>
-                @endif
+                    @if (Auth::user()->role == 'admin')
+                        <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                            <x-nav-link :href="route('employee.show')" :active="request()->routeIs('employee.*')">
+                                {{ __('Employees') }}
+                            </x-nav-link>
+                        </div>
+                        <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                            <x-nav-link :href="route('user.show')" :active="request()->routeIs('user.*')">
+                                {{ __('Users') }}
+                            </x-nav-link>
+                        </div>
+                        <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                            <x-nav-link :href="route('tag.show')" :active="request()->routeIs('tag.*')">
+                                {{ __('Tags') }}
+                            </x-nav-link>
+                        </div>
+                    @endif
 
-            </div>
+                </div>
+            @else
+                <!-- Logo -->
+                <div class="shrink-0 flex items-center">
+                    <a href="{{ route('dashboard') }}">
+                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                    </a>
+                </div>
+                <div class="flex lg:flex-1 justify-end items-center">
+                    <p class="text-md/6 font-semibold text-black"> Welcome,
+                        {{ session()->get('employeedata')->name }}
+                    </p>
+                </div>
+                &nbsp;&nbsp;
+                <a href="{{ route('employee.logout') }}" style="align-self: center"> <x-danger-button
+                        class="ms-3">{{ __('Logout') }}</x-danger-button></a>
+            @endif
+
 
             <!-- Settings Dropdown -->
             @if (Auth::user())
                 <div class="hidden sm:flex sm:items-center sm:ms-6">
+                    <img src="{{ Auth::user()->image ? asset('storage/' . Auth::user()->image->url) : asset('assets/images/user.png') }}"
+                        alt="" width="40">
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             <button
