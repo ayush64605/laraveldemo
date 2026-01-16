@@ -30,6 +30,7 @@
                             <a href="{{ route('employee.show') }}"
                                 class="text-sm/6 font-semibold text-white">Employees</a>
                             <a href="{{ route('user.show') }}" class="text-sm/6 font-semibold text-white">Users</a>
+                            <a href="{{ route('tag.show') }}" class="text-sm/6 font-semibold text-white">Tags</a>
                         @endif
                         <a href="{{ route('logout') }}"> <x-button type="button" color="bg-orange-600" text="Logout"
                                 icon="sign-out" /> </a>

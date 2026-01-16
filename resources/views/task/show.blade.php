@@ -16,6 +16,24 @@
         </div>
         @if (Auth::user())
             <div class="flex items-center justify-end">
+                <form action="{{ route('project.task.show', ['project' => $project]) }}" method="GET" id="filterForm">
+                    <div>
+                        @php
+                            $tags = App\Models\Tag::all();
+                        @endphp
+                        <select name="tag_id" onchange="document.getElementById('filterForm').submit()"
+                            class="block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300">
+                            <option value="">All Tags</option>
+                            @foreach ($tags as $tag)
+                                <option value="{{ $tag->id }}"
+                                    {{ request('tag_id') == $tag->id ? 'selected' : '' }}>
+                                    {{ $tag->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </form>
+
                 <div class="p-4 md:p-6">
                     <a href="{{ route('project.task.add', ['project' => $project]) }}"
                         class="text-sm/6 font-semibold text-white"><x-button type="button" icon="plus"

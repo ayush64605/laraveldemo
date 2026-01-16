@@ -245,6 +245,31 @@
                     @enderror
                 </div>
 
+                <div>
+                    <label class="block text-sm font-medium text-gray-900">Tags</label>
+                    @php
+                        $tags = App\Models\Tag::all();
+                        if (isset($project)) {
+                            $sel = $project->tags->pluck('id')->toArray();
+                        } else {
+                            $sel = [];
+                        }
+                    @endphp
+                    <div class="grid grid-cols-2 gap-2 mt-2">
+                        @foreach ($tags as $t)
+                            <label class="flex items-center gap-2 text-sm">
+                                <input type="checkbox" name="tags[]" value="{{ $t->id }}"
+                                    @checked(in_array($t->id, old('tags', $sel)))> {{ $t->name }}
+                            </label>
+                        @endforeach
+                    </div>
+                    @error('tags')
+                        <span class="text-red-600 text-sm">{{ $message }}</span>
+                    @enderror
+                </div>
+
+
+
                 <div class="md:col-span-3">
                     <label class="block text-sm font-medium text-gray-900">Description</label>
                     <textarea name="description" rows="3" placeholder="Enter Description"
@@ -347,8 +372,8 @@
             </div>
 
             <div class="mt-8 flex justify-end gap-4">
-                <a href="{{ route('project.show') }}"> <x-button type="button" color="bg-orange-600" text="Cancel"
-                        icon="cancel" />
+                <a href="{{ route('project.show') }}"> <x-button type="button" color="bg-orange-600"
+                        text="Cancel" icon="cancel" />
                 </a>
                 </a>
                 <x-button type="submit" color="bg-indigo-600" text="Save Project" icon="save" /> </a>

@@ -16,6 +16,24 @@
         </div>
         @if (Auth::user()->role == 'admin')
             <div class="flex items-center justify-end">
+                <form action="{{ route('project.show') }}" method="GET" id="filterForm">
+                    <div>
+                        @php
+                            $tags = App\Models\Tag::all();
+                        @endphp
+                        <select name="tag_id" onchange="document.getElementById('filterForm').submit()"
+                            class="block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300">
+                            <option value="">All Tags</option>
+                            @foreach ($tags as $tag)
+                                <option value="{{ $tag->id }}"
+                                    {{ request('tag_id') == $tag->id ? 'selected' : '' }}>
+                                    {{ $tag->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </form>
+
                 <div>
                     <div class="p-2">
                         <a href="{{ route('project.add') }}" class="text-sm/6 font-semibold text-white"><x-button
@@ -124,7 +142,8 @@
                                                 class="text-sm/6 font-semibold text-white"><x-button type="button"
                                                     icon="edit" color="bg-indigo-600" text="Edit" /></a>
 
-                                            <x-button type="button" color="bg-orange-600" text="Delete" icon="trash"
+                                            <x-button type="button" color="bg-orange-600" text="Delete"
+                                                icon="trash"
                                                 onclick="document.getElementById('deleteModal-{{ $project['id'] }}').classList.remove('hidden')" />
 
                                             <div id="deleteModal-{{ $project['id'] }}"

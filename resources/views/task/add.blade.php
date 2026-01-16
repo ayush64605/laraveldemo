@@ -25,18 +25,35 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-900">Task<span class="text-red-600">*</span>
                     </label>
-                    <input type="text" name="task" value="{{ old('name') }}"
-                        placeholder="Enter Task name"
+                    <input type="text" name="task" value="{{ old('name') }}" placeholder="Enter Task name"
                         class="mt-2 block w-full rounded-md bg-white px-3 py-2 outline outline-1 outline-gray-300 focus:outline-indigo-600">
                     @error('task')
                         <span class="text-red-600 text-sm">{{ $message }}</span>
                     @enderror
                 </div>
 
+                <div>
+                    <label class="block text-sm font-medium text-gray-900">Tags</label>
+                    @php
+                        $tags = App\Models\Tag::all();
+                    @endphp
+                    <div class="grid grid-cols-2 gap-2 mt-2">
+                        @foreach ($tags as $t)
+                            <label class="flex items-center gap-2 text-sm">
+                                <input type="checkbox" name="tags[]" value="{{ $t->id }}"> {{ $t->name }}
+                            </label>
+                        @endforeach
+                    </div>
+                    @error('tags')
+                        <span class="text-red-600 text-sm">{{ $message }}</span>
+                    @enderror
+            </div>
+
             </div>
 
             <div class="mt-8 flex justify-end gap-4">
-                <a href="{{ route('index') }}"> <x-button type="button" color="bg-orange-600" text="Cancel" icon="cancel" />
+                <a href="{{ route('index') }}"> <x-button type="button" color="bg-orange-600" text="Cancel"
+                        icon="cancel" />
                 </a>
                 </a>
                 <x-button type="submit" color="bg-indigo-600" text="Save Task" icon="save" /> </a>

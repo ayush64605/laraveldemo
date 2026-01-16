@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePostRequest;
 use App\Models\Project;
 use App\Models\Projectcategory;
+use App\Models\Tag;
 use Storage;
 use Illuminate\Http\Request;
 
@@ -19,11 +20,17 @@ class ProjectController extends Controller
         $taskbycategory = Projectcategory::with('getTask')->get();
         return view("index", compact('projects', 'latestprojects', 'largestprojects', 'latesttask', 'taskbycategory'));
     }
-    public function show()
+    public function show(Request $request)
     {
-        $projects = Project::with('category', 'users')->get();
-        return view("project.show", compact('projects'));
+        $projects = Project::all();
+
+        if ($request->filled('tag_id')) {
+            $projects = Tag::where('id', $request->tag_id)->first()->projects;
+        }
+
+        return view('project.show', compact('projects'));
     }
+
 
     public function add()
     {
@@ -127,6 +134,8 @@ class ProjectController extends Controller
         $project->client_website = $request->client_website;
         $project->client_address = $request->client_address;
         $project->save();
+
+        $project->tags()->sync($request->tags ?? []);
 
 
         if (!$index) {

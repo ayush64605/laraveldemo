@@ -7,6 +7,7 @@ use App\Http\Controllers\EmployeeProjectController;
 use App\Http\Controllers\ProjectcategoryController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectuserController;
+use App\Http\Controllers\TagController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\AuthCheck;
@@ -54,6 +55,13 @@ Route::middleware(AuthCheck::class)->group(function () {
         Route::post('save/', [EmployeeController::class, 'save'])->name('save');
         Route::get('update/{employee}', [EmployeeController::class, 'update'])->name('update');
         Route::get('delete/{employee}', [EmployeeController::class, 'delete'])->name('delete');
+    });
+
+    Route::prefix('tag')->name('tag.')->group(function () {
+        Route::get('show/', [TagController::class, 'show'])->name('show');
+        Route::get('add/', [TagController::class, 'add'])->name('add');
+        Route::post('save/', [TagController::class, 'save'])->name('save');
+        Route::get('delete/{tag}', [TagController::class, 'delete'])->name('delete');
     });
 
     Route::prefix('user')->name('user.')->group(function () {
@@ -106,8 +114,5 @@ Route::middleware(Employee::class)->group(function () {
     Route::prefix('employee')->name('employee.')->group(function () {
         Route::get('index', [EmployeeController::class, 'index'])->name('index');
     });
-
-
-
 });
 

@@ -2,14 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tag;
 use App\Models\Task;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-    public function show($project)
+    public function show(Request $request, $project)
     {
         $tasks = Task::with('comments')->where("project_id", $project)->get();
+
+        if ($request->filled('tag_id')) {
+            $tasks = Tag::where('id', $request->tag_id)->first()->tasks;
+        }
+
         return view("task.show", compact("tasks", 'project'));
     }
 
@@ -28,6 +34,9 @@ class TaskController extends Controller
         $task->project_id = $request->project_id;
         $task->task = $request->task;
         $task->save();
+
+        $task->tags()->sync($request->tags ?? []);
+
         return redirect()->route('project.task.show', ['project' => $request->project_id])->with('success', 'Task added successfully.');
     }
 
