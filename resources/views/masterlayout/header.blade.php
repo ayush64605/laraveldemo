@@ -32,7 +32,7 @@
                             <a href="{{ route('user.show') }}" class="text-sm/6 font-semibold text-white">Users</a>
                             <a href="{{ route('tag.show') }}" class="text-sm/6 font-semibold text-white">Tags</a>
                         @endif
-                        <a href="{{ route('logout') }}"> <x-button type="button" color="bg-orange-600" text="Logout"
+                        <a href="{{ route('logout') }}"> <x-button type="button" color="bg-red-600" text="Logout"
                                 icon="sign-out" /> </a>
                     </el-popover-group>
                 </div>
@@ -50,7 +50,7 @@
                     </p>
                 </div>
                 &nbsp;&nbsp;
-                <a href="{{ route('employee.logout') }}"> <x-button type="button" color="bg-orange-600" text="Logout"
+                <a href="{{ route('employee.logout') }}"> <x-button type="button" color="bg-red-600" text="Logout"
                         icon="sign-out" /> </a>
             @endif
         </nav>

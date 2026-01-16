@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EmployeeProjectController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectcategoryController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectuserController;
@@ -19,11 +21,24 @@ use Illuminate\Support\Facades\Route;
 // });
 
 //////////////// Auth //////////////////
-Route::get("/", [AuthController::class, "login"])->name('login');
-Route::get("/register", [AuthController::class, "register"])->name('register');
-Route::post("/loginprocess", [AuthController::class, "loginprocess"])->name("loginprocess");
-Route::post("/registerprocess", [AuthController::class, "registerprocess"])->name("registerprocess");
-Route::get("/logout", [AuthController::class, "logout"])->name("logout");
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::get('/dashboard', [AuthenticatedSessionController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+// Route::get("/", [AuthController::class, "login"])->name('login');
+// Route::get("/register", [AuthController::class, "register"])->name('register');
+// Route::post("/loginprocess", [AuthController::class, "loginprocess"])->name("loginprocess");
+// Route::post("/registerprocess", [AuthController::class, "registerprocess"])->name("registerprocess");
+// Route::get("/logout", [AuthController::class, "logout"])->name("logout");
 
 
 Route::middleware(AuthCheck::class)->group(function () {
@@ -115,4 +130,7 @@ Route::middleware(Employee::class)->group(function () {
         Route::get('index', [EmployeeController::class, 'index'])->name('index');
     });
 });
+
+
+require __DIR__ . '/auth.php';
 
