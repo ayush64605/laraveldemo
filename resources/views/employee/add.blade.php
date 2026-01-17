@@ -9,7 +9,7 @@
                 @csrf
 
                 <h2 class="text-lg font-semibold text-gray-900">
-                    Assign Project
+                    Employee
                 </h2>
 
                 @if (session('error'))
