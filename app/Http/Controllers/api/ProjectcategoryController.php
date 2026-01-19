@@ -14,10 +14,15 @@ class ProjectcategoryController extends Controller
         return response()->json($projectcategories);
     }
 
-    public function delete(Projectcategory $projectcategory)
+    public function delete($projectcategory)
     {
-        $projectcategory->delete();
-        return response()->json(["message" => "Category Deleted Successfully"], 200);
+        try {
+            $projectcategory = Projectcategory::findOrFail($projectcategory);
+            $projectcategory->delete();
+            return response()->json(["message" => "Category Deleted Successfully"], 200);
+        } catch (\Exception $e) {
+            return response()->json(["message" => "Error in deleting category"], 500);
+        }
     }
 
     public function save(Request $request)

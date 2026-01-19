@@ -11,19 +11,23 @@ class CommentController extends Controller
 {
     public function save(Request $request)
     {
-        $request->validate([
-            'comment' => 'required'
+        try {
+            $request->validate([
+                'comment' => 'required'
 
-        ]);
+            ]);
 
-        if ($request->task) {
-            $task = Task::find($request->task);
-            $task->comments()->create(['body' => $request->comment, 'employee_id' => 2]);
-        }
+            if ($request->task) {
+                $task = Task::findOrFail($request->task);
+                $task->comments()->create(['body' => $request->comment, 'employee_id' => 2]);
+            }
 
-        if ($request->project) {
-            $project = Project::find($request->project);
-            $project->comments()->create(['body' => $request->comment, 'employee_id' => 2]);
+            if ($request->project) {
+                $project = Project::findOrFail($request->project);
+                $project->comments()->create(['body' => $request->comment, 'employee_id' => 2]);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'An error occurred while adding the comment.'], 500);
         }
 
         return response()->json(['message' => 'Comment Added Successfully'], 200);

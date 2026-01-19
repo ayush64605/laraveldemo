@@ -12,8 +12,12 @@ class EmployeeProjectController extends Controller
 {
     public function show($id)
     {
-        $employee = Employee::with('projects')->findOrFail($id);
-        return response()->json($employee);
+        try {
+            $employee = Employee::with('projects')->findOrFail($id);
+            return response()->json($employee);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Employee not found'], 404);
+        }
     }
 
     public function save(Request $request, $employee)
@@ -40,11 +44,15 @@ class EmployeeProjectController extends Controller
 
     public function delete($employee, $project)
     {
-        $employeeproject = EmployeeProject::where('employee_id', $employee)->where('project_id', $project)->first();
-        $employeeproject->delete();
-        return response()->json([
-            'message' => 'Assignment deleted successfully!'
-        ], 200);
+        try {
+            $employeeproject = EmployeeProject::where('employee_id', $employee)->where('project_id', $project)->first();
+            $employeeproject->delete();
+            return response()->json([
+                'message' => 'Assignment deleted successfully!'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'An error occurred or assignment not found.'], 500);
+        }
     }
 
 }

@@ -42,11 +42,16 @@ class EmployeeController extends Controller
         ], 200);
     }
 
-    public function delete(Employee $employee)
+    public function delete($id)
     {
-        $employee->delete();
-        return response()->json([
-            'message' => 'Employee Deleted Successfully'
-        ], 200);
+        try {
+            $employee = Employee::findOrFail($id);
+            $employee->delete();
+
+            return response()->json(['message' => 'Employee Deleted Successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'An error occurred or employee not found.'], 500);
+        }
     }
+
 }
