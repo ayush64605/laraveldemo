@@ -11,15 +11,6 @@ use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
-    public function index()
-    {
-        $projects = Project::all();
-        $latestprojects = Projectcategory::with('latestProject')->get();
-        $largestprojects = Projectcategory::with('largestProject')->get();
-        $latesttask = Project::with('latestTask')->get();
-        $taskbycategory = Projectcategory::with('getTask')->get();
-        return view("index", compact('projects', 'latestprojects', 'largestprojects', 'latesttask', 'taskbycategory'));
-    }
     public function show(Request $request)
     {
         $projects = Project::all();

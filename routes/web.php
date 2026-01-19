@@ -34,12 +34,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Route::get("/", [AuthController::class, "login"])->name('login');
-// Route::get("/register", [AuthController::class, "register"])->name('register');
-// Route::post("/loginprocess", [AuthController::class, "loginprocess"])->name("loginprocess");
-// Route::post("/registerprocess", [AuthController::class, "registerprocess"])->name("registerprocess");
-// Route::get("/logout", [AuthController::class, "logout"])->name("logout");
-
 
 Route::middleware(AuthCheck::class)->group(function () {
 
@@ -112,13 +106,9 @@ Route::prefix('project/task')->name('project.task.')->group(function () {
 });
 
 Route::prefix('comment')->name('comment.')->group(function () {
-    Route::get('show/{post}', [CommentController::class, 'show'])->name('show');
-    Route::get('/task/show/{post}', [CommentController::class, 'taskcommnetshow'])->name('task.show');
     Route::get('task/add/{post}', [CommentController::class, 'addcommenttask'])->name('task.add');
     Route::get('project/add/{post}', [CommentController::class, 'addcommentproject'])->name('project.add');
     Route::post('save/', [CommentController::class, 'save'])->name('save');
-    Route::get('update/{post}', [CommentController::class, 'update'])->name('update');
-    Route::get('delete/{post}', [CommentController::class, 'delete'])->name('delete');
 });
 
 Route::get("/employee/login", [EmployeeController::class, "login"])->name('employee.login');
