@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\api\AuthController;
+use App\Http\Controllers\api\ClientController;
 use App\Http\Controllers\api\CommentController;
 use App\Http\Controllers\api\EmployeeProjectController;
 use App\Http\Controllers\api\ProjectcategoryController;
@@ -70,4 +71,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('save/', [TaskController::class, 'save'])->name('save');
         Route::get('delete/{task}', [TaskController::class, 'delete'])->name('delete');
     });
+});
+
+Route::prefix('client')->name('client.api.')->group(function () {
+    Route::get('show/', [ClientController::class, 'show'])->name('show');
+    Route::get('delete/{client}', [ClientController::class, 'delete'])->name('delete');
 });

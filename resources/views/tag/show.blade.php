@@ -16,8 +16,45 @@
             </div>
             <div class="flex items-center justify-end">
                 <div class="p-4 md:p-6">
-                    <a href="{{ route('tag.add') }}" class="text-sm/6 font-semibold text-white"><x-button type="button"
-                            icon="plus" color="bg-indigo-600" text="Add Tag" /></a>
+                    <x-button type="button" icon="plus" color="bg-indigo-600" text="Add Tag"
+                        onclick="document.getElementById('addModal').classList.remove('hidden')" />
+                </div>
+                <div id="addModal"
+                    class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/50">
+                    <div class="bg-white rounded-lg shadow-xl w-full max-w-md p-6 text-left">
+                        <form action="{{ route('tag.save') }}" method="POST"
+                            enctype="multipart/form-data">
+                            @csrf
+
+                            <h2 class="text-lg font-semibold text-gray-900">
+                                Add Tag
+                            </h2>
+
+                            <div class="grid grid-cols-1 md:grid-cols-1 gap-6 mt-4">
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-900">Tag Name <span
+                                            class="text-red-600">*</span>
+                                    </label>
+                                    <input type="text" name="name" value="{{ old('name') }}"
+                                        placeholder="Enter Tag name"
+                                        class="border-gray-300 w-full focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm ">
+                                    @error('name')
+                                        <span class="text-red-600 text-sm">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                            </div>
+
+                            <div class="mt-8 flex justify-end gap-4">
+                                <a href="{{ route('index') }}"> <x-button type="button" color="bg-red-600"
+                                        text="Cancel" icon="cancel" />
+                                </a>
+                                </a>
+                                <x-button type="submit" color="bg-indigo-600" text="Save Tag" icon="save" /> </a>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

@@ -16,11 +16,6 @@ class EmployeeController extends Controller
         return view("employee.show", compact("employees"));
     }
 
-    public function add()
-    {
-        return view("employee.add");
-    }
-
     public function save(Request $request)
     {
         $request->validate([
@@ -41,12 +36,13 @@ class EmployeeController extends Controller
         $employee->email = $request->email;
         $employee->number = $request->number;
         $employee->save();
-        return redirect()->route('employee.show')->with('success', 'Employee Added Successfully!');
-    }
 
-    public function update(Employee $employee)
-    {
-        return view("employee.add", compact('employee'));
+        if ($index) {
+            $msg = 'Employee Updated Successfully';
+        } else {
+            $msg = 'Employee Added Successfully!';
+        }
+        return redirect()->route('employee.show')->with('success', $msg);
     }
 
     public function delete(Employee $employee)

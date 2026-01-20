@@ -53,7 +53,6 @@ class ProjectController extends Controller
 
     public function delete(Project $project)
     {
-        Storage::disk('public')->delete($project->id);
         if ($project->image) {
             Storage::disk('public')->delete($project->image->url);
             $project->image->delete();

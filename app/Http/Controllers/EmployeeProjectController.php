@@ -12,13 +12,8 @@ class EmployeeProjectController extends Controller
     public function show($id)
     {
         $employee = Employee::with('projects')->findOrFail($id);
-        return view('employee_project.show', compact('employee'));
-    }
-
-    public function add($employee)
-    {
         $projects = Project::all();
-        return view('employee_project.add', compact('employee', 'projects'));
+        return view('employee_project.show', compact('employee','projects'));
     }
 
     public function save(Request $request, $employee)
@@ -39,7 +34,7 @@ class EmployeeProjectController extends Controller
         return redirect()->route('employee-project.show', ['employee' => $employee])->with('success', 'Project Assign Successfully!');
     }
 
-    public function assigndelete($employee, $project)
+    public function delete($employee, $project)
     {
         $employeeproject = EmployeeProject::where('employee_id', $employee)->where('project_id', $project)->first();
         $employeeproject->delete();

@@ -33,8 +33,12 @@ class ProjectuserController extends Controller
 
     public function delete($project)
     {
-        $projectuser = Projectuser::where('project_id', $project)->first();
-        $projectuser->delete();
-        return response()->json(['message' => 'Project User Deleted Successfully.'], 200);
+        try {
+            $projectuser = Projectuser::where('project_id', $project)->first();
+            $projectuser->delete();
+            return response()->json(['message' => 'Project User Deleted Successfully.'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'An error occurred or project user not found.'], 500);
+        }
     }
 }

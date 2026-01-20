@@ -19,12 +19,10 @@ class TaskController extends Controller
 
     public function save(Request $request)
     {
+        $request->validate([
+            'task' => 'required',
+        ]);
         try {
-            $request->validate([
-                'task' => 'required',
-            ]);
-
-            $project = Project::find($request->project_id);
 
             $task = new Task();
             $task->project_id = $request->project_id;

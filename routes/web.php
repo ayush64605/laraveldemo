@@ -56,19 +56,14 @@ Route::middleware(AuthCheck::class)->group(function () {
         Route::get('delete/{project}', [ProjectuserController::class, 'delete'])->name('delete');
     });
 
-
-
     Route::prefix('employee')->name('employee.')->group(function () {
         Route::get('show/', [EmployeeController::class, 'show'])->name('show');
-        Route::get('add/', [EmployeeController::class, 'add'])->name('add');
         Route::post('save/', [EmployeeController::class, 'save'])->name('save');
-        Route::get('update/{employee}', [EmployeeController::class, 'update'])->name('update');
         Route::get('delete/{employee}', [EmployeeController::class, 'delete'])->name('delete');
     });
 
     Route::prefix('tag')->name('tag.')->group(function () {
         Route::get('show/', [TagController::class, 'show'])->name('show');
-        Route::get('add/', [TagController::class, 'add'])->name('add');
         Route::post('save/', [TagController::class, 'save'])->name('save');
         Route::get('delete/{tag}', [TagController::class, 'delete'])->name('delete');
     });
@@ -83,7 +78,6 @@ Route::middleware(AuthCheck::class)->group(function () {
 
     Route::prefix('employee_project')->name('employee-project.')->group(function () {
         Route::get('show/{employee}', [EmployeeProjectController::class, 'show'])->name('show');
-        Route::get('add/{employee}', [EmployeeProjectController::class, 'add'])->name('add');
         Route::post('save/{employee}', [EmployeeProjectController::class, 'save'])->name('save');
         Route::get('delete/{employee}/{project}', [EmployeeProjectController::class, 'delete'])->name('delete');
     });
