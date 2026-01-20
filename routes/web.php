@@ -116,5 +116,29 @@ Route::middleware(Employee::class)->group(function () {
 });
 
 
+Route::prefix('setting')->group(function () {
+
+    Route::get('/general', function () {
+        return view('setting.setting');
+    })->name('general');
+
+    Route::get('/lemon', function () {
+        return view('setting.lemon');
+    })->name('lemon');
+
+    Route::get('/email', function () {
+        return view('setting.email');
+    })->name('email');
+
+    Route::get('/captcha', function () {
+        return view('setting.setting');
+    })->name('captcha');
+
+    Route::get('/slack', function () {
+        return view('setting.setting');
+    })->name('slack');
+
+});
+
 require __DIR__ . '/auth.php';
 

@@ -22,7 +22,7 @@ class ClientController extends Controller
             ->when($request->city, function ($query, $city) {
                 return $query->where('city', $city);
             })
-            ->paginate(15);
+            ->paginate(16);
 
         return response()->json($clients);
     }
