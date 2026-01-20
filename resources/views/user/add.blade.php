@@ -1,11 +1,11 @@
 @section('title', 'User')
 
-<x-app-layout>
+<x-pannel-layout>
 
-    <section class="flex justify-center gap-4 mt-5">
-        <div class="border-2 border-stone-200 rounded-lg p-10 shadow-xl">
+    <section>
+        <div>
 
-            <form class="w-[500px]" action="{{ route('user.save') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('user.save') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <h2 class="text-lg font-semibold text-gray-900">
@@ -98,4 +98,4 @@
         </div>
     </section>
 
-</x-app-layout>
+</x-pannel-layout>

@@ -1,12 +1,11 @@
 @section('title', 'Project Category Form')
 
-<x-app-layout>
+<x-pannel-layout>
 
-    <section class="flex justify-center gap-4 mt-5">
-        <div class="border-2 border-stone-200 rounded-lg p-10 shadow-xl">
+    <section>
+        <div>
 
-            <form class="w-[500px]" action="{{ route('projectcategory.save') }}" method="POST"
-                enctype="multipart/form-data">
+            <form action="{{ route('projectcategory.save') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <input type="hidden" name="id" value="{{ $projectcategory['id'] ?? $last_projectcategory->id + 1 }}">
@@ -40,8 +39,8 @@
                 </div>
 
                 <div class="mt-8 flex justify-end gap-4">
-                    <a href="{{ route('index') }}"> <x-button type="button" color="bg-red-600" text="Cancel"
-                            icon="cancel" />
+                    <a href="{{ route('projectcategory.show') }}"> <x-button type="button" color="bg-red-600"
+                            text="Cancel" icon="cancel" />
                     </a>
                     </a>
                     <x-button type="submit" color="bg-indigo-600" text="Save Project Category" icon="save" /> </a>
@@ -50,4 +49,4 @@
         </div>
     </section>
 
-</x-app-layout>
+</x-pannel-layout>

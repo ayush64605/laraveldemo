@@ -1,5 +1,5 @@
 @section('title', 'Project Details')
-<x-app-layout>
+<x-pannel-layout>
 
     <div
         class="max-w-[60rem] shadow-xl border-2 border-solid rounded-lg border-stone-200 mt-10 px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
@@ -186,4 +186,4 @@
 
     </div>
 
-</x-app-layout>
+</x-pannel-layout>

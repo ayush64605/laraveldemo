@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
@@ -17,27 +17,106 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
+
+    <style type="text/css">
+        body {
+            font-family: "Figtree", ui-sans-serif, system-ui, sans-serif;
+        }
+
+        .sidebar .active {
+            background-color: #ff010113;
+            color: red;
+            border-left: 2px solid red;
+            border-radius: 0px 5px 5px 0px;
+        }
+    </style>
+
 </head>
 
-<body class="font-sans antialiased">
-    <div class="min-h-screen bg-white">
-        @include('layouts.navigation')
+<body>
+    <div class="min-h-screen  flex">
+        <aside class="border-r border-solid border-gray-200 w-2/15">
+            <div class="border-b border-gray-300 flex justify-left h-fit gap-3 w-full p-3" style="margin-top: 4px">
+                <p class="p-2 text-black font-bold">PMS</p>
+            </div>
+            <div class="p-4 sidebar">
+                <a href="{{ route('dashboard') }}">
+                    <div
+                        class="flex gap-2 items-center text-gray-500 mt-4 text-sm p-2 {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                        <i class="fa fa-home" aria-hidden="true"></i>
+                        <h1>Dashboard</h1>
+                    </div>
+                </a>
+                <a href="{{ route('project.show') }}">
+                    <div
+                        class="flex gap-2 items-center text-gray-500 mt-2 text-sm p-2 {{ request()->is('project/*') ? 'active' : '' }}">
+                        <i class="fa-solid fa-diagram-project"></i>
+                        <h1>Projects</h1>
+                    </div>
+                </a>
+                @if (Auth::user() && Auth::user()->role == 'admin')
+                    <a href="{{ route('employee.show') }}">
+                        <div
+                            class="flex gap-2 items-center text-gray-500 mt-2 text-sm p-2 {{ request()->is('employee/*') ? 'active' : '' }}">
+                            <i class="fa-solid fa-briefcase"></i>
+                            <h1>Employees</h1>
+                        </div>
+                    </a>
+                    <a href="{{ route('user.show') }}">
+                        <div
+                            class="flex gap-2 items-center text-gray-500 mt-2 text-sm p-2 {{ request()->is('user/*') ? 'active' : '' }}">
+                            <i class="fa-solid fa-users"></i>
+                            <h1>Users</h1>
+                        </div>
+                    </a>
+                    <a href="{{ route('tag.show') }}">
+                        <div
+                            class="flex gap-2 items-center text-gray-500 mt-2 text-sm p-2 {{ request()->is('tag/*') ? 'active' : '' }}">
+                            <i class="fa-solid fa-tag"></i>
+                            <h1>Tags</h1>
+                        </div>
+                    </a>
+                @endif
+                <a href="{{ route('general') }}">
+                    <div
+                        class="flex gap-2 items-center text-gray-500 text-sm mt-2 p-2 {{ request()->is('setting/*') ? 'active' : '' }}">
+                        <i class="fa fa-gear" aria-hidden="true"></i>
+                        <h1>Settings</h1>
+                    </div>
+                </a>
+            </div>
+        </aside>
 
-        <!-- Page Heading -->
-        @isset($header)
-            <header class="bg-white shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    {{ $header }}
-                </div>
+        <div class="flex flex-col flex-1">
+
+            <header class="border-b border-gray-300 flex justify-end h-fit gap-3 w-full p-3">
+                @if (Auth::user())
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+
+                        <x-responsive-nav-link :href="route('logout')"
+                            onclick="event.preventDefault();
+                                        this.closest('form').submit();">
+                            {{ __('Log Out') }}
+                        </x-responsive-nav-link>
+                    </form>
+                    <img src="{{ Auth::user()->image ? asset('storage/' . Auth::user()->image->url) : asset('assets/images/user.png') }}"
+                        alt="" width="40">
+                @else
+                    <a href="{{ route('employee.logout') }}"><button>Logout</button></a>
+                @endif
             </header>
-        @endisset
 
-        <!-- Page Content -->
-        <main class="bg-white">
-            {{ $slot }}
-        </main>
+            <main class="p-6">
+                {{ $slot }}
+            </main>
+
+        </div>
     </div>
 </body>
+
 
 </html>

@@ -1,8 +1,7 @@
 @section('title', 'Projects')
 
-<x-app-layout>
-    <div
-        class="max-w-[60rem] shadow-xl rounded-lg border-2 border-solid mt-10 border-stone-200 px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto ">
+<x-pannel-layout>
+    <div>
         <div class="grid sm:grid-cols-2 lg:grid-cols-2 gap-6">
             <div class=" flex">
                 <div class="p-4 md:p-6">
@@ -47,7 +46,7 @@
                             </div>
 
                             <div class="mt-8 flex justify-end gap-4">
-                                <a href="{{ route('index') }}"> <x-button type="button" color="bg-red-600"
+                                <a href="{{ route('tag.show') }}"> <x-button type="button" color="bg-red-600"
                                         text="Cancel" icon="cancel" />
                                 </a>
                                 </a>
@@ -142,4 +141,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+</x-pannel-layout>
