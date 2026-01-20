@@ -24,12 +24,6 @@ class TaskController extends Controller
     }
 
 
-
-    public function add($project)
-    {
-        return view('task.add', compact('project'));
-    }
-
     public function save(Request $request)
     {
         $request->validate([

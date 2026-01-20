@@ -15,10 +15,26 @@
             </div>
             <div class="flex items-center justify-end">
                 <div class="p-4 md:p-6">
-                    <a href="{{ route('projectcategory.add') }}" class="text-sm/6 font-semibold text-white"><x-button
-                            type="button" icon="plus" color="bg-indigo-600" text="Add Project Category" /></a>
+                    <x-button type="button" icon="plus" color="bg-indigo-600" text="Add Project Category"
+                        onclick="document.getElementById('addProjectCategoryModal').classList.remove('hidden')" />
                 </div>
+
+                <x-modal id="addProjectCategoryModal" title="Add Project Category"
+                    action="{{ route('projectcategory.save') }}">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-900">Project Category Name
+                            <span class="text-red-600">*</span>
+                        </label>
+                        <input type="text" name="name" value="{{ old('name') }}"
+                            placeholder="Enter project category name"
+                            class="border-gray-300 w-full focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm ">
+                        @error('name')
+                            <span class="text-red-600 text-sm">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </x-modal>
             </div>
+
         </div>
         @if (session('error'))
             <x-alert type="error" :message="session('error')" />
@@ -54,52 +70,76 @@
                                 @foreach ($projectcategories as $index => $projectcategory)
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
-                                            {{ $index + 1 }}</td>
+                                            {{ $index + 1 }}
+                                        </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
-                                            {{ $projectcategory['name'] }}</td>
+                                            {{ $projectcategory['name'] }}
+                                        </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
-                                            {{ count($projectcategory->projects) }}</td>
+                                            {{ count($projectcategory->projects) }}
+                                        </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
                                             @foreach ($projectcategory->projects as $project)
                                                 {{ $project->name }},
                                             @endforeach
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                                            <a href="{{ route('projectcategory.update', ['projectcategory' => $projectcategory['id']]) }}"
-                                                class="text-sm/6 font-semibold text-white"><x-button type="button"
-                                                    icon="edit" color="bg-indigo-600" text="Edit" /></a>
+                                            <!-- Edit Button -->
+                                            <x-button type="button" icon="edit" color="bg-indigo-600" text="Edit"
+                                                onclick="document.getElementById('editModal-{{ $projectcategory->id }}').classList.remove('hidden')" />
 
+                                            <!-- Delete Button -->
                                             <x-button type="button" color="bg-red-600" text="Delete" icon="trash"
-                                                onclick="document.getElementById('deleteModal-{{ $projectcategory['id'] }}').classList.remove('hidden')" />
+                                                onclick="document.getElementById('deleteModal-{{ $projectcategory->id }}').classList.remove('hidden')" />
 
-                                            <div id="deleteModal-{{ $projectcategory['id'] }}"
-                                                class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/50">
+                                            <!-- Edit Modal -->
+                                            <x-modal id="editModal-{{ $projectcategory->id }}" title="Edit Project Category"
+                                                action="{{ route('projectcategory.save') }}">
+                                                <input type="hidden" name="id" value="{{ $projectcategory->id }}">
 
-                                                <div
-                                                    class="bg-white rounded-lg shadow-xl w-full max-w-md p-6 text-left">
-                                                    <h3 class="text-lg font-semibold text-gray-900">
-                                                        Delete Project Category
-                                                    </h3>
-
-                                                    <p class="mt-2 text-sm text-gray-600">
-                                                        Are you sure you want to delete this project category? <br>If
-                                                        Yes then project also will delete of this categoty
-                                                    </p>
-
-                                                    <div class="mt-6 flex justify-end gap-3">
-                                                        <x-button type="button" color="bg-indigo-600" text="Cancel"
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-900">Project Category
+                                                        Name
+                                                        <span class="text-red-600">*</span>
+                                                    </label>
+                                                    <input type="text" name="name" value="{{ $projectcategory->name }}"
+                                                        placeholder="Enter project category name"
+                                                        class="border-gray-300 w-full focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm ">
+                                                    @error('name')
+                                                        <span class="text-red-600 text-sm">{{ $message }}</span>
+                                                    @enderror
+                                                    <div class="mt-8 flex justify-end gap-4">
+                                                        <x-button type="button" color="bg-red-600" text="Cancel"
                                                             icon="cancel"
-                                                            onclick="document.getElementById('deleteModal-{{ $projectcategory['id'] }}').classList.add('hidden')" />
-
-
-                                                        <a
-                                                            href="{{ route('projectcategory.delete', ['projectcategory' => $projectcategory['id']]) }}">
-                                                            <x-button type="button" color="bg-red-600"
-                                                                text="Yes, Delete" icon="trash" /> </a>
+                                                            onclick="document.getElementById('{{ $id }}').classList.add('hidden')" />
+                                                        <x-button type="submit" color="bg-indigo-600" text="Save"
+                                                            icon="save" />
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </x-modal>
+
+                                            <!-- Delete Modal -->
+                                            <x-modal id="deleteModal-{{ $projectcategory->id }}"
+                                                title="Delete Project Category" action="#">
+                                                <p class="mt-2 text-sm text-gray-600">
+                                                    Are you sure you want to delete this project category? <br>
+                                                    If yes, all projects under this category will also be deleted.
+                                                </p>
+
+                                                <div class="mt-6 flex justify-end gap-3">
+                                                    <x-button type="button" color="bg-indigo-600" text="Cancel"
+                                                        icon="cancel"
+                                                        onclick="document.getElementById('deleteModal-{{ $projectcategory->id }}').classList.add('hidden')" />
+
+                                                    <a
+                                                        href="{{ route('projectcategory.delete', ['projectcategory' => $projectcategory->id]) }}">
+                                                        <x-button type="button" color="bg-red-600" text="Yes, Delete"
+                                                            icon="trash" />
+                                                    </a>
+                                                </div>
+                                            </x-modal>
                                         </td>
+
                                     </tr>
                                 @endforeach
                             </tbody>

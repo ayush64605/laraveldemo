@@ -15,8 +15,7 @@
             </div>
             @if (Auth::user())
                 <div class="flex items-center justify-end">
-                    <form action="{{ route('project.task.show', ['project' => $project]) }}" method="GET"
-                        id="filterForm">
+                    <form action="{{ route('project.task.show', ['project' => $project]) }}" method="GET" id="filterForm">
                         <div>
                             @php
                                 $tags = App\Models\Tag::all();
@@ -26,8 +25,7 @@
                                 style="width: 120px;">
                                 <option value="">All Tags</option>
                                 @foreach ($tags as $tag)
-                                    <option value="{{ $tag->id }}"
-                                        {{ request('tag_id') == $tag->id ? 'selected' : '' }}>
+                                    <option value="{{ $tag->id }}" {{ request('tag_id') == $tag->id ? 'selected' : '' }}>
                                         {{ $tag->name }}
                                     </option>
                                 @endforeach
@@ -36,9 +34,61 @@
                     </form>
 
                     <div class="p-4 md:p-6">
-                        <a href="{{ route('project.task.add', ['project' => $project]) }}"
-                            class="text-sm/6 font-semibold text-white"><x-button type="button" icon="plus"
-                                color="bg-indigo-600" text="Add Tasks" /></a>
+                        <x-button type="button" icon="plus" color="bg-indigo-600" text="Add Tasks"  onclick="document.getElementById('addModal').classList.remove('hidden')"/>
+                    </div>
+
+                    <div id="addModal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/50">
+                        <div class="bg-white rounded-lg shadow-xl w-full max-w-md p-6 text-left">
+                            <form action="{{ route('project.task.save') }}" method="POST" enctype="multipart/form-data">
+                                @csrf
+
+                                <input type="hidden" name="project_id" value="{{ $project }}">
+
+                                <h2 class="text-lg font-semibold text-gray-900">
+                                    Add Task
+                                </h2>
+
+                                <div class="grid grid-cols-1 md:grid-cols-1 gap-6 mt-4">
+
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-900">Task<span
+                                                class="text-red-600">*</span>
+                                        </label>
+                                        <input type="text" name="task" value="{{ old('name') }}"
+                                            placeholder="Enter Task name"
+                                            class="border-gray-300 w-full focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm ">
+                                        @error('task')
+                                            <span class="text-red-600 text-sm">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-900">Tags</label>
+                                        @php
+                                            $tags = App\Models\Tag::all();
+                                        @endphp
+                                        <div class="grid grid-cols-2 gap-2 mt-2">
+                                            @foreach ($tags as $t)
+                                                <label class="flex items-center gap-2 text-sm">
+                                                    <input type="checkbox" name="tags[]" value="{{ $t->id }}">
+                                                    {{ $t->name }}
+                                                </label>
+                                            @endforeach
+                                        </div>
+                                        @error('tags')
+                                            <span class="text-red-600 text-sm">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+
+                                </div>
+
+                                <div class="mt-8 flex justify-end gap-4">
+                                    <x-button type="button" color="bg-red-600" text="Cancel" icon="cancel"
+                                        onclick="document.getElementById('addModal').classList.add('hidden')" />
+                                    <x-button type="submit" color="bg-indigo-600" text="Save Task" icon="save" /> </a>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             @endif
@@ -71,16 +121,16 @@
                                 @foreach ($tasks as $index => $task)
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
-                                            {{ $index + 1 }}</td>
+                                            {{ $index + 1 }}
+                                        </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
-                                            {{ $task['task'] }}</td>
+                                            {{ $task['task'] }}
+                                        </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
                                             @if (Auth::user())
-                                                <x-button type="button" icon="eye" color="bg-indigo-600"
-                                                    text="View Comments"
+                                                <x-button type="button" icon="eye" color="bg-indigo-600" text="View Comments"
                                                     onclick="document.getElementById('commentModal-{{ $task->id }}').classList.remove('hidden')" />
-                                                <x-button type="button" color="bg-red-600" text="Delete"
-                                                    icon="trash"
+                                                <x-button type="button" color="bg-red-600" text="Delete" icon="trash"
                                                     onclick="document.getElementById('deleteModal-{{ $task['id'] }}').classList.remove('hidden')" />
                                             @endif
                                             @if (session('employeedata'))
@@ -91,8 +141,7 @@
                                             <div id="deleteModal-{{ $task['id'] }}"
                                                 class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/50">
 
-                                                <div
-                                                    class="bg-white rounded-lg shadow-xl w-full max-w-md p-6 text-left">
+                                                <div class="bg-white rounded-lg shadow-xl w-full max-w-md p-6 text-left">
                                                     <h3 class="text-lg font-semibold text-gray-900">
                                                         Delete Task?
                                                     </h3>
@@ -109,16 +158,15 @@
 
                                                         <a
                                                             href="{{ route('project.task.delete', ['task' => $task['id']]) }}">
-                                                            <x-button type="button" color="bg-red-600"
-                                                                text="Yes, Delete" icon="trash" /> </a>
+                                                            <x-button type="button" color="bg-red-600" text="Yes, Delete"
+                                                                icon="trash" /> </a>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div id="commentModal-{{ $task['id'] }}"
                                                 class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/50">
 
-                                                <div
-                                                    class="bg-white rounded-lg shadow-xl w-full max-w-md p-6 text-left">
+                                                <div class="bg-white rounded-lg shadow-xl w-full max-w-md p-6 text-left">
                                                     <h3 class="text-lg font-semibold text-gray-900">
                                                         All Comments
                                                     </h3>

@@ -17,20 +17,14 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    {{--
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> --}}
 
-    {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style type="text/css">
         body {
             font-family: "Figtree", ui-sans-serif, system-ui, sans-serif;
-        }
-
-        .sidebar .active {
-            background-color: #ff010113;
-            color: red;
-            border-left: 2px solid red;
-            border-radius: 0px 5px 5px 0px;
         }
     </style>
 
@@ -38,57 +32,58 @@
 
 <body>
     <div class="min-h-screen  flex">
-        <aside class="border-r border-solid border-gray-200 w-2/15">
-            <div class="border-b border-gray-300 flex justify-left h-fit gap-3 w-full p-3" style="margin-top: 4px">
-                <p class="p-2 text-black font-bold">PMS</p>
+        <aside class="border-r border-gray-200 w-1/5 min-h-screen flex flex-col">
+            <div class="border-b border-gray-300 flex items-center h-16 px-4">
+                <p class="text-black font-bold text-lg">PMS</p>
             </div>
-            <div class="p-4 sidebar">
-                <a href="{{ route('dashboard') }}">
-                    <div
-                        class="flex gap-2 items-center text-gray-500 mt-4 text-sm p-2 {{ request()->routeIs('dashboard') ? 'active' : '' }}">
-                        <i class="fa fa-home" aria-hidden="true"></i>
-                        <h1>Dashboard</h1>
-                    </div>
+
+            <nav class="flex-1 p-4 space-y-2 sidebar">
+                <a href="{{ route('dashboard') }}"
+                    class="flex items-center gap-2 p-3 text-sm rounded
+           {{ request()->routeIs('dashboard') ? 'bg-red-50 text-red-600 border-l-2 border-red-600' : 'text-gray-500 hover:bg-gray-100' }}">
+                    <i class="fa fa-home"></i>
+                    <span>Dashboard</span>
                 </a>
-                <a href="{{ route('project.show') }}">
-                    <div
-                        class="flex gap-2 items-center text-gray-500 mt-2 text-sm p-2 {{ request()->is('project/*') ? 'active' : '' }}">
-                        <i class="fa-solid fa-diagram-project"></i>
-                        <h1>Projects</h1>
-                    </div>
+
+                <a href="{{ route('project.show') }}"
+                    class="flex items-center gap-2 p-3 text-sm rounded
+           {{ request()->is('project/*') ? 'bg-red-50 text-red-600 border-l-2 border-red-600' : 'text-gray-500 hover:bg-gray-100' }}">
+                    <i class="fa-solid fa-diagram-project"></i>
+                    <span>Projects</span>
                 </a>
-                @if (Auth::user() && Auth::user()->role == 'admin')
-                    <a href="{{ route('employee.show') }}">
-                        <div
-                            class="flex gap-2 items-center text-gray-500 mt-2 text-sm p-2 {{ request()->is('employee/*') ? 'active' : '' }}">
-                            <i class="fa-solid fa-briefcase"></i>
-                            <h1>Employees</h1>
-                        </div>
+
+                @if (Auth::user() && Auth::user()->role === 'admin')
+                    <a href="{{ route('employee.show') }}"
+                        class="flex items-center gap-2 p-3 text-sm rounded
+                           {{ request()->is('employee/*') ? 'bg-red-50 text-red-600 border-l-2 border-red-600' : 'text-gray-500 hover:bg-gray-100' }}">
+                        <i class="fa-solid fa-briefcase"></i>
+                        <span>Employees</span>
                     </a>
-                    <a href="{{ route('user.show') }}">
-                        <div
-                            class="flex gap-2 items-center text-gray-500 mt-2 text-sm p-2 {{ request()->is('user/*') ? 'active' : '' }}">
-                            <i class="fa-solid fa-users"></i>
-                            <h1>Users</h1>
-                        </div>
+
+                    <a href="{{ route('user.show') }}"
+                        class="flex items-center gap-2 p-3 text-sm rounded
+                           {{ request()->is('user/*') ? 'bg-red-50 text-red-600 border-l-2 border-red-600' : 'text-gray-500 hover:bg-gray-100' }}">
+                        <i class="fa-solid fa-users"></i>
+                        <span>Users</span>
                     </a>
-                    <a href="{{ route('tag.show') }}">
-                        <div
-                            class="flex gap-2 items-center text-gray-500 mt-2 text-sm p-2 {{ request()->is('tag/*') ? 'active' : '' }}">
-                            <i class="fa-solid fa-tag"></i>
-                            <h1>Tags</h1>
-                        </div>
+
+                    <a href="{{ route('tag.show') }}"
+                        class="flex items-center gap-2 p-3 text-sm rounded
+                           {{ request()->is('tag/*') ? 'bg-red-50 text-red-600 border-l-2 border-red-600' : 'text-gray-500 hover:bg-gray-100' }}">
+                        <i class="fa-solid fa-tag"></i>
+                        <span>Tags</span>
                     </a>
                 @endif
-                <a href="{{ route('general') }}">
-                    <div
-                        class="flex gap-2 items-center text-gray-500 text-sm mt-2 p-2 {{ request()->is('setting/*') ? 'active' : '' }}">
-                        <i class="fa fa-gear" aria-hidden="true"></i>
-                        <h1>Settings</h1>
-                    </div>
+
+                <a href="{{ route('general') }}"
+                    class="flex items-center gap-2 p-3 text-sm rounded
+           {{ request()->is('setting/*') ? 'bg-red-50 text-red-600 border-l-2 border-red-600' : 'text-gray-500 hover:bg-gray-100' }}">
+                    <i class="fa fa-gear"></i>
+                    <span>Settings</span>
                 </a>
-            </div>
+            </nav>
         </aside>
+
 
         <div class="flex flex-col flex-1">
 
@@ -97,9 +92,8 @@
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
 
-                        <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
-                                        this.closest('form').submit();">
+                        <x-responsive-nav-link :href="route('logout')" onclick="event.preventDefault();
+                                                this.closest('form').submit();">
                             {{ __('Log Out') }}
                         </x-responsive-nav-link>
                     </form>
@@ -110,7 +104,7 @@
                 @endif
             </header>
 
-            <main class="p-6">
+            <main class="p-6 ">
                 {{ $slot }}
             </main>
 

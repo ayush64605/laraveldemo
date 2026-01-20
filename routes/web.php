@@ -51,7 +51,6 @@ Route::middleware(AuthCheck::class)->group(function () {
 
 
     Route::prefix('project/user')->name('project.user.')->group(function () {
-        Route::get('add/{project}', [ProjectuserController::class, 'add'])->name('add');
         Route::post('save/{project}', [ProjectuserController::class, 'save'])->name('save');
         Route::get('delete/{project}', [ProjectuserController::class, 'delete'])->name('delete');
     });
@@ -84,18 +83,14 @@ Route::middleware(AuthCheck::class)->group(function () {
 
     Route::prefix('projectcategory')->name('projectcategory.')->group(function () {
         Route::get('show', [ProjectcategoryController::class, 'show'])->name('show');
-        Route::get('add', [ProjectcategoryController::class, 'add'])->name('add');
         Route::post('save', [ProjectcategoryController::class, 'save'])->name('save');
-        Route::get('update/{projectcategory}', [ProjectcategoryController::class, 'update'])->name('update');
         Route::get('delete/{projectcategory}', [ProjectcategoryController::class, 'delete'])->name('delete');
     });
 });
 
 Route::prefix('project/task')->name('project.task.')->group(function () {
     Route::get('show/{project}', [TaskController::class, 'show'])->name('show');
-    Route::get('add/{project}', [TaskController::class, 'add'])->name('add');
     Route::post('save/', [TaskController::class, 'save'])->name('save');
-    Route::get('update/{task}', [TaskController::class, 'update'])->name('update');
     Route::get('delete/{task}', [TaskController::class, 'delete'])->name('delete');
 });
 

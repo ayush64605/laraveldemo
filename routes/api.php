@@ -38,7 +38,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('delete/{employee}', [EmployeeController::class, 'delete'])->name('delete');
     });
 
-    Route::prefix('project/user')->name('project.user.')->group(function () {
+    Route::prefix('project/user')->name('project.user.api.')->group(function () {
         Route::post('save/{project}', [ProjectuserController::class, 'save'])->name('save');
         Route::get('delete/{project}', [ProjectuserController::class, 'delete'])->name('delete');
     });

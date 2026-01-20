@@ -7,27 +7,10 @@ use Illuminate\Http\Request;
 
 class ProjectcategoryController extends Controller
 {
-    public function index()
-    {
-        $projectcategories = Projectcategory::all();
-        return view("index", compact('projectcategories'));
-    }
     public function show()
     {
         $projectcategories = Projectcategory::with('projects')->get();
         return view("projectcategory.show", compact('projectcategories'));
-    }
-
-    public function add()
-    {
-        $last_projectcategory = Projectcategory::orderBy('id', 'desc')->first();
-        return view("projectcategory.add", compact('last_projectcategory'));
-    }
-
-
-    public function update(Request $request, Projectcategory $projectcategory)
-    {
-        return view("projectcategory.add", compact('projectcategory'));
     }
 
     public function delete(Projectcategory $projectcategory)
@@ -39,27 +22,21 @@ class ProjectcategoryController extends Controller
     public function save(Request $request)
     {
         $request->validate([
-            'name' => 'required',
+            'name' => 'required|string|max:255',
         ]);
 
-        $index = Projectcategory::find($request->id);
+        // find or create
+        $projectcategory = Projectcategory::find($request->id) ?? new Projectcategory();
 
-        if ($index) {
-            $projectcategory = Projectcategory::find($request->id);
-        } else {
-            $projectcategory = new Projectcategory();
-        }
-        
         $projectcategory->name = $request->name;
         $projectcategory->save();
 
+        $msg = $request->id
+            ? 'Project category Updated Successfully'
+            : 'Project category Added Successfully';
 
-        if ($index !== false) {
-            $msg = 'Project category Updated Successfully';
-        } else {
-            $msg = 'Project category Added Successfully';
-        }
-
-        return redirect()->route('projectcategory.show')->with('success', $msg);
+        return redirect()
+            ->route('projectcategory.show')
+            ->with('success', $msg);
     }
 }

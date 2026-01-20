@@ -3,7 +3,7 @@
         color: red
     }
 </style>
-<div class="p-4 mt-4 border-1 border-solid rounded-md border-gray-200 nav-link">
+<div class="p-4 mt-4 border border-solid rounded-md border-gray-200 nav-link">
     <a href="{{ route('general') }}">
         <div
             class="flex gap-4 items-center border-b border-gray-300 p-3 text-gray-500 hover:bg-gray-100 cursor-pointer {{ request()->is('setting/general') ? 'active' : '' }}">

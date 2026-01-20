@@ -14,8 +14,6 @@
                     {{ isset($project) ? 'Edit Project' : 'Add Project' }}
                 </h2>
 
-                <p class="text-sm text-gray-600 mb-6">Project & Client Details</p>
-
                 @if (session('error'))
                     <x-alert type="error" :message="session('error')" />
                 @endif
