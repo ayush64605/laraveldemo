@@ -1,7 +1,7 @@
 @props([
-    'id' => 'modal',          // modal ID
-    'title' => 'Modal Title', // modal header
-    'action' => '#',          // form action
+    'id' => 'modal',        
+    'title' => 'Modal Title', 
+    'action' => '#',
 ])
 
 <div id="{{ $id }}" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/50">

@@ -63,26 +63,24 @@
                                             <x-button type="button" color="bg-red-600" text="Delete" icon="trash"
                                                 onclick="document.getElementById('deleteModal-{{ $employee->id }}').classList.remove('hidden')" />
 
-                                            <div id="deleteModal-{{ $employee->id }}"
-                                                class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/50">
-                                                <div
-                                                    class="bg-white rounded-lg shadow-xl w-full max-w-md p-6 text-left">
-                                                    <h3 class="text-lg font-semibold text-gray-900">Remove Project</h3>
-                                                    <p class="mt-2 text-sm text-gray-600">Remove
-                                                        <b>{{ $employee->name }}</b>
-                                                        from <b>{{ $projects->name }}</b>?
-                                                    </p>
-                                                    <div class="mt-6 flex justify-end gap-3">
-                                                        <button type="button"
-                                                            onclick="document.getElementById('deleteModal-{{ $employee->id }}').classList.add('hidden')">Cancel</button>
-                                                        <a
-                                                            href="{{ route('employee-project.delete', ['employee' => $employee->id, 'project' => $projects->id]) }}">
-                                                            <x-button type="button" color="bg-red-600"
-                                                                icon="trash" text="Yes, Delete" />
-                                                        </a>
-                                                    </div>
+                                            <x-genral-modal id="deleteModal-{{ $employee->id }}" title="Remove Project"
+                                                description="Remove
+                                                        {{ $employee->name }}
+                                                        from {{ $projects->name }}?">
+
+                                                <div class="mt-6 flex justify-end gap-3">
+                                                    <x-button type="button" color="bg-indigo-600" text="Cancel"
+                                                        icon="cancel"
+                                                        onclick="document.getElementById('deleteModal-{{ $employee->id }}').classList.add('hidden')" />
+
+
+                                                    <a
+                                                        href="{{ route('employee-project.delete', ['employee' => $employee->id, 'project' => $projects->id]) }}">
+                                                        <x-button type="button" color="bg-red-600" text="Yes, Delete"
+                                                            icon="trash" /> </a>
                                                 </div>
-                                            </div>
+
+                                            </x-genral-modal>
                                         </td>
                                     </tr>
                                 @empty

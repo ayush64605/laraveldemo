@@ -24,7 +24,8 @@
                                 style="width: 120px">
                                 <option value="">All Tags</option>
                                 @foreach ($tags as $tag)
-                                    <option value="{{ $tag->id }}" {{ request('tag_id') == $tag->id ? 'selected' : '' }}>
+                                    <option value="{{ $tag->id }}"
+                                        {{ request('tag_id') == $tag->id ? 'selected' : '' }}>
                                         {{ $tag->name }}
                                     </option>
                                 @endforeach
@@ -118,203 +119,151 @@
                                         @if (Auth::user()->role == 'admin')
                                             <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
 
-
-                                                <x-button type="button" icon="eye" color="bg-indigo-600" text="Know More"
-                                                    onclick="document.getElementById('moreModal-{{ $project->id }}').classList.remove('hidden')" />
-
-
                                                 <a href="{{ route('project.update', ['project' => $project->id]) }}"
                                                     class="text-sm/6 font-semibold text-white"><x-button type="button"
                                                         icon="edit" color="bg-indigo-600" text="Edit" /></a>
 
-                                                <x-button type="button" color="bg-red-600" text="Delete" icon="trash"
+                                                <x-button type="button" color="bg-red-600" text="Delete"
+                                                    icon="trash"
                                                     onclick="document.getElementById('deleteModal-{{ $project->id }}').classList.remove('hidden')" />
 
-                                                <div id="deleteModal-{{ $project->id }}"
-                                                    class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/50">
+                                                <button
+                                                    onclick="document.getElementById('moreModal-{{ $project->id }}').classList.remove('hidden')"
+                                                    class="pl-4"><i class="fas fa-ellipsis-v"></i></button>
 
-                                                    <div class="bg-white rounded-lg shadow-xl w-full max-w-md p-6 text-left">
-                                                        <h3 class="text-lg font-semibold text-gray-900">
-                                                            Delete Project
-                                                        </h3>
+                                                <x-genral-modal id="deleteModal-{{ $project->id }}"
+                                                    title="Delete Project"
+                                                    description="Are you sure you want to delete this Project?">
 
-                                                        <p class="mt-2 text-sm text-gray-600">
-                                                            Are you sure you want to delete this project?
-                                                        </p>
-
-                                                        <div class="mt-6 flex justify-end gap-3">
-                                                            <x-button type="button" color="bg-indigo-600" text="Cancel"
-                                                                icon="cancel"
-                                                                onclick="document.getElementById('deleteModal-{{ $project->id }}').classList.add('hidden')" />
+                                                    <div class="mt-6 flex justify-end gap-3">
+                                                        <x-button type="button" color="bg-indigo-600" text="Cancel"
+                                                            icon="cancel"
+                                                            onclick="document.getElementById('deleteModal-{{ $project->id }}').classList.add('hidden')" />
 
 
-                                                            <a
-                                                                href="{{ route('project.delete', ['project' => $project->id]) }}">
-                                                                <x-button type="button" color="bg-red-600" text="Yes, Delete"
-                                                                    icon="trash" /> </a>
+                                                        <a
+                                                            href="{{ route('project.delete', ['project' => $project->id]) }}">
+                                                            <x-button type="button" color="bg-red-600"
+                                                                text="Yes, Delete" icon="trash" /> </a>
+                                                    </div>
+
+                                                </x-genral-modal>
+                                                <x-genral-modal id="deleteUserModal-{{ $project->id }}"
+                                                    title="Delete User"
+                                                    description="Are you sure you want to delete this user?">
+
+                                                    <div class="mt-6 flex justify-end gap-3">
+                                                        <x-button type="button" color="bg-indigo-600" text="Cancel"
+                                                            icon="cancel"
+                                                            onclick="document.getElementById('deleteUserModal-{{ $project->id }}').classList.add('hidden')" />
+
+
+                                                        <a
+                                                            href="{{ route('project.user.delete', ['project' => $project->id]) }}">
+                                                            <x-button type="button" color="bg-red-600"
+                                                                text="Yes, Delete" icon="trash" /> </a>
+                                                    </div>
+                                                </x-genral-modal>
+                                                <x-genral-modal id="commentModal-{{ $project->id }}"
+                                                    title="All Comments">
+                                                    <p class="mt-2 text-sm text-gray-600">
+                                                        @foreach ($project->comments as $comment)
+                                                            <ul>
+                                                                <li>
+                                                                    {{ $comment->body }}
+                                                                </li>
+                                                            </ul>
+                                                        @endforeach
+                                                    </p>
+                                                    <div class="mt-6 flex justify-end gap-3">
+                                                        <x-button type="button" color="bg-indigo-600" text="Cancel"
+                                                            icon="cancel"
+                                                            onclick="document.getElementById('commentModal-{{ $project->id }}').classList.add('hidden')" />
+                                                    </div>
+                                                </x-genral-modal>
+
+
+                                                <x-form-modal id="addUser-{{ $project->id }}"
+                                                    title="Add user in {{ $project->name }}"
+                                                    action="{{ route('project.user.save', ['project' => $project->id]) }}">
+                                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+
+                                                        <div>
+                                                            <label class="block text-sm font-medium text-gray-900">User
+                                                                Name <span class="text-red-600">*</span>
+                                                            </label>
+                                                            <input type="text" name="name"
+                                                                placeholder="Enter User name"
+                                                                class="border-gray-300 w-full focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm ">
+                                                            @error('name')
+                                                                <span
+                                                                    class="text-red-600 text-sm">{{ $message }}</span>
+                                                            @enderror
                                                         </div>
-                                                    </div>
-                                                </div>
-                                                <div id="deleteUserModal-{{ $project->id }}"
-                                                    class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/50">
-
-                                                    <div class="bg-white rounded-lg shadow-xl w-full max-w-md p-6 text-left">
-                                                        <h3 class="text-lg font-semibold text-gray-900">
-                                                            Delete User
-                                                        </h3>
-
-                                                        <p class="mt-2 text-sm text-gray-600">
-                                                            Are you sure you want to delete this user?
-                                                        </p>
-
-                                                        <div class="mt-6 flex justify-end gap-3">
-                                                            <x-button type="button" color="bg-indigo-600" text="Cancel"
-                                                                icon="cancel"
-                                                                onclick="document.getElementById('deleteUserModal-{{ $project->id }}').classList.add('hidden')" />
-
-
-                                                            <a
-                                                                href="{{ route('project.user.delete', ['project' => $project->id]) }}">
-                                                                <x-button type="button" color="bg-red-600" text="Yes, Delete"
-                                                                    icon="trash" /> </a>
+                                                        <div>
+                                                            <label class="block text-sm font-medium text-gray-900">User
+                                                                Email<span class="text-red-600">*</span>
+                                                            </label>
+                                                            <input type="text" name="email"
+                                                                placeholder="Enter User Email"
+                                                                class="border-gray-300 w-full focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm ">
+                                                            @error('email')
+                                                                <span
+                                                                    class="text-red-600 text-sm">{{ $message }}</span>
+                                                            @enderror
                                                         </div>
+
                                                     </div>
-                                                </div>
-                                                <div id="commentModal-{{ $project->id }}"
-                                                    class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/50">
+                                                </x-form-modal>
 
-                                                    <div class="bg-white rounded-lg shadow-xl w-full max-w-md p-6 text-left">
-                                                        <h3 class="text-lg font-semibold text-gray-900">
-                                                            All Comments
-                                                        </h3>
-
-                                                        <p class="mt-2 text-sm text-gray-600">
-                                                            @foreach ($project->comments as $comment)
-                                                                <ul>
-                                                                    <li>
-                                                                        {{ $comment->body }}
-                                                                    </li>
-                                                                </ul>
-                                                            @endforeach
-                                                        </p>
-                                                        <div class="mt-6 flex justify-end gap-3">
-                                                            <x-button type="button" color="bg-indigo-600" text="Cancel"
-                                                                icon="cancel"
-                                                                onclick="document.getElementById('commentModal-{{ $project->id }}').classList.add('hidden')" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div id="addUser-{{ $project->id }}"
-                                                    class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/50">
-                                                    <div class="bg-white rounded-lg shadow-xl w-full max-w-md p-6 text-left">
-                                                        <form
-                                                            action="{{ route('project.user.save', ['project' => $project->id]) }}"
-                                                            method="POST" enctype="multipart/form-data">
-                                                            @csrf
-
-                                                            <h2 class="text-lg font-semibold text-gray-900">
-                                                                Add user in {{ $project->name }}
-                                                            </h2>
-
-                                                            @if (session('error'))
-                                                                <x-alert type="error" :message="session('error')" />
-                                                            @endif
-                                                            @if (session('success'))
-                                                                <x-alert type="success" :message="session('success')" />
-                                                            @endif
-                                                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-
-                                                                <div>
-                                                                    <label class="block text-sm font-medium text-gray-900">User
-                                                                        Name <span class="text-red-600">*</span>
-                                                                    </label>
-                                                                    <input type="text" name="name" placeholder="Enter User name"
-                                                                        class="border-gray-300 w-full focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm ">
-                                                                    @error('name')
-                                                                        <span class="text-red-600 text-sm">{{ $message }}</span>
-                                                                    @enderror
-                                                                </div>
-                                                                <div>
-                                                                    <label class="block text-sm font-medium text-gray-900">User
-                                                                        Email<span class="text-red-600">*</span>
-                                                                    </label>
-                                                                    <input type="text" name="email"
-                                                                        placeholder="Enter User Email"
-                                                                        class="border-gray-300 w-full focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm ">
-                                                                    @error('email')
-                                                                        <span class="text-red-600 text-sm">{{ $message }}</span>
-                                                                    @enderror
-                                                                </div>
-
-                                                            </div>
-
-                                                            <div class="mt-8 flex justify-end gap-4">
-                                                                <a href="{{ route('project.show') }}"> <x-button type="button"
-                                                                        color="bg-red-600" text="Cancel" icon="cancel" />
-                                                                </a>
-                                                                </a>
-                                                                <x-button type="submit" color="bg-indigo-600" text="Save"
-                                                                    icon="save" /> </a>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                                <div id="moreModal-{{ $project->id }}"
-                                                    class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/50">
-
-                                                    <div class="bg-white rounded-lg shadow-xl w-full max-w-md p-6 text-left">
-                                                        <h3 class="text-lg font-semibold text-gray-900">
-                                                            Know More About {{ $project->name }}
-                                                        </h3>
-
-                                                        <div class="grid sm:grid-cols-1 lg:grid-cols-1 mt-4">
-                                                            <a href="{{ route('project.details', ['project' => $project->id]) }}"
-                                                                class="text-md/6 font-semibold text-black hover:bg-gray-100 p-4">
-                                                                <i class="fa-solid fa-eye"></i>&nbsp;
-                                                                View Details</a>
+                                                <x-genral-modal id="moreModal-{{ $project->id }}"
+                                                    title=" Know More About {{ $project->name }}">
+                                                    <div class="grid sm:grid-cols-1 lg:grid-cols-1 mt-4">
+                                                        <a href="{{ route('project.details', ['project' => $project->id]) }}"
+                                                            class="text-md/6 font-semibold text-black hover:bg-gray-100 p-4">
+                                                            <i class="fa-solid fa-eye"></i>&nbsp;
+                                                            View Details</a>
 
 
-                                                            <a href="{{ route('project.assignemployee', ['project' => $project->id]) }}"
-                                                                class="text-md/6 font-semibold text-black hover:bg-gray-100 p-4"
-                                                                style="border-top: 1px solid black"><i
-                                                                    class="fa-solid fa-users"></i>&nbsp;
-                                                                View Employees</a>
+                                                        <a href="{{ route('project.assignemployee', ['project' => $project->id]) }}"
+                                                            class="text-md/6 font-semibold text-black hover:bg-gray-100 p-4"
+                                                            style="border-top: 1px solid black"><i
+                                                                class="fa-solid fa-users"></i>&nbsp;
+                                                            View Employees</a>
 
+                                                        <a href="#"
+                                                            class="text-md/6 font-semibold text-black hover:bg-gray-100 p-4"
+                                                            style="border-top: 1px solid black"
+                                                            onclick="document.getElementById('commentModal-{{ $project->id }}').classList.remove('hidden'), document.getElementById('moreModal-{{ $project->id }}').classList.add('hidden')"><i
+                                                                class="fa-solid fa-comment"></i>&nbsp;View
+                                                            Comments</a>
+
+                                                        @if ($project->users)
                                                             <a href="#"
                                                                 class="text-md/6 font-semibold text-black hover:bg-gray-100 p-4"
                                                                 style="border-top: 1px solid black"
-                                                                onclick="document.getElementById('commentModal-{{ $project->id }}').classList.remove('hidden'), document.getElementById('moreModal-{{ $project->id }}').classList.add('hidden')"><i
-                                                                    class="fa-solid fa-comment"></i>&nbsp;View
-                                                                Comments</a>
+                                                                onclick="document.getElementById('deleteUserModal-{{ $project->id }}').classList.remove('hidden'), document.getElementById('moreModal-{{ $project->id }}').classList.add('hidden')"><i
+                                                                    class="fa-solid fa-user"></i>&nbsp;Delete
+                                                                Project User</a>
+                                                        @else
+                                                            <a href="#" style="border-top: 1px solid black"
+                                                                class="text-md/6 font-semibold text-black hover:bg-gray-100 p-4"
+                                                                onclick="document.getElementById('addUser-{{ $project->id }}').classList.remove('hidden'), document.getElementById('moreModal-{{ $project->id }}').classList.add('hidden')"><i
+                                                                    class="fa-solid fa-user"></i>&nbsp;Add
+                                                                Project User</a>
+                                                        @endif
 
-                                                            @if ($project->users)
-                                                                <a href="#"
-                                                                    class="text-md/6 font-semibold text-black hover:bg-gray-100 p-4"
-                                                                    style="border-top: 1px solid black"
-                                                                    onclick="document.getElementById('deleteUserModal-{{ $project->id }}').classList.remove('hidden'), document.getElementById('moreModal-{{ $project->id }}').classList.add('hidden')"><i
-                                                                        class="fa-solid fa-user"></i>&nbsp;Delete
-                                                                    Project User</a>
-                                                            @else
-                                                                <a href="#" style="border-top: 1px solid black"
-                                                                    class="text-md/6 font-semibold text-black hover:bg-gray-100 p-4"
-                                                                    onclick="document.getElementById('addUser-{{ $project->id }}').classList.remove('hidden'), document.getElementById('moreModal-{{ $project->id }}').classList.add('hidden')"><i
-                                                                        class="fa-solid fa-user"></i>&nbsp;Add
-                                                                    Project User</a>
-                                                            @endif
-
-                                                            <a href="{{ route('project.task.show', ['project' => $project->id]) }}"
-                                                                style="border-top: 1px solid black"
-                                                                class="text-md/6 font-semibold text-black hover:bg-gray-100 p-4"><i
-                                                                    class="fa-solid fa-tasks"></i>&nbsp;All Tasks</a>
-                                                        </div>
-                                                        <div class="mt-6 flex justify-end gap-3">
-                                                            <x-button type="button" color="bg-red-600" text="Cancel"
-                                                                icon="cancel"
-                                                                onclick="document.getElementById('moreModal-{{ $project->id }}').classList.add('hidden')" />
-                                                        </div>
+                                                        <a href="{{ route('project.task.show', ['project' => $project->id]) }}"
+                                                            style="border-top: 1px solid black"
+                                                            class="text-md/6 font-semibold text-black hover:bg-gray-100 p-4"><i
+                                                                class="fa-solid fa-tasks"></i>&nbsp;All Tasks</a>
                                                     </div>
-                                                </div>
+                                                    <div class="mt-6 flex justify-end gap-3">
+                                                        <x-button type="button" color="bg-red-600" text="Cancel"
+                                                            icon="cancel"
+                                                            onclick="document.getElementById('moreModal-{{ $project->id }}').classList.add('hidden')" />
+                                                    </div>
+                                                </x-genral-modal>
                                             </td>
                                         @endif
                                     </tr>

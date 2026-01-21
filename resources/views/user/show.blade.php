@@ -63,31 +63,20 @@
                                             <x-button type="button" color="bg-red-600" text="Delete" icon="trash"
                                                 onclick="document.getElementById('deleteModal-{{ $user->id }}').classList.remove('hidden')" />
 
-                                            <div id="deleteModal-{{ $user->id }}"
-                                                class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/50">
+                                            <x-genral-modal id="deleteModal-{{ $user->id }}" title="Delete user"
+                                                description="Are you sure you want to delete this user?">
 
-                                                <div
-                                                    class="bg-white rounded-lg shadow-xl w-full max-w-md p-6 text-left">
-                                                    <h3 class="text-lg font-semibold text-gray-900">
-                                                        Delete user
-                                                    </h3>
-
-                                                    <p class="mt-2 text-sm text-gray-600">
-                                                        Are you sure you want to delete this user?
-                                                    </p>
-
-                                                    <div class="mt-6 flex justify-end gap-3">
-                                                        <x-button type="button" color="bg-indigo-600" text="Cancel"
-                                                            icon="cancel"
-                                                            onclick="document.getElementById('deleteModal-{{ $user->id }}').classList.add('hidden')" />
+                                                <div class="mt-6 flex justify-end gap-3">
+                                                    <x-button type="button" color="bg-indigo-600" text="Cancel"
+                                                        icon="cancel"
+                                                        onclick="document.getElementById('deleteModal-{{ $user->id }}').classList.add('hidden')" />
 
 
-                                                        <a href="{{ route('user.delete', ['user' => $user->id]) }}">
-                                                            <x-button type="button" color="bg-red-600"
-                                                                text="Yes, Delete" icon="trash" /> </a>
-                                                    </div>
+                                                    <a href="{{ route('user.delete', ['user' => $user->id]) }}">
+                                                        <x-button type="button" color="bg-red-600" text="Yes, Delete"
+                                                            icon="trash" /> </a>
                                                 </div>
-                                            </div>
+                                            </x-genral-modal>
                                         </td>
                                     </tr>
                                 @endforeach

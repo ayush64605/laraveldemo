@@ -20,44 +20,27 @@
                             onclick="document.getElementById('assignModal-{{ $employee->id }}').classList.remove('hidden')" />
                     </div>
                 </div>
-                <div id="assignModal-{{ $employee->id }}"
-                    class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/50">
-                    <div class="bg-white rounded-lg shadow-xl w-full max-w-md p-6 text-left">
-                        <form class="" action="{{ route('employee-project.save', ['employee' => $employee]) }}"
-                            method="POST" enctype="multipart/form-data">
-                            @csrf
+                <x-form-modal id="assignModal-{{ $employee->id }}" title="Add Employee"
+                    action="{{ route('employee-project.save', ['employee' => $employee]) }}">
+                    <div class="grid grid-cols-1 md:grid-cols-1 gap-6 mt-4">
 
-                            <h2 class="text-lg font-semibold text-gray-900">
-                                Assign Project
-                            </h2>
-                            <div class="grid grid-cols-1 md:grid-cols-1 gap-6 mt-4">
-
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-900">Project<span
-                                            class="text-red-600">*</span>
-                                    </label>
-                                    <select name="project"
-                                        class="border-gray-300 w-full focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
-                                        <option value="">Select Project</option>
-                                        @foreach ($projects as $project)
-                                            <option value="{{ $project->id }}">{{ $project->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('project')
-                                        <span class="text-red-600 text-sm">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="mt-8 flex justify-end gap-4">
-                                <x-button type="button" color="bg-red-600" text="Cancel" icon="cancel"
-                                    onclick="document.getElementById('assignModal-{{ $employee->id }}').classList.add('hidden')" />
-                                </a>
-                                <x-button type="submit" color="bg-indigo-600" text="Save" icon="save" /> </a>
-                            </div>
-                        </form>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-900">Project<span
+                                    class="text-red-600">*</span>
+                            </label>
+                            <select name="project"
+                                class="border-gray-300 w-full focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                                <option value="">Select Project</option>
+                                @foreach ($projects as $project)
+                                    <option value="{{ $project->id }}">{{ $project->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('project')
+                                <span class="text-red-600 text-sm">{{ $message }}</span>
+                            @enderror
+                        </div>
                     </div>
-                </div>
+                </x-form-modal>
             </div>
         </div>
         @if (session('error'))
@@ -97,26 +80,25 @@
                                             <x-button type="button" color="bg-red-600" text="Delete" icon="trash"
                                                 onclick="document.getElementById('deleteModal-{{ $project->id }}').classList.remove('hidden')" />
 
-                                            <div id="deleteModal-{{ $project->id }}"
-                                                class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/50">
-                                                <div
-                                                    class="bg-white rounded-lg shadow-xl w-full max-w-md p-6 text-left">
-                                                    <h3 class="text-lg font-semibold text-gray-900">Remove Project</h3>
-                                                    <p class="mt-2 text-sm text-gray-600">Remove
-                                                        <b>{{ $project->name }}</b>
-                                                        from <b>{{ $employee->name }}</b>?
-                                                    </p>
-                                                    <div class="mt-6 flex justify-end gap-3">
-                                                        <button type="button"
-                                                            onclick="document.getElementById('deleteModal-{{ $project->id }}').classList.add('hidden')">Cancel</button>
-                                                        <a
-                                                            href="{{ route('employee-project.delete', ['employee' => $employee->id, 'project' => $project->id]) }}">
-                                                            <x-button type="button" color="bg-red-600" icon="trash"
-                                                                text="Yes, Delete" />
-                                                        </a>
-                                                    </div>
+                                            <x-genral-modal id="deleteModal-{{ $project->id }}" title="Remove Project"
+                                                description="Remove
+                                                        {{ $project->name }}
+                                                        from {{ $employee->name }}?">
+
+                                                <div class="mt-6 flex justify-end gap-3">
+                                                    <x-button type="button" color="bg-indigo-600" text="Cancel"
+                                                        icon="cancel"
+                                                        onclick="document.getElementById('deleteModal-{{ $project->id }}').classList.add('hidden')" />
+
+
+                                                    <a
+                                                        href="{{ route('employee-project.delete', ['employee' => $employee->id, 'project' => $project->id]) }}">
+                                                        <x-button type="button" color="bg-red-600" text="Yes, Delete"
+                                                            icon="trash" /> </a>
                                                 </div>
-                                            </div>
+
+                                            </x-genral-modal>
+
                                         </td>
                                     </tr>
                                 @empty

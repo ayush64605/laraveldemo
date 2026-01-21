@@ -15,7 +15,8 @@
             </div>
             @if (Auth::user())
                 <div class="flex items-center justify-end">
-                    <form action="{{ route('project.task.show', ['project' => $project]) }}" method="GET" id="filterForm">
+                    <form action="{{ route('project.task.show', ['project' => $project]) }}" method="GET"
+                        id="filterForm">
                         <div>
                             @php
                                 $tags = App\Models\Tag::all();
@@ -25,7 +26,8 @@
                                 style="width: 120px;">
                                 <option value="">All Tags</option>
                                 @foreach ($tags as $tag)
-                                    <option value="{{ $tag->id }}" {{ request('tag_id') == $tag->id ? 'selected' : '' }}>
+                                    <option value="{{ $tag->id }}"
+                                        {{ request('tag_id') == $tag->id ? 'selected' : '' }}>
                                         {{ $tag->name }}
                                     </option>
                                 @endforeach
@@ -34,12 +36,14 @@
                     </form>
 
                     <div class="p-4 md:p-6">
-                        <x-button type="button" icon="plus" color="bg-indigo-600" text="Add Tasks"  onclick="document.getElementById('addModal').classList.remove('hidden')"/>
+                        <x-button type="button" icon="plus" color="bg-indigo-600" text="Add Tasks"
+                            onclick="document.getElementById('addModal').classList.remove('hidden')" />
                     </div>
 
                     <div id="addModal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/50">
                         <div class="bg-white rounded-lg shadow-xl w-full max-w-md p-6 text-left">
-                            <form action="{{ route('project.task.save') }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('project.task.save') }}" method="POST"
+                                enctype="multipart/form-data">
                                 @csrf
 
                                 <input type="hidden" name="project_id" value="{{ $project }}">
@@ -85,7 +89,8 @@
                                 <div class="mt-8 flex justify-end gap-4">
                                     <x-button type="button" color="bg-red-600" text="Cancel" icon="cancel"
                                         onclick="document.getElementById('addModal').classList.add('hidden')" />
-                                    <x-button type="submit" color="bg-indigo-600" text="Save Task" icon="save" /> </a>
+                                    <x-button type="submit" color="bg-indigo-600" text="Save Task" icon="save" />
+                                    </a>
                                 </div>
                             </form>
                         </div>
@@ -128,65 +133,65 @@
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
                                             @if (Auth::user())
-                                                <x-button type="button" icon="eye" color="bg-indigo-600" text="View Comments"
+                                                <x-button type="button" icon="eye" color="bg-indigo-600"
+                                                    text="View Comments"
                                                     onclick="document.getElementById('commentModal-{{ $task->id }}').classList.remove('hidden')" />
-                                                <x-button type="button" color="bg-red-600" text="Delete" icon="trash"
+                                                <x-button type="button" color="bg-red-600" text="Delete"
+                                                    icon="trash"
                                                     onclick="document.getElementById('deleteModal-{{ $task['id'] }}').classList.remove('hidden')" />
                                             @endif
                                             @if (session('employeedata'))
-                                                <a href="{{ route('comment.task.add', ['post' => $task->id]) }}"
-                                                    class="text-sm/6 font-semibold text-white"><x-button type="button"
-                                                        icon="plus" color="bg-indigo-600" text="Add Comments" /></a>
+                                                <x-button type="button" icon="plus" color="bg-indigo-600"
+                                                    text="Add Comments"
+                                                    onclick="document.getElementById('addComment-{{ $task->id }}').classList.remove('hidden')" />
                                             @endif
-                                            <div id="deleteModal-{{ $task['id'] }}"
-                                                class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/50">
-
-                                                <div class="bg-white rounded-lg shadow-xl w-full max-w-md p-6 text-left">
-                                                    <h3 class="text-lg font-semibold text-gray-900">
-                                                        Delete Task?
-                                                    </h3>
-
-                                                    <p class="mt-2 text-sm text-gray-600">
-                                                        Are you sure you want to delete this task?
-                                                    </p>
-
-                                                    <div class="mt-6 flex justify-end gap-3">
-                                                        <x-button type="button" color="bg-indigo-600" text="Cancel"
-                                                            icon="cancel"
-                                                            onclick="document.getElementById('deleteModal-{{ $task['id'] }}').classList.add('hidden')" />
-
-
-                                                        <a
-                                                            href="{{ route('project.task.delete', ['task' => $task['id']]) }}">
-                                                            <x-button type="button" color="bg-red-600" text="Yes, Delete"
-                                                                icon="trash" /> </a>
-                                                    </div>
+                                            <x-form-modal id="addComment-{{ $task->id }}" title="Add Comment"
+                                                action="{{ route('comment.save') }}">
+                                                <input type="hidden" name="task" value="{{ $task->id }}">
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-900">Comment<span
+                                                            class="text-red-600">*</span>
+                                                    </label>
+                                                    <input type="text" name="comment" placeholder="Enter comment"
+                                                        class="border-gray-300 w-full focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm ">
+                                                    @error('comment')
+                                                        <span class="text-red-600 text-sm">{{ $message }}</span>
+                                                    @enderror
                                                 </div>
-                                            </div>
-                                            <div id="commentModal-{{ $task['id'] }}"
-                                                class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/50">
+                                            </x-form-modal>
+                                            <x-genral-modal id="deleteModal-{{ $task->id }}" title="Delete task"
+                                                description="Are you sure you want to delete this task?">
 
-                                                <div class="bg-white rounded-lg shadow-xl w-full max-w-md p-6 text-left">
-                                                    <h3 class="text-lg font-semibold text-gray-900">
-                                                        All Comments
-                                                    </h3>
+                                                <div class="mt-6 flex justify-end gap-3">
+                                                    <x-button type="button" color="bg-indigo-600" text="Cancel"
+                                                        icon="cancel"
+                                                        onclick="document.getElementById('deleteModal-{{ $task->id }}').classList.add('hidden')" />
 
-                                                    <p class="mt-2 text-sm text-gray-600">
-                                                        @foreach ($task->comments as $comment)
-                                                            <ul>
-                                                                <li>
-                                                                    {{ $comment->body }}
-                                                                </li>
-                                                            </ul>
-                                                        @endforeach
-                                                    </p>
-                                                    <div class="mt-6 flex justify-end gap-3">
-                                                        <x-button type="button" color="bg-indigo-600" text="Cancel"
-                                                            icon="cancel"
-                                                            onclick="document.getElementById('commentModal-{{ $task['id'] }}').classList.add('hidden')" />
-                                                    </div>
+
+                                                    <a
+                                                        href="{{ route('project.task.delete', ['task' => $task->id]) }}">
+                                                        <x-button type="button" color="bg-red-600"
+                                                            text="Yes, Delete" icon="trash" /> </a>
                                                 </div>
-                                            </div>
+                                            </x-genral-modal>
+                                            <x-genral-modal id="commentModal-{{ $task->id }}"
+                                                title="All Comments">
+
+                                                <p class="mt-2 text-sm text-gray-600">
+                                                    @foreach ($task->comments as $comment)
+                                                        <ul>
+                                                            <li>
+                                                                {{ $comment->body }}
+                                                            </li>
+                                                        </ul>
+                                                    @endforeach
+                                                </p>
+                                                <div class="mt-6 flex justify-end gap-3">
+                                                    <x-button type="button" color="bg-indigo-600" text="Cancel"
+                                                        icon="cancel"
+                                                        onclick="document.getElementById('commentModal-{{ $task['id'] }}').classList.add('hidden')" />
+                                                </div>
+                                            </x-genral-modal>
                                         </td>
                                     </tr>
                                 @endforeach

@@ -19,7 +19,7 @@
                         onclick="document.getElementById('addProjectCategoryModal').classList.remove('hidden')" />
                 </div>
 
-                <x-modal id="addProjectCategoryModal" title="Add Project Category"
+                <x-form-modal id="addProjectCategoryModal" title="Add Project Category"
                     action="{{ route('projectcategory.save') }}">
                     <div>
                         <label class="block text-sm font-medium text-gray-900">Project Category Name
@@ -32,7 +32,7 @@
                             <span class="text-red-600 text-sm">{{ $message }}</span>
                         @enderror
                     </div>
-                </x-modal>
+                </x-form-modal>
             </div>
 
         </div>
@@ -93,53 +93,46 @@
                                                 onclick="document.getElementById('deleteModal-{{ $projectcategory->id }}').classList.remove('hidden')" />
 
                                             <!-- Edit Modal -->
-                                            <x-modal id="editModal-{{ $projectcategory->id }}" title="Edit Project Category"
+                                            <x-form-modal id="editModal-{{ $projectcategory->id }}"
+                                                title="Edit Project Category"
                                                 action="{{ route('projectcategory.save') }}">
-                                                <input type="hidden" name="id" value="{{ $projectcategory->id }}">
+                                                <input type="hidden" name="id"
+                                                    value="{{ $projectcategory->id }}">
 
                                                 <div>
-                                                    <label class="block text-sm font-medium text-gray-900">Project Category
+                                                    <label class="block text-sm font-medium text-gray-900">Project
+                                                        Category
                                                         Name
                                                         <span class="text-red-600">*</span>
                                                     </label>
-                                                    <input type="text" name="name" value="{{ $projectcategory->name }}"
+                                                    <input type="text" name="name"
+                                                        value="{{ $projectcategory->name }}"
                                                         placeholder="Enter project category name"
                                                         class="border-gray-300 w-full focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm ">
                                                     @error('name')
                                                         <span class="text-red-600 text-sm">{{ $message }}</span>
                                                     @enderror
-                                                    <div class="mt-8 flex justify-end gap-4">
-                                                        <x-button type="button" color="bg-red-600" text="Cancel"
-                                                            icon="cancel"
-                                                            onclick="document.getElementById('{{ $id }}').classList.add('hidden')" />
-                                                        <x-button type="submit" color="bg-indigo-600" text="Save"
-                                                            icon="save" />
-                                                    </div>
                                                 </div>
-                                            </x-modal>
+                                            </x-form-modal>
 
-                                            <!-- Delete Modal -->
-                                            <x-modal id="deleteModal-{{ $projectcategory->id }}"
-                                                title="Delete Project Category" action="#">
-                                                <p class="mt-2 text-sm text-gray-600">
-                                                    Are you sure you want to delete this project category? <br>
-                                                    If yes, all projects under this category will also be deleted.
-                                                </p>
+                                            <x-genral-modal id="deleteModal-{{ $projectcategory->id }}"
+                                                title="Delete Project Category"
+                                                description="Are you sure you want to delete this project category? <br> If
+                                                        Yes then project also will delete of this categoty">
 
                                                 <div class="mt-6 flex justify-end gap-3">
                                                     <x-button type="button" color="bg-indigo-600" text="Cancel"
                                                         icon="cancel"
                                                         onclick="document.getElementById('deleteModal-{{ $projectcategory->id }}').classList.add('hidden')" />
 
-                                                    <a
-                                                        href="{{ route('projectcategory.delete', ['projectcategory' => $projectcategory->id]) }}">
-                                                        <x-button type="button" color="bg-red-600" text="Yes, Delete"
-                                                            icon="trash" />
-                                                    </a>
-                                                </div>
-                                            </x-modal>
-                                        </td>
 
+                                                    <a
+                                                        href="{{ route('projectcategory.delete', ['projectcategory' => $projectcategory['id']]) }}">
+                                                        <x-button type="button" color="bg-red-600" text="Yes, Delete"
+                                                            icon="trash" /> </a>
+                                                </div>
+                                            </x-genral-modal>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>

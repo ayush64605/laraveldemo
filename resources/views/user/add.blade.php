@@ -21,7 +21,7 @@
 
                 <input type="hidden" name="id" value="{{ $user->id ?? '' }}">
 
-                <div class="grid grid-cols-1 md:grid-cols-1 gap-6 mt-4">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
 
                     <div>
                         <label class="block text-sm font-medium text-gray-900">Name<span class="text-red-600">*</span>

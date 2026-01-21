@@ -69,10 +69,24 @@
                                                 class="text-sm/6 font-semibold text-white"><x-button type="button"
                                                     icon="tasks" color="bg-indigo-600" text="All Tasks" /></a>
 
-                                            <a href="{{ route('comment.project.add', ['post' => $project->projects->id]) }}"
-                                                class="text-sm/6 font-semibold text-white"><x-button type="button"
-                                                    icon="plus" color="bg-indigo-600" text="Add Comments" /></a>
+                                            <x-button type="button" icon="plus" color="bg-indigo-600"
+                                                text="Add Comments"
+                                                onclick="document.getElementById('addComment-{{ $project->projects->id }}').classList.remove('hidden')" />
                                         </td>
+                                        <x-form-modal id="addComment-{{ $project->projects->id }}" title="Add Comment"
+                                            action="{{ route('comment.save') }}">
+                                            <input type="hidden" name="project" value="{{ $project->projects->id }}">
+                                            <div>
+                                                <label class="block text-sm font-medium text-gray-900">Comment<span
+                                                        class="text-red-600">*</span>
+                                                </label>
+                                                <input type="text" name="comment" placeholder="Enter comment"
+                                                    class="border-gray-300 w-full focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm ">
+                                                @error('comment')
+                                                    <span class="text-red-600 text-sm">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                        </x-form-modal>
                                     </tr>
                                 @endforeach
                             </tbody>
