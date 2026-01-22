@@ -1,4 +1,3 @@
-@section('title', 'Project Details')
 <x-pannel-layout>
 
     <div

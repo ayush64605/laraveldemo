@@ -1,4 +1,3 @@
-@section('title', 'Projects')
 <x-pannel-layout>
     <div>
         <div class="grid sm:grid-cols-2 lg:grid-cols-2 gap-6">

@@ -1,4 +1,3 @@
-@section('title', 'Project Form')
 
 <x-pannel-layout>
 

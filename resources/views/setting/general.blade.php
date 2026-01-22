@@ -24,16 +24,52 @@
                         <label class="block text-sm font-medium text-gray-900">Site Name <span
                                 class="text-red-600">*</span>
                         </label>
-                        <input type="text" name="name" placeholder="Enter Site Name"
-                            class="border-gray-300 w-full focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm ">
+                        <input type="text" name="site_name" placeholder="Enter Site Name"
+                            class="border-gray-300 w-full focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                            value="{{ $setting->site_name }}">
                         @error('name')
                             <span class="text-red-600 text-sm">{{ $message }}</span>
                         @enderror
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-900">Site Logo <span
+                        <label class="block text-sm font-medium text-gray-900">Meta Title <span
                                 class="text-red-600">*</span>
+                        </label>
+                        <input type="text" name="meta_title" placeholder="Enter Meta Title"
+                            class="border-gray-300 w-full focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                            value="{{ $setting->meta_title }}">
+                        @error('meta_title')
+                            <span class="text-red-600 text-sm">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-900">Meta Description <span
+                                class="text-red-600">*</span>
+                        </label>
+                        <input type="text" name="meta_description" placeholder="Enter Meta Description"
+                            class="border-gray-300 w-full focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                            value="{{ $setting->meta_description }}">
+                        @error('meta_description')
+                            <span class="text-red-600 text-sm">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-900">Meta Keywords <span
+                                class="text-red-600">*</span>
+                        </label>
+                        <input type="text" name="meta_keywords" placeholder="Enter Meta Keywords"
+                            class="border-gray-300 w-full focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                            value="{{ $setting->meta_keywords }}">
+                        @error('meta_keywords')
+                            <span class="text-red-600 text-sm">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-900">Site Logo
                         </label>
                         <input type="file" name="logo"
                             class="border-gray-300 w-full focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm ">
@@ -43,38 +79,17 @@
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-900">Meta Title<span
-                                class="text-red-600">*</span>
+                        <label class="block text-sm font-medium text-gray-900">Fav Icon
                         </label>
-                        <input type="text" name="meta_title" placeholder="Enter Meta Title"
+                        <input type="file" name="favicon"
                             class="border-gray-300 w-full focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm ">
-                        @error('logo')
-                            <span class="text-red-600 text-sm">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-900">Meta Description<span
-                                class="text-red-600">*</span>
-                        </label>
-                        <input type="text" name="meta_description" placeholder="Enter Meta Description"
-                            class="border-gray-300 w-full focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm ">
-                        @error('logo')
-                            <span class="text-red-600 text-sm">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-900">Meta Keywords<span
-                                class="text-red-600">*</span>
-                        </label>
-                        <input type="text" name="meta_keyword" placeholder="Enter Meta Keywords"
-                            class="border-gray-300 w-full focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm ">
-                        @error('logo')
+                        @error('favicon')
                             <span class="text-red-600 text-sm">{{ $message }}</span>
                         @enderror
                     </div>
                 </div>
+
+
 
                 <div class="mt-8 flex justify-end gap-4">
                     <x-button type="submit" color="bg-indigo-600" text="Save Project" icon="save" />

@@ -1,5 +1,3 @@
-@section('title', 'Comment')
-
 <x-pannel-layout>
 
     <section>

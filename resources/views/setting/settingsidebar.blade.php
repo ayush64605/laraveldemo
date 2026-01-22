@@ -1,6 +1,6 @@
 <style>
-    .nav-link .active{
-        color: red
+    .nav-link .active {
+        color: {{ $themesetting->theme_color }}
     }
 </style>
 <div class="p-4 mt-4 border border-solid rounded-md border-gray-200 nav-link">
@@ -10,10 +10,10 @@
             <h1>General Settings</h1>
         </div>
     </a>
-    <a href="#">
+    <a href="{{ route('setting.theme') }}">
         <div
-            class="flex gap-4 items-center border-b border-gray-300 p-3 text-gray-500 hover:bg-gray-100 cursor-pointer {{ request()->is('setting/lemon') ? 'active' : '' }}">
-            <h1>Lemon Squzy Settings</h1>
+            class="flex gap-4 items-center border-b border-gray-300 p-3 text-gray-500 hover:bg-gray-100 cursor-pointer {{ request()->is('setting/theme') ? 'active' : '' }}">
+            <h1>Theme Setting</h1>
         </div>
     </a>
     <a href="#">

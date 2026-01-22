@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title')</title>
+    <title>{{ $setting->meta_title }}</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -16,16 +16,30 @@
         integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <!-- Scripts -->
-    {{--
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> --}}
+    <meta name="description" content="{{ $setting->meta_description }}">
+    <meta name="keywords" content="{{ $setting->meta_keywords }}">
+    <link rel="shortcut icon" href="{{ asset('/storage/' . $setting->favicon) }}" type="image/x-icon">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+    @php
+        $bg = $themesetting->theme_color . '1a';
+    @endphp
     <style type="text/css">
         body {
             font-family: "Figtree", ui-sans-serif, system-ui, sans-serif;
         }
+
+        :root {
+            --primary-theme: {{ $themesetting->theme_color }};
+        }
+
+        .sidebar .active {
+            color: var(--primary-theme);
+            border-left: 2px solid var(--primary-theme);
+            background-color: {{ $bg }};
+        }
+    </style>
     </style>
 
 </head>
@@ -33,21 +47,22 @@
 <body>
     <div class="min-h-screen  flex">
         <aside class="border-r border-gray-200 w-1/5 min-h-screen flex flex-col">
-            <div class="border-b border-gray-300 flex items-center h-16 px-4">
-                <p class="text-black font-bold text-lg">PMS</p>
+            <div class="border-b border-gray-300 flex items-center h-16 px-4 gap-4">
+                <img src="{{ asset('/storage/' . $setting->site_logo) }}" width="50" alt="">
+                <p class="text-black font-bold text-lg">{{ $setting->site_name }}</p>
             </div>
 
             <nav class="flex-1 p-4 space-y-2 sidebar">
                 <a href="{{ route('dashboard') }}"
                     class="flex items-center gap-2 p-3 text-sm rounded
-           {{ request()->routeIs('dashboard') ? 'bg-red-50 text-red-600 border-l-2 border-red-600' : 'text-gray-500 hover:bg-gray-100' }}">
+           {{ request()->routeIs('dashboard') ? 'active' : 'text-gray-500 hover:bg-gray-100' }}">
                     <i class="fa fa-home"></i>
                     <span>Dashboard</span>
                 </a>
 
                 <a href="{{ route('project.show') }}"
                     class="flex items-center gap-2 p-3 text-sm rounded
-           {{ request()->is('project/*') ? 'bg-red-50 text-red-600 border-l-2 border-red-600' : 'text-gray-500 hover:bg-gray-100' }}">
+           {{ request()->is('project/*') ? 'active' : 'text-gray-500 hover:bg-gray-100' }}">
                     <i class="fa-solid fa-diagram-project"></i>
                     <span>Projects</span>
                 </a>
@@ -55,21 +70,21 @@
                 @if (Auth::user() && Auth::user()->role === 'admin')
                     <a href="{{ route('employee.show') }}"
                         class="flex items-center gap-2 p-3 text-sm rounded
-                           {{ request()->is('employee/*') ? 'bg-red-50 text-red-600 border-l-2 border-red-600' : 'text-gray-500 hover:bg-gray-100' }}">
+                           {{ request()->is('employee/*') ? 'active' : 'text-gray-500 hover:bg-gray-100' }}">
                         <i class="fa-solid fa-briefcase"></i>
                         <span>Employees</span>
                     </a>
 
                     <a href="{{ route('user.show') }}"
                         class="flex items-center gap-2 p-3 text-sm rounded
-                           {{ request()->is('user/*') ? 'bg-red-50 text-red-600 border-l-2 border-red-600' : 'text-gray-500 hover:bg-gray-100' }}">
+                           {{ request()->is('user/*') ? 'active' : 'text-gray-500 hover:bg-gray-100' }}">
                         <i class="fa-solid fa-users"></i>
                         <span>Users</span>
                     </a>
 
                     <a href="{{ route('tag.show') }}"
                         class="flex items-center gap-2 p-3 text-sm rounded
-                           {{ request()->is('tag/*') ? 'bg-red-50 text-red-600 border-l-2 border-red-600' : 'text-gray-500 hover:bg-gray-100' }}">
+                           {{ request()->is('tag/*') ? 'active' : 'text-gray-500 hover:bg-gray-100' }}">
                         <i class="fa-solid fa-tag"></i>
                         <span>Tags</span>
                     </a>
@@ -77,7 +92,7 @@
 
                 <a href="{{ route('setting.general') }}"
                     class="flex items-center gap-2 p-3 text-sm rounded
-           {{ request()->is('setting/*') ? 'bg-red-50 text-red-600 border-l-2 border-red-600' : 'text-gray-500 hover:bg-gray-100' }}">
+           {{ request()->is('setting/*') ? 'active' : 'text-gray-500 hover:bg-gray-100' }}">
                     <i class="fa fa-gear"></i>
                     <span>Settings</span>
                 </a>
@@ -92,7 +107,8 @@
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
 
-                        <x-responsive-nav-link :href="route('logout')" onclick="event.preventDefault();
+                        <x-responsive-nav-link :href="route('logout')"
+                            onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                             {{ __('Log Out') }}
                         </x-responsive-nav-link>

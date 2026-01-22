@@ -2,7 +2,11 @@
 
 namespace App\Providers;
 
+use App\Settings\GeneralSettings;
+use App\Settings\ThemeSetting;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
+use View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -17,8 +21,10 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot(): void
+    public function boot(GeneralSettings $settings, ThemeSetting $themeSetting): void
     {
-        //
+        Config::set('app.name', $settings->site_name);
+        View::share('setting', $settings);
+        View::share('themesetting', $themeSetting);
     }
 }

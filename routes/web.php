@@ -38,8 +38,6 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(AuthCheck::class)->group(function () {
 
-    Route::get('/index', [ProjectController::class, 'index'])->name('index');
-
     Route::prefix('project')->name('project.')->group(function () {
         Route::get('show', [ProjectController::class, 'show'])->name('show');
         Route::get('add', [ProjectController::class, 'add'])->name('add');
@@ -115,7 +113,9 @@ Route::middleware(Employee::class)->group(function () {
 Route::prefix('setting')->name('setting.')->group(function () {
 
     Route::get('general', [SettingController::class, 'general'])->name('general');
+    Route::get('theme', [SettingController::class, 'theme'])->name('theme');
     Route::post('general_save', [SettingController::class, 'general_save'])->name('general_save');
+    Route::post('theme_save', [SettingController::class, 'theme_save'])->name('theme_save');
 
 
 });
