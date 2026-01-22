@@ -36,7 +36,7 @@
             </div>
         </div>
     </div>
-    <div class="px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+    <div class="px-4 sm:px-6 lg:px-8 mx-auto">
         <div class="grid sm:grid-cols-2 lg:grid-cols-2 gap-6">
             @if ($latestprojects !== null)
                 <div class="group flex shadow-xl flex-col h-full border border-gray-200 shadow-2xs rounded-xl">
@@ -130,7 +130,7 @@
             @endif
         </div>
     </div>
-    <div class="px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+    <div class="px-4 py-10 sm:px-6 lg:px-8 mx-auto">
         <div class="grid sm:grid-cols-2 lg:grid-cols-2 gap-6">
             @if ($latesttask !== null)
 

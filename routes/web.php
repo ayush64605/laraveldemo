@@ -9,6 +9,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectcategoryController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectuserController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
@@ -111,27 +112,11 @@ Route::middleware(Employee::class)->group(function () {
 });
 
 
-Route::prefix('setting')->group(function () {
+Route::prefix('setting')->name('setting.')->group(function () {
 
-    Route::get('/general', function () {
-        return view('setting.setting');
-    })->name('general');
+    Route::get('general', [SettingController::class, 'general'])->name('general');
+    Route::post('general_save', [SettingController::class, 'general_save'])->name('general_save');
 
-    Route::get('/lemon', function () {
-        return view('setting.lemon');
-    })->name('lemon');
-
-    Route::get('/email', function () {
-        return view('setting.email');
-    })->name('email');
-
-    Route::get('/captcha', function () {
-        return view('setting.setting');
-    })->name('captcha');
-
-    Route::get('/slack', function () {
-        return view('setting.setting');
-    })->name('slack');
 
 });
 

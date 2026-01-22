@@ -75,7 +75,7 @@
                     </a>
                 @endif
 
-                <a href="{{ route('general') }}"
+                <a href="{{ route('setting.general') }}"
                     class="flex items-center gap-2 p-3 text-sm rounded
            {{ request()->is('setting/*') ? 'bg-red-50 text-red-600 border-l-2 border-red-600' : 'text-gray-500 hover:bg-gray-100' }}">
                     <i class="fa fa-gear"></i>
