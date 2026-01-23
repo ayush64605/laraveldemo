@@ -1,4 +1,3 @@
-
 <x-pannel-layout>
     <div>
         <div class="grid sm:grid-cols-2 lg:grid-cols-2 gap-6">
@@ -39,6 +38,9 @@
                                         class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
                                         Role</th>
                                     <th scope="col"
+                                        class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
+                                        Created At</th>
+                                    <th scope="col"
                                         class="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase">
                                         Action</th>
                                 </tr>
@@ -54,6 +56,8 @@
                                             {{ $user->email }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-black-800">
                                             {{ $user->role }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-black-800" title="{{ $user->created_at->format($setting->date_format) }}">
+                                            {{ $user->created_at->diffForHumans() }}</td>
 
                                         <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
                                             <a href="{{ route('user.update', ['user' => $user->id]) }}"

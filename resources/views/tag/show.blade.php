@@ -1,4 +1,3 @@
-
 <x-pannel-layout>
     <div>
         <div class="grid sm:grid-cols-2 lg:grid-cols-2 gap-6">
@@ -62,6 +61,9 @@
                                         class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
                                         Projects Name</th>
                                     <th scope="col"
+                                        class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
+                                        Created At</th>
+                                    <th scope="col"
                                         class="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase">
                                         Action</th>
                                 </tr>
@@ -72,7 +74,7 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
                                             {{ $index + 1 }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
-                                            {{ $tag['name'] }}</td>
+                                            {{ $tag->name }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
                                             {{ count($tag->projects) }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
@@ -80,13 +82,15 @@
                                                 {{ $project->name }},
                                             @endforeach
                                         </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800"
+                                            title="{{ $tag->created_at->format($setting->date_format) }}">
+                                            {{ $tag->created_at->diffForHumans() }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
 
                                             <x-button type="button" color="bg-red-600" text="Delete" icon="trash"
                                                 onclick="document.getElementById('deleteModal-{{ $tag['id'] }}').classList.remove('hidden')" />
 
-                                            <x-genral-modal id="deleteModal-{{ $tag->id }}"
-                                                title="Delete tag"
+                                            <x-genral-modal id="deleteModal-{{ $tag->id }}" title="Delete tag"
                                                 description="Are you sure you want to delete this tag?">
 
                                                 <div class="mt-6 flex justify-end gap-3">
@@ -95,8 +99,7 @@
                                                         onclick="document.getElementById('deleteModal-{{ $tag->id }}').classList.add('hidden')" />
 
 
-                                                    <a
-                                                        href="{{ route('tag.delete', ['tag' => $tag->id]) }}">
+                                                    <a href="{{ route('tag.delete', ['tag' => $tag->id]) }}">
                                                         <x-button type="button" color="bg-red-600" text="Yes, Delete"
                                                             icon="trash" /> </a>
                                                 </div>

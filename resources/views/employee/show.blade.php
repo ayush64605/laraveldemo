@@ -1,4 +1,3 @@
-
 <x-pannel-layout>
     <div>
         <div class="grid sm:grid-cols-2 lg:grid-cols-2 gap-6">
@@ -87,6 +86,9 @@
                                         class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
                                         Number</th>
                                     <th scope="col"
+                                        class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
+                                        Created At</th>
+                                    <th scope="col"
                                         class="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase">
                                         Action</th>
                                 </tr>
@@ -102,6 +104,8 @@
                                             {{ $employee->email }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-black-800">
                                             {{ $employee->number }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-black-800" title="{{ $employee->created_at->format($setting->date_format) }}">
+                                            {{ $employee->created_at->diffForHumans() }}</td>
 
                                         <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
                                             <x-button type="button" icon="edit" color="bg-indigo-600" text="Edit"

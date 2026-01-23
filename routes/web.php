@@ -23,9 +23,11 @@ use Illuminate\Support\Facades\Route;
 
 //////////////// Auth //////////////////
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [AuthController::class, 'index'])->name('index');
+Route::get('/role', function () {
+    return view('role.add');
+})->name('role');
+
 
 Route::get('/dashboard', [AuthenticatedSessionController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -116,10 +118,12 @@ Route::prefix('setting')->name('setting.')->group(function () {
     Route::get('theme', [SettingController::class, 'theme'])->name('theme');
     Route::get('captcha', [SettingController::class, 'captcha'])->name('captcha');
     Route::get('email', [SettingController::class, 'email'])->name('email');
+    Route::get('annoucement', [SettingController::class, 'annoucement'])->name('annoucement');
     Route::post('general_save', [SettingController::class, 'general_save'])->name('general_save');
     Route::post('theme_save', [SettingController::class, 'theme_save'])->name('theme_save');
     Route::post('captcha_save', [SettingController::class, 'captcha_save'])->name('captcha_save');
     Route::post('email_save', [SettingController::class, 'email_save'])->name('email_save');
+    Route::post('annoucement_save', [SettingController::class, 'annoucement_save'])->name('annoucement_save');
 
 
 });

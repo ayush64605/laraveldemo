@@ -78,6 +78,13 @@
                         <span>Employees</span>
                     </a>
 
+                    <a href="{{ route('role') }}"
+                        class="flex items-center gap-2 p-3 text-sm rounded
+                           {{ request()->is('role') ? 'active' : 'text-gray-500 hover:bg-gray-100' }}">
+                        <i class="fa-solid fa-building-shield"></i>
+                        <span>Role</span>
+                    </a>
+
                     <a href="{{ route('user.show') }}"
                         class="flex items-center gap-2 p-3 text-sm rounded
                            {{ request()->is('user/*') ? 'active' : 'text-gray-500 hover:bg-gray-100' }}">

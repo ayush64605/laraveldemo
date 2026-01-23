@@ -39,7 +39,7 @@
                             <option value="UTC" {{ $setting->time_zone == 'UTC' ? 'selected' : '' }}>UTC</option>
                             <option value="IST" {{ $setting->time_zone == 'IST' ? 'selected' : '' }}>IST</option>
                         </select>
-                        @error('timezone')
+                        @error('time_zone')
                             <span class="text-red-600 text-sm">{{ $message }}</span>
                         @enderror
                     </div>
@@ -54,7 +54,7 @@
                             <option value="d-m-Y" {{ $setting->date_format == 'd-m-Y' ? 'selected' : '' }}>d-m-Y
                             </option>
                         </select>
-                        @error('timezone')
+                        @error('date_format')
                             <span class="text-red-600 text-sm">{{ $message }}</span>
                         @enderror
                     </div>
@@ -69,7 +69,7 @@
                             <option value="12 hours" {{ $setting->time_format == '12 hours' ? 'selected' : '' }}>12
                                 hours</option>
                         </select>
-                        @error('timezone')
+                        @error('time_format')
                             <span class="text-red-600 text-sm">{{ $message }}</span>
                         @enderror
                     </div>
@@ -83,7 +83,7 @@
                             </option>
                             <option value="Hindi" {{ $setting->language == 'Hindi' ? 'selected' : '' }}>Hindi</option>
                         </select>
-                        @error('timezone')
+                        @error('language')
                             <span class="text-red-600 text-sm">{{ $message }}</span>
                         @enderror
                     </div>
@@ -121,86 +121,89 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-                    <!-- Site Logo -->
-                    <div class="flex gap-4">
-                        <div class="flex-1">
-                            <label class="block text-sm font-medium text-gray-900 mb-2">Site Logo</label>
-                            <div class="flex items-center justify-center w-full">
-                                <label for="logo"
-                                    class="flex flex-col items-center justify-center w-full border-2 p-4 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition">
-                                    <div class="flex flex-col items-center justify-center pt-5 pb-6 text-center">
-                                        <svg class="w-8 h-8 mb-4 text-gray-500" fill="none" viewBox="0 0 20 16">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                                stroke-width="2"
-                                                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
-                                        </svg>
-                                        <p class="text-sm text-gray-500"><span class="font-semibold">Drag & drop</span>
-                                        </p>
-                                    </div>
-                                    <input id="logo" name="site_logo" type="file" class="hidden"
-                                        onchange="previewFile(this, 'logo-preview-container', 'logo-img', 'remove_logo')" />
-                                </label>
+                    <div class="flex-1">
+                        <label class="block text-sm font-medium text-gray-900 mb-2">Site Logo</label>
+                        <div class="flex gap-4">
+                            <div id="logo-upload-box" class="flex-1 {{ $setting->site_logo ? 'hidden' : 'block' }}">
+                                <div class="flex items-center justify-center w-full">
+                                    <label for="logo"
+                                        class="flex flex-col items-center justify-center w-full border-2 p-4 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition">
+                                        <div class="flex flex-col items-center justify-center pt-5 pb-6 text-center">
+                                            <svg class="w-8 h-8 mb-4 text-gray-500" fill="none" viewBox="0 0 20 16">
+                                                <path stroke="currentColor" stroke-linecap="round"
+                                                    stroke-linejoin="round" stroke-width="2"
+                                                    d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                                            </svg>
+                                            <p class="text-sm text-gray-500"><span class="font-semibold">Drag &
+                                                    drop</span></p>
+                                        </div>
+                                        <input id="logo" name="site_logo" type="file" class="hidden"
+                                            onchange="previewFile(this, 'logo-preview-container', 'logo-img', 'remove_logo', 'logo-upload-box')" />
+                                    </label>
+                                </div>
                             </div>
-                        </div>
 
-                        <input type="hidden" name="remove_site_logo" id="remove_logo" value="0">
+                            <input type="hidden" name="remove_site_logo" id="remove_logo" value="0">
 
-                        <div id="logo-preview-container"
-                            class="{{ $setting->site_logo ? 'block' : 'hidden' }} relative border-2 p-4 border-gray-300 border-dashed rounded-lg bg-gray-50 mt-8 w-fit h-fit">
-                            <button type="button"
-                                onclick="removeFile('logo', 'logo-preview-container', 'logo-img', 'remove_logo')"
-                                class="bg-red-500 text-white rounded-full p-1 hover:bg-red-600 shadow-sm"
-                                style="position: absolute; top: 5px; left: 5px;">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M6 18L18 6M6 6l12 12"></path>
-                                </svg>
-                            </button>
-                            <img id="logo-img" src="{{ asset('/storage/' . $setting->site_logo) }}" alt="Logo"
-                                width="80">
+                            <div id="logo-preview-container"
+                                class="{{ $setting->site_logo ? 'block' : 'hidden' }} relative border-2 p-4 border-gray-300 border-dashed rounded-lg bg-gray-50 w-fit h-fit">
+                                <button type="button"
+                                    onclick="removeFile('logo', 'logo-preview-container', 'logo-img', 'remove_logo', 'logo-upload-box')"
+                                    class="bg-red-500 text-white rounded-full p-1 hover:bg-red-600 shadow-sm"
+                                    style="position: absolute; top: -10px; right: -10px; z-index: 10;">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </button>
+                                <img id="logo-img" src="{{ asset('/storage/' . $setting->site_logo) }}"
+                                    alt="Logo" width="120" class="rounded">
+                            </div>
                         </div>
                     </div>
 
-                    <div class="flex gap-4">
-                        <div class="flex-1">
-                            <label class="block text-sm font-medium text-gray-900 mb-2">Favicon</label>
-                            <div class="flex items-center justify-center w-full">
-                                <label for="favicon"
-                                    class="flex flex-col items-center justify-center w-full border-2 p-4 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition">
-                                    <div class="flex flex-col items-center justify-center pt-5 pb-6 text-center">
-                                        <svg class="w-8 h-8 mb-4 text-gray-500" fill="none" viewBox="0 0 20 16">
-                                            <path stroke="currentColor" stroke-linecap="round"
-                                                stroke-linejoin="round" stroke-width="2"
-                                                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
-                                        </svg>
-                                        <p class="text-sm text-gray-500"><span class="font-semibold">Drag &
-                                                drop</span></p>
-                                    </div>
-                                    <input id="favicon" name="favicon" type="file" class="hidden"
-                                        onchange="previewFile(this, 'favicon-preview-container', 'favicon-img', 'remove_favicon')" />
-                                </label>
+                    <div class="flex-1">
+                        <label class="block text-sm font-medium text-gray-900 mb-2">Favicon</label>
+                        <div class="flex gap-4">
+                            <div id="favicon-upload-box" class="flex-1 {{ $setting->favicon ? 'hidden' : 'block' }}">
+                                <div class="flex items-center justify-center w-full">
+                                    <label for="favicon"
+                                        class="flex flex-col items-center justify-center w-full border-2 p-4 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition">
+                                        <div class="flex flex-col items-center justify-center pt-5 pb-6 text-center">
+                                            <svg class="w-8 h-8 mb-4 text-gray-500" fill="none"
+                                                viewBox="0 0 20 16">
+                                                <path stroke="currentColor" stroke-linecap="round"
+                                                    stroke-linejoin="round" stroke-width="2"
+                                                    d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                                            </svg>
+                                            <p class="text-sm text-gray-500"><span class="font-semibold">Drag &
+                                                    drop</span></p>
+                                        </div>
+                                        <input id="favicon" name="favicon" type="file" class="hidden"
+                                            onchange="previewFile(this, 'favicon-preview-container', 'favicon-img', 'remove_favicon', 'favicon-upload-box')" />
+                                    </label>
+                                </div>
                             </div>
-                        </div>
 
-                        <input type="hidden" name="remove_favicon" id="remove_favicon" value="0">
+                            <input type="hidden" name="remove_favicon" id="remove_favicon" value="0">
 
-                        <div id="favicon-preview-container"
-                            class="{{ $setting->favicon ? 'block' : 'hidden' }} relative border-2 p-4 border-gray-300 border-dashed rounded-lg bg-gray-50 mt-8 w-fit h-fit">
-                            <button type="button"
-                                onclick="removeFile('favicon', 'favicon-preview-container', 'favicon-img', 'remove_favicon')"
-                                class="bg-red-500 text-white rounded-full p-1 hover:bg-red-600 shadow-sm"
-                                style="position: absolute; top: 5px; left: 5px;">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M6 18L18 6M6 6l12 12"></path>
-                                </svg>
-                            </button>
-                            <img id="favicon-img" src="{{ asset('/storage/' . $setting->favicon) }}" alt="Favicon"
-                                width="80">
+                            <div id="favicon-preview-container"
+                                class="{{ $setting->favicon ? 'block' : 'hidden' }} relative border-2 p-4 border-gray-300 border-dashed rounded-lg bg-gray-50 w-fit h-fit">
+                                <button type="button"
+                                    onclick="removeFile('favicon', 'favicon-preview-container', 'favicon-img', 'remove_favicon', 'favicon-upload-box')"
+                                    class="bg-red-500 text-white rounded-full p-1 hover:bg-red-600 shadow-sm"
+                                    style="position: absolute; top: -10px; right: -10px; z-index: 10;">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </button>
+                                <img id="favicon-img" src="{{ asset('/storage/' . $setting->favicon) }}"
+                                    alt="Favicon" width="120" class="rounded">
+                            </div>
                         </div>
                     </div>
                 </div>
-
 
                 <div class="mt-8 flex justify-end gap-4">
                     <x-button type="submit" color="bg-indigo-600" text="Save" icon="save" />
@@ -210,24 +213,35 @@
         </div>
     </div>
     <script>
-        function previewFile(input, containerId, imgId, hiddenId) {
-            const file = input.files[0];
-            if (file) {
+        function previewFile(input, previewContainerId, imgId, hiddenInputId, uploadSectionId) {
+            const previewContainer = document.getElementById(previewContainerId);
+            const uploadSection = document.getElementById(uploadSectionId);
+            const img = document.getElementById(imgId);
+            const hiddenRemoveInput = document.getElementById(hiddenInputId);
+
+            if (input.files && input.files[0]) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    document.getElementById(imgId).src = e.target.result;
-                    document.getElementById(containerId).classList.remove('hidden');
-                    document.getElementById(hiddenId).value = "0";
+                    img.src = e.target.result;
+
+                    previewContainer.classList.remove('hidden');
+                    uploadSection.classList.add('hidden');
+                    hiddenRemoveInput.value = "0";
                 }
-                reader.readAsDataURL(file);
+                reader.readAsDataURL(input.files[0]);
             }
         }
 
-        function removeFile(inputId, containerId, imgId, hiddenId) {
-            document.getElementById(inputId).value = "";
-            document.getElementById(containerId).classList.add('hidden');
-            document.getElementById(imgId).src = "";
-            document.getElementById(hiddenId).value = "1";
+        function removeFile(inputId, previewContainerId, imgId, hiddenInputId, uploadSectionId) {
+            const input = document.getElementById(inputId);
+            const previewContainer = document.getElementById(previewContainerId);
+            const uploadSection = document.getElementById(uploadSectionId);
+            const hiddenRemoveInput = document.getElementById(hiddenInputId);
+
+            input.value = "";
+            previewContainer.classList.add('hidden');
+            uploadSection.classList.remove('hidden');
+            hiddenRemoveInput.value = "1";
         }
     </script>
 </x-pannel-layout>

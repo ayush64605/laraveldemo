@@ -28,4 +28,10 @@
             <h1>Email Settings</h1>
         </div>
     </a>
+    <a href="{{ route('setting.annoucement') }}">
+        <div
+            class="flex gap-4 items-center border-b border-gray-300 p-3 text-gray-500 hover:bg-gray-100 cursor-pointer {{ request()->is('setting/annoucement') ? 'active' : '' }}">
+            <h1>Annoucement</h1>
+        </div>
+    </a>
 </div>

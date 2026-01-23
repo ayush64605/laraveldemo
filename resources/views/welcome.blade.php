@@ -10,6 +10,9 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
+    <link rel="shortcut icon"
+        href="{{ $setting->favicon != null ? asset('/storage/' . $setting->favicon) : asset('assets/images/logo.png') }}"
+        type="image/x-icon">
 
     <!-- Styles / Scripts -->
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
@@ -22,8 +25,17 @@
     }
 </style>
 
-<body
-    class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] flex p-6 lg:p-8 items-center lg:justify-center min-h-screen flex-col">
+<body class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] flex items-center lg:justify-center min-h-screen flex-col">
+    <div class="w-full">
+        <div class="flex items-center justify-center transition-all duration-300 shadow-inner min-h-[40px]"
+            style="background-color:{{ $annoucement->bg_color }}">
+            <div class="text-center">
+                <span style="color: {{ $annoucement->msg_color }}" class="font-medium">{{ $annoucement->msg }}</span>
+                <a href="{{ $annoucement->link }}" class="ml-2 underline font-bold"
+                    style="color: {{ $annoucement->txt_color }}">{{ $annoucement->link_text }}</a>
+            </div>
+        </div>
+    </div>
     <header class="w-full lg:max-w-4xl max-w-[335px] text-sm mb-6 not-has-[nav]:hidden">
         <div class="border-b border-gray-300 flex items-center h-16 px-4 gap-4 justify-between">
             <div class="flex items-center gap-4">

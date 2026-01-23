@@ -80,6 +80,9 @@
                                         class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
                                         User</th>
                                     <th scope="col"
+                                        class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
+                                        Created at</th>
+                                    <th scope="col"
                                         class="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase">
                                         Action</th>
                                 </tr>
@@ -94,14 +97,14 @@
                                             {{ $project->category->name ?? 'Unknown' }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-black-800">
-                                            {{ $project['name'] }}
+                                            {{ $project->name }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-black-800">
                                             <img src="{{ $project->image ? asset('storage/' . $project->image->url) : '' }}"
                                                 alt="" width="100">
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-black-800">
-                                            {{ $project['status'] }}
+                                            {{ $project->status }}
                                         </td>
 
                                         @if ($project->users)
@@ -115,6 +118,14 @@
                                                 Added</td>
                                         @endif
 
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-black-800"
+                                            title="{{ $project->created_at->format($setting->date_format) }}">
+                                            {{ $project->created_at->diffForHumans() }}
+                                        </td>
+
+
+
+
                                         @if (Auth::user()->role == 'admin')
                                             <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
 
@@ -124,7 +135,7 @@
 
                                                 <x-button type="button" color="bg-red-600" text="Delete"
                                                     icon="trash"
-                                                    onclick="document.getElementById('deleteModal-{{ $project->id }}').classList.remove('hidden')" style="background-color: red"/>
+                                                    onclick="document.getElementById('deleteModal-{{ $project->id }}').classList.remove('hidden')" />
 
                                                 <button
                                                     onclick="document.getElementById('moreModal-{{ $project->id }}').classList.remove('hidden')"

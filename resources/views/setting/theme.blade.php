@@ -25,8 +25,8 @@
                         <div
                             class="relative flex items-center gap-3 p-2 border border-gray-200 rounded-xl bg-white shadow-sm hover:border-indigo-400 transition-all">
                             <input type="color" name="theme_color"
-                                class="h-10 w-14 cursor-pointer appearance-none border-none bg-transparent [&::-webkit-color-swatch-wrapper]:p-0 [&::-webkit-color-swatch]:rounded-lg [&::-webkit-color-swatch]:border-none"
-                                value="{{ $setting->theme_color }}">
+                                class="h-8 w-8 cursor-pointer appearance-none border-none bg-transparent"
+                                value="{{ $setting->theme_color }}" style="border-radius:30px;">
 
                             <span class="text-sm font-mono text-gray-500 uppercase tracking-wider">
                                 {{ $setting->theme_color }}

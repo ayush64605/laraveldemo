@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Settings\AnnoucementSetting;
 use Auth;
 use Hash;
 use Illuminate\Http\Request;
@@ -61,5 +62,10 @@ class AuthController extends Controller
     {
         Auth::logout();
         return redirect()->route('login');
+    }
+
+    public function index(AnnoucementSetting $annoucement)
+    {
+        return view('welcome', compact('annoucement'));
     }
 }
