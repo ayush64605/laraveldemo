@@ -18,7 +18,9 @@
 
     <meta name="description" content="{{ $setting->meta_description }}">
     <meta name="keywords" content="{{ $setting->meta_keywords }}">
-    <link rel="shortcut icon" href="{{ asset('/storage/' . $setting->favicon) }}" type="image/x-icon">
+    <link rel="shortcut icon"
+        href="{{ $setting->favicon != null ? asset('/storage/' . $setting->favicon) : asset('assets/images/logo.png') }}"
+        type="image/x-icon">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -48,7 +50,8 @@
     <div class="min-h-screen  flex">
         <aside class="border-r border-gray-200 w-1/5 min-h-screen flex flex-col">
             <div class="border-b border-gray-300 flex items-center h-16 px-4 gap-4">
-                <img src="{{ asset('/storage/' . $setting->site_logo) }}" width="50" alt="">
+                <img src="{{ $setting->site_logo != null ? asset('/storage/' . $setting->site_logo) : asset('assets/images/logo.png') }}"
+                    width="50" alt="">
                 <p class="text-black font-bold text-lg">{{ $setting->site_name }}</p>
             </div>
 

@@ -16,22 +16,16 @@
             <h1>Theme Setting</h1>
         </div>
     </a>
-    <a href="#">
-        <div
-            class="flex gap-4 items-center border-b border-gray-300 p-3 text-gray-500 hover:bg-gray-100 cursor-pointer {{ request()->is('setting/email') ? 'active' : '' }}">
-            <h1>Email Settings</h1>
-        </div>
-    </a>
-    <a href="#">
+    <a href="{{ route('setting.captcha') }}">
         <div
             class="flex gap-4 items-center border-b border-gray-300 p-3 text-gray-500 hover:bg-gray-100 cursor-pointer {{ request()->is('setting/captcha') ? 'active' : '' }}">
             <h1>Re-captcha Settings</h1>
         </div>
     </a>
-    <a href="#">
+    <a href="{{ route('setting.email') }}">
         <div
-            class="flex gap-4 items-center border-b border-gray-300 p-3 text-gray-500 hover:bg-gray-100 cursor-pointer {{ request()->is('setting/slack') ? 'active' : '' }}">
-            <h1>Slack Settings</h1>
+            class="flex gap-4 items-center border-b border-gray-300 p-3 text-gray-500 hover:bg-gray-100 cursor-pointer {{ request()->is('setting/email') ? 'active' : '' }}">
+            <h1>Email Settings</h1>
         </div>
     </a>
 </div>

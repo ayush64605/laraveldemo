@@ -3,18 +3,10 @@
 use Spatie\LaravelSettings\Migrations\SettingsMigration;
 
 return new class extends SettingsMigration {
-
     protected array $settings = [
-        'general.site_name' => 'Project Management',
-        'general.site_logo' => '',
-        'general.favicon' => '',
-        'genetal.meta_title' => 'Default Title',
-        'general.meta_description' => '',
-        'general.meta_keywords' => '',
-        'general.time_zone' => 'UTC',
-        'general.date_format' => 'Y-m-d',
-        'general;.time_format' => '24 hours',
-        'general.language' => 'English'
+        'captcha.status' => 'off',
+        'captcha.site_key' => null,
+        'captcha.site_secret' => null,
     ];
 
     public function up(): void

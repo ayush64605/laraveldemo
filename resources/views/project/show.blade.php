@@ -124,7 +124,7 @@
 
                                                 <x-button type="button" color="bg-red-600" text="Delete"
                                                     icon="trash"
-                                                    onclick="document.getElementById('deleteModal-{{ $project->id }}').classList.remove('hidden')" />
+                                                    onclick="document.getElementById('deleteModal-{{ $project->id }}').classList.remove('hidden')" style="background-color: red"/>
 
                                                 <button
                                                     onclick="document.getElementById('moreModal-{{ $project->id }}').classList.remove('hidden')"
