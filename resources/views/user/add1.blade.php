@@ -132,8 +132,8 @@
 
                     <div class="flex justify-between">
                         <div>
-                            <h2 class="text-lg font-semibold text-gray-900">Bot Protection</h2>
-                            <p class="text-gray-500">Implement advanced bot prevention...</p>
+                            <h2 class="text-lg font-semibold text-gray-900">Administrator Access</h2>
+                            <p class="text-gray-500">Administrator users have unrestricted access to all feature and functions.</p>
                         </div>
 
                         <label class="relative inline-flex items-center cursor-pointer">
