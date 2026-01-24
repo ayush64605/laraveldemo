@@ -1,4 +1,3 @@
-
 <x-pannel-layout>
 
     <section>
@@ -90,8 +89,7 @@
                     <a href="{{ route('user.show') }}"> <x-button type="button" color="bg-red-600" text="Cancel"
                             icon="cancel" />
                     </a>
-                    </a>
-                    <x-button type="submit" color="bg-indigo-600" text="Save" icon="save" /> </a>
+                    <x-button type="submit" color="bg-indigo-600" text="Save" icon="save" />
                 </div>
             </form>
         </div>

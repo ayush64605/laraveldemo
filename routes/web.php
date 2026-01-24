@@ -28,6 +28,10 @@ Route::get('/role', function () {
     return view('role.add');
 })->name('role');
 
+Route::get('/useradd', function () {
+    return view('user.add1');
+})->name('useradd');
+
 
 Route::get('/dashboard', [AuthenticatedSessionController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
 

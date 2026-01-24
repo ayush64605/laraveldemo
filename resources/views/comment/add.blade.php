@@ -39,8 +39,7 @@
                     <a href="{{ route('employee.index') }}"> <x-button type="button" color="bg-red-600"
                             text="Cancel" icon="cancel" />
                     </a>
-                    </a>
-                    <x-button type="submit" color="bg-indigo-600" text="Save Comment" icon="save" /> </a>
+                    <x-button type="submit" color="bg-indigo-600" text="Save Comment" icon="save" />
                 </div>
             </form>
         </div>
