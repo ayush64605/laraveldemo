@@ -9,6 +9,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectcategoryController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectuserController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TaskController;
@@ -74,9 +75,8 @@ Route::middleware(AuthCheck::class)->group(function () {
 
     Route::prefix('user')->name('user.')->group(function () {
         Route::get('show/', [UserController::class, 'show'])->name('show');
-        Route::get('add/', [UserController::class, 'add'])->name('add');
-        Route::post('save/', [UserController::class, 'save'])->name('save');
-        Route::get('update/{user}', [UserController::class, 'update'])->name('update');
+        Route::get('add/{user?}', [UserController::class, 'add'])->name('add');
+        Route::post('save/{user?}', [UserController::class, 'save'])->name('save');
         Route::get('delete/{user}', [UserController::class, 'delete'])->name('delete');
     });
 
@@ -90,6 +90,13 @@ Route::middleware(AuthCheck::class)->group(function () {
         Route::get('show', [ProjectcategoryController::class, 'show'])->name('show');
         Route::post('save', [ProjectcategoryController::class, 'save'])->name('save');
         Route::get('delete/{projectcategory}', [ProjectcategoryController::class, 'delete'])->name('delete');
+    });
+
+     Route::prefix('role')->name('role.')->group(function () {
+        Route::get('show', [RoleController::class, 'show'])->name('show');
+        Route::get('add/{role?}', [RoleController::class, 'add'])->name('add');
+        Route::post('save/{role?}', [RoleController::class, 'save'])->name('save');
+        Route::get('delete/{role}', [RoleController::class, 'delete'])->name('delete');
     });
 });
 
@@ -128,9 +135,6 @@ Route::prefix('setting')->name('setting.')->group(function () {
     Route::post('captcha_save', [SettingController::class, 'captcha_save'])->name('captcha_save');
     Route::post('email_save', [SettingController::class, 'email_save'])->name('email_save');
     Route::post('annoucement_save', [SettingController::class, 'annoucement_save'])->name('annoucement_save');
-
-
 });
 
 require __DIR__ . '/auth.php';
-

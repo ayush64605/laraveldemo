@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Schema;
 use Spatie\LaravelSettings\Migrations\SettingsMigration;
 
 return new class extends SettingsMigration {
@@ -15,6 +16,10 @@ return new class extends SettingsMigration {
 
     public function up(): void
     {
+        if (!Schema::hasTable('settings')) {
+            return;
+        }
+
         foreach ($this->settings as $key => $value) {
             if (!$this->migrator->exists($key)) {
                 $this->migrator->add($key, $value);

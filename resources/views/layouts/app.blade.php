@@ -12,131 +12,161 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
-        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
 
     <meta name="description" content="{{ $setting->meta_description }}">
     <meta name="keywords" content="{{ $setting->meta_keywords }}">
+
     <link rel="shortcut icon"
-        href="{{ $setting->favicon != null ? asset('/storage/' . $setting->favicon) : asset('assets/images/logo.png') }}"
-        type="image/x-icon">
+        href="{{ $setting->favicon ? asset('/storage/' . $setting->favicon) : asset('assets/images/logo.png') }}">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    @php
-        $bg = $themesetting->theme_color . '1a';
-    @endphp
-    <style type="text/css">
-        body {
-            font-family: "Figtree", ui-sans-serif, system-ui, sans-serif;
-        }
+    @php $bg = $themesetting->theme_color . '1a'; @endphp
 
+    <style>
         :root {
             --primary-theme: {{ $themesetting->theme_color }};
         }
 
         .sidebar .active {
             color: var(--primary-theme);
-            border-left: 2px solid var(--primary-theme);
+            border-left: 3px solid var(--primary-theme);
             background-color: {{ $bg }};
         }
     </style>
-    </style>
-
 </head>
 
-<body>
-    <div class="min-h-screen  flex">
-        <aside class="border-r border-gray-200 w-1/5 min-h-screen flex flex-col">
-            <div class="border-b border-gray-300 flex items-center h-16 px-4 gap-4">
-                <img src="{{ $setting->site_logo != null ? asset('/storage/' . $setting->site_logo) : asset('assets/images/logo.png') }}"
-                    width="50" alt="">
-                <p class="text-black font-bold text-lg">{{ $setting->site_name }}</p>
+@php $user = Auth::user(); @endphp
+
+<body class="bg-gray-50 font-figtree">
+
+    <div class="flex min-h-screen overflow-hidden">
+
+        <!-- Mobile Overlay -->
+        <div id="overlay" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden" onclick="toggleSidebar()"></div>
+
+        <!-- Sidebar -->
+        <aside id="sidebar"
+            class="fixed lg:static inset-y-0 left-0 z-50 w-72 lg:w-64 bg-white border-r
+                  transform -translate-x-full lg:translate-x-0 transition-transform duration-300">
+
+            <!-- Logo -->
+            <div class="h-16 flex items-center gap-3 px-4 border-b">
+                <img src="{{ $setting->site_logo ? asset('/storage/' . $setting->site_logo) : asset('assets/images/logo.png') }}"
+                    class="w-10 h-10 object-contain" alt="">
+                <span class="font-bold text-lg truncate">{{ $setting->site_name }}</span>
             </div>
 
-            <nav class="flex-1 p-4 space-y-2 sidebar">
-                <a href="{{ route('dashboard') }}"
-                    class="flex items-center gap-2 p-3 text-sm rounded
-           {{ request()->routeIs('dashboard') ? 'active' : 'text-gray-500 hover:bg-gray-100' }}">
-                    <i class="fa fa-home"></i>
-                    <span>Dashboard</span>
-                </a>
+            @if ($user)
+                <nav class="flex-1 px-3 py-4 space-y-1 sidebar overflow-y-auto">
+                    @php
+                        $navItem = 'flex items-center gap-3 px-4 py-2 text-sm rounded-md transition';
+                        $inactive = 'text-gray-600 hover:bg-gray-100';
+                    @endphp
 
-                <a href="{{ route('project.show') }}"
-                    class="flex items-center gap-2 p-3 text-sm rounded
-           {{ request()->is('project/*') ? 'active' : 'text-gray-500 hover:bg-gray-100' }}">
-                    <i class="fa-solid fa-diagram-project"></i>
-                    <span>Projects</span>
-                </a>
-
-                @if (Auth::user() && Auth::user()->role === 'admin')
-                    <a href="{{ route('employee.show') }}"
-                        class="flex items-center gap-2 p-3 text-sm rounded
-                           {{ request()->is('employee/*') ? 'active' : 'text-gray-500 hover:bg-gray-100' }}">
-                        <i class="fa-solid fa-briefcase"></i>
-                        <span>Employees</span>
+                    <a href="{{ route('dashboard') }}"
+                        class="{{ $navItem }} {{ request()->routeIs('dashboard') ? 'active' : $inactive }}">
+                        <i class="fa fa-home"></i>
+                        Dashboard
                     </a>
 
-                    <a href="{{ route('role') }}"
-                        class="flex items-center gap-2 p-3 text-sm rounded
-                           {{ request()->is('role') ? 'active' : 'text-gray-500 hover:bg-gray-100' }}">
-                        <i class="fa-solid fa-building-shield"></i>
-                        <span>Role</span>
-                    </a>
+                    @can('project.view')
+                        <a href="{{ route('project.show') }}"
+                            class="{{ $navItem }} {{ request()->is('project/*') ? 'active' : $inactive }}">
+                            <i class="fa-solid fa-diagram-project"></i>
+                            Projects
+                        </a>
+                    @endcan
 
-                    <a href="{{ route('user.show') }}"
-                        class="flex items-center gap-2 p-3 text-sm rounded
-                           {{ request()->is('user/*') ? 'active' : 'text-gray-500 hover:bg-gray-100' }}">
-                        <i class="fa-solid fa-users"></i>
-                        <span>Users</span>
-                    </a>
+                    @can('employee.view')
+                        <a href="{{ route('employee.show') }}"
+                            class="{{ $navItem }} {{ request()->is('employee/*') ? 'active' : $inactive }}">
+                            <i class="fa-solid fa-briefcase"></i>
+                            Employees
+                        </a>
+                    @endcan
 
-                    <a href="{{ route('tag.show') }}"
-                        class="flex items-center gap-2 p-3 text-sm rounded
-                           {{ request()->is('tag/*') ? 'active' : 'text-gray-500 hover:bg-gray-100' }}">
-                        <i class="fa-solid fa-tag"></i>
-                        <span>Tags</span>
-                    </a>
-                @endif
+                    @can('role.view')
+                        <a href="{{ route('role.show') }}"
+                            class="{{ $navItem }} {{ request()->is('role/*') ? 'active' : $inactive }}">
+                            <i class="fa-solid fa-building-shield"></i>
+                            Roles
+                        </a>
+                    @endcan
 
-                <a href="{{ route('setting.general') }}"
-                    class="flex items-center gap-2 p-3 text-sm rounded
-           {{ request()->is('setting/*') ? 'active' : 'text-gray-500 hover:bg-gray-100' }}">
-                    <i class="fa fa-gear"></i>
-                    <span>Settings</span>
-                </a>
-            </nav>
+                    @can('user.view')
+                        <a href="{{ route('user.show') }}"
+                            class="{{ $navItem }} {{ request()->is('user/*') ? 'active' : $inactive }}">
+                            <i class="fa-solid fa-users"></i>
+                            Users
+                        </a>
+                    @endcan
+
+                    @can('tags.view')
+                        <a href="{{ route('tag.show') }}"
+                            class="{{ $navItem }} {{ request()->is('tag/*') ? 'active' : $inactive }}">
+                            <i class="fa-solid fa-tag"></i>
+                            Tags
+                        </a>
+                    @endcan
+
+                    @can('setting.view')
+                        <a href="{{ route('setting.general') }}"
+                            class="{{ $navItem }} {{ request()->is('setting/*') ? 'active' : $inactive }}">
+                            <i class="fa fa-gear"></i>
+                            Settings
+                        </a>
+                    @endcan
+                </nav>
+            @endif
         </aside>
 
-
+        <!-- Main Content -->
         <div class="flex flex-col flex-1">
 
-            <header class="border-b border-gray-300 flex justify-end h-fit gap-3 w-full p-3">
-                @if (Auth::user())
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
+            <!-- Header -->
+            <header class="sticky top-0 z-30 bg-white border-b h-16 px-4 flex items-center justify-between">
 
-                        <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
-                                                this.closest('form').submit();">
-                            {{ __('Log Out') }}
-                        </x-responsive-nav-link>
-                    </form>
-                    <img src="{{ Auth::user()->image ? asset('storage/' . Auth::user()->image->url) : asset('assets/images/user.png') }}"
-                        alt="" width="40">
-                @else
-                    <a href="{{ route('employee.logout') }}"><button>Logout</button></a>
-                @endif
+                <!-- Mobile Menu Button -->
+                <button onclick="toggleSidebar()" class="lg:hidden text-gray-600 hover:text-black">
+                    <i class="fa fa-bars text-xl"></i>
+                </button>
+
+                <div class="flex items-center gap-3 ml-auto">
+                    @auth
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="text-sm text-gray-600 hover:text-red-600">
+                                Logout
+                            </button>
+                        </form>
+
+                        <img src="{{ Auth::user()->image ? asset('storage/' . Auth::user()->image->url) : asset('assets/images/user.png') }}"
+                            class="w-9 h-9 rounded-full object-cover border" alt="user">
+                    @endauth
+                </div>
             </header>
 
-            <main class="p-6 ">
+            <!-- Page Content -->
+            <main class="flex-1 p-4 overflow-y-auto">
                 {{ $slot }}
             </main>
 
         </div>
     </div>
-</body>
 
+    <!-- Sidebar Toggle Script -->
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            sidebar.classList.toggle('-translate-x-full');
+            overlay.classList.toggle('hidden');
+        }
+    </script>
+
+</body>
 
 </html>

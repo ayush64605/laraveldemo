@@ -8,9 +8,9 @@ use Illuminate\View\Component;
 
 class button extends Component
 {
-    public string $type;
-    public string $text;
-    public string $color;
+    public ?string $type;
+    public ?string $text;
+    public ?string $color;
     public ?string $icon;
     public function __construct($type = 'button', $text, $color, $icon)
     {

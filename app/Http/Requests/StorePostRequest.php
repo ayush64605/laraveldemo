@@ -47,7 +47,6 @@ class StorePostRequest extends FormRequest
                 $exists ? 'nullable' : 'required',
                 'image',
                 'mimes:jpg,jpeg,png,webp',
-                'max:2048',
             ],
 
             'technologies' => ['nullable', 'array'],
