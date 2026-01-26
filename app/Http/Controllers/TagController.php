@@ -9,6 +9,9 @@ class TagController extends Controller
 {
     public function show()
     {
+        if (!checkPermission(['tags.view'])) {
+            return redirect()->route('dashboard');
+        }
         $tags = Tag::with('projects')->get();
         return view("tag.show", compact('tags'));
     }

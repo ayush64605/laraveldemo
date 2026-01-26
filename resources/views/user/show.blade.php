@@ -1,5 +1,5 @@
 <x-pannel-layout>
-    <div>
+    <x-card>
         <div class="flex justify-between items-center">
             <div class="p-4">
                 <h3 class="text-2xl font-semibold text-black">
@@ -10,11 +10,13 @@
                 </p>
             </div>
 
-            <div class="p-2">
-                <a href="{{ route('user.add') }}">
-                    <x-button type="button" icon="plus" color="bg-indigo-600" text="Add User" />
-                </a>
-            </div>
+            @if (checkPermission('user.create'))
+                <div class="p-2">
+                    <a href="{{ route('user.add') }}">
+                        <x-button type="button" icon="plus" color="bg-indigo-600" text="Add User" />
+                    </a>
+                </div>
+            @endif
         </div>
 
         @if (session('error'))
@@ -47,7 +49,10 @@
                                         <x-table.td>{{ $index + 1 }}</x-table.td>
                                         <x-table.td class="font-medium">{{ $user->name ?? 'Unknown' }}</x-table.td>
                                         <x-table.td>{{ $user->email }}</x-table.td>
-                                        <x-table.td>{{ $user->role }}</x-table.td>
+                                        <x-table.td>
+                                            {{ $user->roles->pluck('name')->join(',') ?? 'admin' }}
+                                        </x-table.td>
+
                                         <x-table.td title="{{ $user->created_at->format($setting->date_format) }}">
                                             {{ $user->created_at->diffForHumans() }}
                                         </x-table.td>
@@ -55,14 +60,17 @@
                                         <x-table.td class="text-end">
                                             <div class="inline-flex flex-wrap gap-2 justify-end">
 
-                                                <a href="{{ route('user.add', ['user' => $user->id]) }}">
-                                                    <x-button type="button" icon="edit" color="bg-indigo-600"
-                                                        text="Edit" />
-                                                </a>
-
-                                                <x-button type="button" color="bg-red-600" text="Delete"
-                                                    icon="trash"
-                                                    onclick="document.getElementById('deleteModal-{{ $user->id }}').classList.remove('hidden')" />
+                                                @if (checkPermission('user.edit'))
+                                                    <a href="{{ route('user.add', ['user' => $user->id]) }}">
+                                                        <x-button type="button" icon="edit" color="bg-indigo-600"
+                                                            text="Edit" />
+                                                    </a>
+                                                @endif
+                                                @if (checkPermission('user.delete'))
+                                                    <x-button type="button" color="bg-red-600" text="Delete"
+                                                        icon="trash"
+                                                        onclick="document.getElementById('deleteModal-{{ $user->id }}').classList.remove('hidden')" />
+                                                @endif
 
                                             </div>
 
@@ -89,5 +97,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </x-card>
 </x-pannel-layout>

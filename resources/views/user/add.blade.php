@@ -1,5 +1,6 @@
 <x-pannel-layout>
-    <form action="{{ route('user.save', $user->id ?? null) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('user.save', $user->id ?? null) }}" method="POST" enctype="multipart/form-data"
+        x-data="{ is_on: {{ $user && $user->hasRole('admin') ? 'true' : 'false' }} }">
         @csrf
 
         @if (session('error'))
@@ -68,7 +69,7 @@
                         @enderror
                     </div>
 
-                    <div>
+                    <div>   
                         <label class="block text-sm font-medium text-gray-900">Confirm Password</label>
                         <input type="password" name="password_confirmation" placeholder="Confirm password"
                             class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
@@ -79,63 +80,89 @@
                 </div>
             </div>
 
-            <div class="bg-white border border-gray-200 rounded-lg shadow-sm p-6 space-y-6">
+            <div class="bg-white border border-gray-200 rounded-lg shadow-sm p-6 space-y-6 h-fit">
                 <h3 class="text-xl font-semibold text-black pb-2 border-b">Roles & Permissions</h3>
 
-                <div>
-                    <label class="block text-sm font-medium">Role <span class="text-red-600">*</span></label>
-                    <select name="role_id" id="roleSelect"
-                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                        <option value="">Select Role</option>
-                        @foreach ($roles as $roleItem)
-                            <option value="{{ $roleItem->id }}" @selected(old('role_id', $user?->roles->first()?->id) == $roleItem->id)>
-                                {{ ucfirst($roleItem->name) }}
-                            </option>
-                        @endforeach
-                    </select>
-                    @error('role_id')
-                        <span class="text-red-600 text-sm">{{ $message }}</span>
-                    @enderror
+                <div class="flex justify-between">
+                    <div>
+                        <h2 class="text-lg font-semibold text-gray-900">Administrator Access</h2>
+                        <p class="text-gray-500">Administrator users have unrestricted access to all feature and
+                            functions.</p>
+                    </div> <label class="relative inline-flex items-center cursor-pointer"> <input type="checkbox"
+                            name="is_admin" value="on" x-model="is_on" class="sr-only peer">
+                        <div
+                            class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-green-600 after:content-[''] after:absolute after:left-0.5 after:bg-white after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full">
+                        </div>
+                    </label>
                 </div>
-
-                <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-300 mt-4">
-                        <thead class="bg-gray-50">
-                            <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Feature</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Capabilities
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-200">
-                            @foreach ($permissions as $feature => $perms)
-                                <tr>
-                                    <td class="px-6 py-4 font-medium capitalize text-gray-800">{{ $feature }}</td>
-                                    <td class="px-6 py-4 flex gap-4 flex-wrap">
-                                        @foreach ($perms as $perm)
-                                            @php
-                                                $rolePermIds =
-                                                    $user?->roles->first()?->permissions->pluck('name')->toArray() ??
-                                                    [];
-                                                $isRolePermission = in_array($perm->name, $rolePermIds);
-                                                $isExtraPermission =
-                                                    $user && $user->hasPermissionTo($perm->name) && !$isRolePermission;
-                                            @endphp
-                                            <label class="flex items-center gap-2 text-sm">
-                                                <input type="checkbox" name="permissions[]" value="{{ $perm->name }}"
-                                                    class="permission-checkbox rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                                    @checked($isRolePermission || $isExtraPermission) @disabled($isRolePermission)>
-                                                {{ ucfirst(explode('.', $perm->name)[1]) }}
-                                                @if ($isRolePermission)
-                                                    <small class="text-gray-400">(role)</small>
-                                                @endif
-                                            </label>
-                                        @endforeach
-                                    </td>
-                                </tr>
+                <div x-show="!is_on">
+                    <div>
+                        <label class="block text-sm font-medium">Role <span class="text-red-600">*</span></label>
+                        <select name="role_id" id="roleSelect"
+                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                            <option value="">Select Role</option>
+                            @foreach ($roles as $roleItem)
+                                <option value="{{ $roleItem->id }}" @selected(old('role_id', $user?->roles->first()?->id) == $roleItem->id)>
+                                    {{ ucfirst($roleItem->name) }}
+                                </option>
                             @endforeach
-                        </tbody>
-                    </table>
+                        </select>
+                        @error('role_id')
+                            <span class="text-red-600 text-sm">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-300 mt-4">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Feature
+                                    </th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                        Capabilities
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                @foreach ($permissions as $feature => $perms)
+                                    <tr>
+                                        <td class="px-6 py-4 font-medium capitalize text-gray-800">{{ $feature }}
+                                        </td>
+                                        <td class="px-6 py-4 flex gap-4 flex-wrap">
+                                            @foreach ($perms as $perm)
+                                                @php
+                                                    $rolePermIds =
+                                                        $user?->roles
+                                                            ->first()
+                                                            ?->permissions->pluck('name')
+                                                            ->toArray() ?? [];
+                                                    $isRolePermission = in_array($perm->name, $rolePermIds);
+                                                    $isExtraPermission =
+                                                        $user &&
+                                                        $user->hasPermissionTo($perm->name) &&
+                                                        !$isRolePermission;
+                                                @endphp
+                                                <label class="flex items-center gap-2 text-sm">
+                                                    <input type="checkbox" name="permissions[]"
+                                                        value="{{ $perm->name }}"
+                                                        class="permission-checkbox rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                                        @checked($isRolePermission || $isExtraPermission) @disabled($isRolePermission)>
+                                                    {{ ucfirst(explode('.', $perm->name)[1]) }}
+                                                    @if ($isRolePermission)
+                                                        <small class="text-gray-400">(role)</small>
+                                                    @endif
+                                                </label>
+                                            @endforeach
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="mt-4 border border-gray-200 rounded-md p-4 bg-gray-50" x-show="is_on">
+                    <h2 class="text-md font-semibold"> Administrator information </h2>
+                    <p class="text-sm">Administrator have full access of all feature and setting of system.</p>
                 </div>
 
                 <div class="mt-6 flex justify-end gap-4">

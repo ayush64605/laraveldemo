@@ -1,6 +1,5 @@
-
 <x-pannel-layout>
-    <div>
+    <x-card>
         <div class="grid sm:grid-cols-2 lg:grid-cols-2 gap-6">
             <div class=" flex">
                 <div class="p-4 md:p-6">
@@ -19,46 +18,42 @@
         @if (session('success'))
             <x-alert type="success" :message="session('success')" />
         @endif
-        <div class="flex flex-col mt-5">
+        <div class="flex flex-col ">
             <div class="-m-1.5 overflow-x-auto">
                 <div class="p-1.5 min-w-full inline-block align-middle">
-                    <div class="overflow-hidden">
+                    <div class="overflow-hidden rounded-xl border border-gray-200 bg-white">
                         <table class="min-w-full divide-y divide-gray-200">
-                            <thead>
+
+                            <thead class="bg-gray-50 sticky top-0 z-10">
                                 <tr>
-                                    <th scope="col"
-                                        class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
-                                        #</th>
-                                    <th scope="col"
-                                        class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
-                                        Name </th>
-                                    <th scope="col"
-                                        class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
-                                        Email </th>
-                                    <th scope="col"
-                                        class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
-                                        Number </th>
-                                    <th scope="col"
-                                        class="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase">
-                                        Action</th>
+                                    <x-table.th>
+                                        #</x-table.th>
+                                    <x-table.th>
+                                        Name </x-table.th>
+                                    <x-table.th>
+                                        Email </x-table.th>
+                                    <x-table.th>
+                                        Number </x-table.th>
+                                    <x-table.th>
+                                        Action</x-table.th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200">
                                 @forelse ($projects->employees as $index => $employee)
                                     <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-black-800">
+                                        <x-table.td>
                                             {{ $index + 1 }}
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-black-800">
+                                        </x-table.td>
+                                        <x-table.td>
                                             {{ $employee->name }}
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-black-800">
+                                        </x-table.td>
+                                        <x-table.td>
                                             {{ $employee->email }}
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-black-800">
+                                        </x-table.td>
+                                        <x-table.td>
                                             {{ $employee->number }}
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
+                                        </x-table.td>
+                                        <x-table.td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
                                             <x-button type="button" color="bg-red-600" text="Delete" icon="trash"
                                                 onclick="document.getElementById('deleteModal-{{ $employee->id }}').classList.remove('hidden')" />
 
@@ -80,13 +75,13 @@
                                                 </div>
 
                                             </x-genral-modal>
-                                        </td>
+                                        </x-table.td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="3" class="px-6 py-4 text-center text-sm text-gray-500">
+                                        <x-table.td colspan="3" class="px-6 py-4 text-center text-sm text-gray-500">
                                             No projects currently assigned to this employee.
-                                        </td>
+                                        </x-table.td>
                                     </tr>
                                 @endforelse
                             </tbody>
@@ -96,5 +91,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </x-card>
 </x-pannel-layout>

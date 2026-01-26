@@ -1,5 +1,5 @@
 <x-pannel-layout>
-    <div class="max-w-7xl mx-auto px-4 py-6 space-y-6">
+    <div class="px-4 py-6 space-y-6">
 
         <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
             <h3 class="text-2xl font-semibold text-black">

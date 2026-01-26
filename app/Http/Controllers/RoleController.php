@@ -11,6 +11,9 @@ class RoleController extends Controller
 {
     public function show()
     {
+        if (!checkPermission(['role.view'])) {
+            return redirect()->route('dashboard');
+        }
         $roles = Role::all();
         return view('role.show', compact('roles'));
     }

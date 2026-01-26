@@ -15,6 +15,9 @@ class SettingController extends Controller
 {
     public function general(GeneralSettings $setting)
     {
+        if (!checkPermission(['setting.view'])) {
+            return redirect()->route('dashboard');
+        }
         return view("setting.general", compact("setting"));
     }
 
@@ -73,6 +76,9 @@ class SettingController extends Controller
 
     public function theme(ThemeSetting $setting)
     {
+        if (!checkPermission(['setting.view'])) {
+            return redirect()->route('dashboard');
+        }
         return view("setting.theme", compact("setting"));
     }
 
@@ -89,6 +95,9 @@ class SettingController extends Controller
 
     public function captcha(CaptchaSetting $setting)
     {
+        if (!checkPermission(['setting.view'])) {
+            return redirect()->route('dashboard');
+        }
         return view("setting.captcha", compact("setting"));
     }
 
@@ -128,6 +137,9 @@ class SettingController extends Controller
 
     public function email(EmailSetting $setting)
     {
+        if (!checkPermission(['setting.view'])) {
+            return redirect()->route('dashboard');
+        }
         return view("setting.email", compact("setting"));
     }
 

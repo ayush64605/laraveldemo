@@ -1,5 +1,5 @@
 <x-pannel-layout>
-    <div>
+    <x-card>
         <div class="grid sm:grid-cols-2 lg:grid-cols-2 gap-6">
             <div class="flex">
                 <div class="p-4">
@@ -13,7 +13,8 @@
             </div>
             @if (Auth::user())
                 <div class="flex items-center justify-end">
-                    <form action="{{ route('project.task.show', ['project' => $project]) }}" method="GET" id="filterForm">
+                    <form action="{{ route('project.task.show', ['project' => $project]) }}" method="GET"
+                        id="filterForm">
                         <div>
                             @php
                                 $tags = App\Models\Tag::all();
@@ -23,7 +24,8 @@
                                 style="width: 120px;">
                                 <option value="">All Tags</option>
                                 @foreach ($tags as $tag)
-                                    <option value="{{ $tag->id }}" {{ request('tag_id') == $tag->id ? 'selected' : '' }}>
+                                    <option value="{{ $tag->id }}"
+                                        {{ request('tag_id') == $tag->id ? 'selected' : '' }}>
                                         {{ $tag->name }}
                                     </option>
                                 @endforeach
@@ -36,12 +38,15 @@
                             onclick="document.getElementById('addModal').classList.remove('hidden')" />
                     </div>
 
-                    <x-form-modal id="addModal" title="Add Task" action="{{ route('project.task.save') }}" enctype="multipart/form-data">
+                    <x-form-modal id="addModal" title="Add Task" action="{{ route('project.task.save') }}"
+                        enctype="multipart/form-data">
                         <input type="hidden" name="project_id" value="{{ $project }}">
                         <div class="grid grid-cols-1 md:grid-cols-1 gap-6 mt-4">
                             <div>
-                                <label class="block text-sm font-medium text-gray-900">Task<span class="text-red-600">*</span></label>
-                                <input type="text" name="task" value="{{ old('task') }}" placeholder="Enter Task name"
+                                <label class="block text-sm font-medium text-gray-900">Task<span
+                                        class="text-red-600">*</span></label>
+                                <input type="text" name="task" value="{{ old('task') }}"
+                                    placeholder="Enter Task name"
                                     class="border-gray-300 w-full focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
                                 @error('task')
                                     <span class="text-red-600 text-sm">{{ $message }}</span>
@@ -93,20 +98,25 @@
                                         <x-table.td>{{ $task->task }}</x-table.td>
                                         <x-table.td class="text-end">
                                             @if (Auth::user())
-                                                <x-button type="button" icon="eye" color="bg-indigo-600" text="View Comments"
+                                                <x-button type="button" icon="eye" color="bg-indigo-600"
+                                                    text="View Comments"
                                                     onclick="document.getElementById('commentModal-{{ $task->id }}').classList.remove('hidden')" />
-                                                <x-button type="button" color="bg-red-600" text="Delete" icon="trash"
+                                                <x-button type="button" color="bg-red-600" text="Delete"
+                                                    icon="trash"
                                                     onclick="document.getElementById('deleteModal-{{ $task->id }}').classList.remove('hidden')" />
                                             @endif
                                             @if (session('employeedata'))
-                                                <x-button type="button" icon="plus" color="bg-indigo-600" text="Add Comments"
+                                                <x-button type="button" icon="plus" color="bg-indigo-600"
+                                                    text="Add Comments"
                                                     onclick="document.getElementById('addComment-{{ $task->id }}').classList.remove('hidden')" />
                                             @endif
 
-                                            <x-form-modal id="addComment-{{ $task->id }}" title="Add Comment" action="{{ route('comment.save') }}">
+                                            <x-form-modal id="addComment-{{ $task->id }}" title="Add Comment"
+                                                action="{{ route('comment.save') }}">
                                                 <input type="hidden" name="task" value="{{ $task->id }}">
                                                 <div>
-                                                    <label class="block text-sm font-medium text-gray-900">Comment<span class="text-red-600">*</span></label>
+                                                    <label class="block text-sm font-medium text-gray-900">Comment<span
+                                                            class="text-red-600">*</span></label>
                                                     <input type="text" name="comment" placeholder="Enter comment"
                                                         class="border-gray-300 w-full focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
                                                     @error('comment')
@@ -115,12 +125,16 @@
                                                 </div>
                                             </x-form-modal>
 
-                                            <x-genral-modal id="deleteModal-{{ $task->id }}" title="Delete Task" description="Are you sure you want to delete this task?">
+                                            <x-genral-modal id="deleteModal-{{ $task->id }}" title="Delete Task"
+                                                description="Are you sure you want to delete this task?">
                                                 <div class="mt-6 flex justify-end gap-3">
-                                                    <x-button type="button" color="bg-indigo-600" text="Cancel" icon="cancel"
+                                                    <x-button type="button" color="bg-indigo-600" text="Cancel"
+                                                        icon="cancel"
                                                         onclick="document.getElementById('deleteModal-{{ $task->id }}').classList.add('hidden')" />
-                                                    <a href="{{ route('project.task.delete', ['task' => $task->id]) }}">
-                                                        <x-button type="button" color="bg-red-600" text="Yes, Delete" icon="trash" />
+                                                    <a
+                                                        href="{{ route('project.task.delete', ['task' => $task->id]) }}">
+                                                        <x-button type="button" color="bg-red-600" text="Yes, Delete"
+                                                            icon="trash" />
                                                     </a>
                                                 </div>
                                             </x-genral-modal>
@@ -134,7 +148,8 @@
                                                     @endforeach
                                                 </div>
                                                 <div class="mt-6 flex justify-end gap-3">
-                                                    <x-button type="button" color="bg-indigo-600" text="Cancel" icon="cancel"
+                                                    <x-button type="button" color="bg-indigo-600" text="Cancel"
+                                                        icon="cancel"
                                                         onclick="document.getElementById('commentModal-{{ $task->id }}').classList.add('hidden')" />
                                                 </div>
                                             </x-genral-modal>
@@ -147,5 +162,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </x-card>
 </x-pannel-layout>

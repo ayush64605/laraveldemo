@@ -16,6 +16,9 @@ class UserController extends Controller
 {
     public function show()
     {
+        if (!checkPermission(['user.view'])) {
+            return redirect()->route('dashboard');
+        }
         $users = User::whereNot("id", Auth::user()->id)->get();
         return view('user.show', compact('users'));
     }
@@ -32,28 +35,35 @@ class UserController extends Controller
 
     public function save(Request $request, User $user = null)
     {
-        $userId = $user ? $user->id : null;
+        $userId = $user?->id;
 
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $userId,
             'password' => $user ? 'nullable|min:6|confirmed' : 'required|min:6|confirmed',
             'image' => 'nullable|image|max:2048',
-            'role_id' => 'required|exists:roles,id',
+            'role_id' => $request->boolean('is_admin')
+                ? 'nullable'
+                : 'required|exists:roles,id',
             'permissions' => 'array',
         ]);
 
-        DB::transaction(function () use ($request, $user) {
+        DB::transaction(function () use ($request, &$user) {
 
             if (!$user) {
                 $user = new User();
             }
 
+            $isAdmin = $request->boolean('is_admin');
+
             $user->name = $request->name;
             $user->email = $request->email;
+            $user->is_admin = $isAdmin ? 1 : 0;
+
             if ($request->filled('password')) {
                 $user->password = Hash::make($request->password);
             }
+
             $user->save();
 
             if ($request->hasFile('image')) {
@@ -66,6 +76,12 @@ class UserController extends Controller
 
             app(PermissionRegistrar::class)->forgetCachedPermissions();
 
+            if ($isAdmin) {
+                $user->syncRoles([]);
+                $user->syncPermissions([]);
+                return;
+            }
+
             $role = Role::findOrFail($request->role_id);
             $user->syncRoles([$role->name]);
 
@@ -75,9 +91,11 @@ class UserController extends Controller
             $user->syncPermissions(array_merge($rolePermissions, $extraPermissions));
         });
 
-        return redirect()->route('user.show', $user->id ?? null)
-            ->with('success', $user ? 'User updated successfully' : 'User created successfully');
+        return redirect()
+            ->route('user.show', $user->id)
+            ->with('success', $userId ? 'User updated successfully' : 'User created successfully');
     }
+
 
     public function delete(User $user)
     {

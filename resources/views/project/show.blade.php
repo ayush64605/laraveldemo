@@ -1,5 +1,5 @@
 <x-pannel-layout>
-    <div>
+    <x-card>
         <div class="grid sm:grid-cols-2 gap-6">
             <div class="flex">
                 <div class="p-4">
@@ -18,19 +18,18 @@
                         class="rounded-md bg-white px-3 py-2 border border-gray-300 text-sm w-36">
                         <option value="">All Tags</option>
                         @foreach ($tags as $tag)
-                            <option value="{{ $tag->id }}"
-                                {{ request('tag_id') == $tag->id ? 'selected' : '' }}>
+                            <option value="{{ $tag->id }}" {{ request('tag_id') == $tag->id ? 'selected' : '' }}>
                                 {{ $tag->name }}
                             </option>
                         @endforeach
                     </select>
                 </form>
 
-                @can('project.create')
+                @if (checkPermission('project.edit'))
                     <a href="{{ route('project.add') }}">
                         <x-button icon="plus" color="bg-indigo-600" text="Add Project" type="button" />
                     </a>
-                @endcan
+                @endif
 
                 <a href="{{ route('projectcategory.show') }}">
                     <x-button icon="plus" color="bg-indigo-600" text="Project Category" type="button" />
@@ -46,7 +45,7 @@
             <x-alert type="success" :message="session('success')" />
         @endif
 
-        <div class="flex flex-col mt-6">
+        <div class="flex flex-col ">
             <div class="-m-1.5 overflow-x-auto">
                 <div class="p-1.5 min-w-full inline-block align-middle">
                     <div class="overflow-hidden rounded-xl border border-gray-200 bg-white">
@@ -112,18 +111,18 @@
                                         <x-table.td class="text-right">
                                             <div class="inline-flex items-center gap-2">
 
-                                                @can('project.edit')
+                                                @if (checkPermission('project.edit'))
                                                     <a href="{{ route('project.update', $project->id) }}">
                                                         <x-button icon="edit" color="bg-indigo-600" text="Edit"
                                                             type="button" />
                                                     </a>
-                                                @endcan
+                                                @endif
 
-                                                @can('project.delete')
+                                                @if (checkPermission('project.delete'))
                                                     <x-button icon="trash" color="bg-red-600" text="Delete"
                                                         type="button"
                                                         onclick="document.getElementById('deleteModal-{{ $project->id }}').classList.remove('hidden')" />
-                                                @endcan
+                                                @endif
 
                                                 @if (hasRole('admin'))
                                                     <button
@@ -134,8 +133,7 @@
                                                 @endif
                                             </div>
 
-                                            <x-genral-modal id="deleteModal-{{ $project->id }}"
-                                                title="Delete Project"
+                                            <x-genral-modal id="deleteModal-{{ $project->id }}" title="Delete Project"
                                                 description="Are you sure you want to delete this Project?">
 
                                                 <div class="mt-6 flex justify-end gap-3">
@@ -146,8 +144,8 @@
 
                                                     <a
                                                         href="{{ route('project.delete', ['project' => $project->id]) }}">
-                                                        <x-button type="button" color="bg-red-600"
-                                                            text="Yes, Delete" icon="trash" /> </a>
+                                                        <x-button type="button" color="bg-red-600" text="Yes, Delete"
+                                                            icon="trash" /> </a>
                                                 </div>
 
                                             </x-genral-modal>
@@ -163,12 +161,11 @@
 
                                                     <a
                                                         href="{{ route('project.user.delete', ['project' => $project->id]) }}">
-                                                        <x-button type="button" color="bg-red-600"
-                                                            text="Yes, Delete" icon="trash" /> </a>
+                                                        <x-button type="button" color="bg-red-600" text="Yes, Delete"
+                                                            icon="trash" /> </a>
                                                 </div>
                                             </x-genral-modal>
-                                            <x-genral-modal id="commentModal-{{ $project->id }}"
-                                                title="All Comments">
+                                            <x-genral-modal id="commentModal-{{ $project->id }}" title="All Comments">
                                                 <p class="mt-2 text-sm text-gray-600">
                                                     @foreach ($project->comments as $comment)
                                                         <ul>
@@ -277,5 +274,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </x-card>
 </x-pannel-layout>

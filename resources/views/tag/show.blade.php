@@ -1,5 +1,5 @@
 <x-pannel-layout>
-    <div>
+    <x-card>
         <div class="grid sm:grid-cols-2 lg:grid-cols-2 gap-6">
             <div class="flex">
                 <div class="p-4">
@@ -13,10 +13,12 @@
             </div>
 
             <div class="flex items-center justify-end">
-                <div class="p-4 md:p-6">
-                    <x-button type="button" icon="plus" color="bg-indigo-600" text="Add Tag"
-                        onclick="document.getElementById('addModal').classList.remove('hidden')" />
-                </div>
+                @if (checkPermission('tags.create'))
+                    <div class="p-4 md:p-6">
+                        <x-button type="button" icon="plus" color="bg-indigo-600" text="Add Tag"
+                            onclick="document.getElementById('addModal').classList.remove('hidden')" />
+                    </div>
+                @endif
 
                 <x-form-modal id="addModal" title="Add Tag" action="{{ route('tag.save') }}">
                     <div class="grid grid-cols-1 md:grid-cols-1 gap-6 mt-4">
@@ -68,7 +70,9 @@
                                         <x-table.td>{{ count($tag->projects) }}</x-table.td>
                                         <x-table.td>
                                             @foreach ($tag->projects as $project)
-                                                {{ $project->name }}@if(!$loop->last), @endif
+                                                {{ $project->name }}@if (!$loop->last)
+                                                    ,
+                                                @endif
                                             @endforeach
                                         </x-table.td>
                                         <x-table.td title="{{ $tag->created_at->format($setting->date_format) }}">
@@ -76,17 +80,22 @@
                                         </x-table.td>
 
                                         <x-table.td class="text-end">
-                                            <x-button type="button" color="bg-red-600" text="Delete" icon="trash"
-                                                onclick="document.getElementById('deleteModal-{{ $tag->id }}').classList.remove('hidden')" />
+                                            @if (checkPermission('tags.delete'))
+                                                <x-button type="button" color="bg-red-600" text="Delete"
+                                                    icon="trash"
+                                                    onclick="document.getElementById('deleteModal-{{ $tag->id }}').classList.remove('hidden')" />
+                                            @endif
 
                                             <x-genral-modal id="deleteModal-{{ $tag->id }}" title="Delete Tag"
                                                 description="Are you sure you want to delete this tag?">
                                                 <div class="mt-6 flex justify-end gap-3">
-                                                    <x-button type="button" color="bg-indigo-600" text="Cancel" icon="cancel"
+                                                    <x-button type="button" color="bg-indigo-600" text="Cancel"
+                                                        icon="cancel"
                                                         onclick="document.getElementById('deleteModal-{{ $tag->id }}').classList.add('hidden')" />
 
                                                     <a href="{{ route('tag.delete', ['tag' => $tag->id]) }}">
-                                                        <x-button type="button" color="bg-red-600" text="Yes, Delete" icon="trash" />
+                                                        <x-button type="button" color="bg-red-600" text="Yes, Delete"
+                                                            icon="trash" />
                                                     </a>
                                                 </div>
                                             </x-genral-modal>
@@ -100,5 +109,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </x-card>
 </x-pannel-layout>

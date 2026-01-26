@@ -1,5 +1,5 @@
 <x-pannel-layout>
-    <div>
+    <x-card>
         <div class="grid sm:grid-cols-2 gap-6">
             <div class="flex">
                 <div class="p-4">
@@ -11,14 +11,12 @@
             </div>
 
             <div class="flex items-center justify-end">
-                <div class="p-2">
-                    <x-button
-                        type="button"
-                        icon="plus"
-                        color="bg-indigo-600"
-                        text="Add Employee"
-                        onclick="document.getElementById('addModal').classList.remove('hidden')" />
-                </div>
+                @if (checkPermission('employee.create'))
+                    <div class="p-2">
+                        <x-button type="button" icon="plus" color="bg-indigo-600" text="Add Employee"
+                            onclick="document.getElementById('addModal').classList.remove('hidden')" />
+                    </div>
+                @endif
 
                 <x-form-modal id="addModal" title="Add Employee" action="{{ route('employee.save') }}">
                     <div class="grid grid-cols-1 gap-6 mt-4">
@@ -107,65 +105,53 @@
                                             {{ $employee->number }}
                                         </x-table.td>
 
-                                        <x-table.td
-                                            title="{{ $employee->created_at->format($setting->date_format) }}">
+                                        <x-table.td title="{{ $employee->created_at->format($setting->date_format) }}">
                                             {{ $employee->created_at->diffForHumans() }}
                                         </x-table.td>
 
                                         <x-table.td class="text-end">
                                             <div class="inline-flex flex-wrap gap-2 justify-end">
 
-                                                <x-button
-                                                    type="button"
-                                                    icon="edit"
-                                                    color="bg-indigo-600"
-                                                    text="Edit"
-                                                    onclick="document.getElementById('editModal-{{ $employee->id }}').classList.remove('hidden')" />
+                                                @if (checkPermission('employee.edit'))
+                                                    <x-button type="button" icon="edit" color="bg-indigo-600"
+                                                        text="Edit"
+                                                        onclick="document.getElementById('editModal-{{ $employee->id }}').classList.remove('hidden')" />
+                                                @endif
 
-                                                <a href="{{ route('employee-project.show', ['employee' => $employee->id]) }}"
-                                                    class="text-sm/6 font-semibold text-white">
-                                                    <x-button
-                                                        type="button"
-                                                        icon="eye"
-                                                        color="bg-indigo-600"
-                                                        text="Assign Project" />
-                                                </a>
+                                                @if (hasRole('admin'))
+                                                    <a href="{{ route('employee-project.show', ['employee' => $employee->id]) }}"
+                                                        class="text-sm/6 font-semibold text-white">
+                                                        <x-button type="button" icon="eye" color="bg-indigo-600"
+                                                            text="Assign Project" />
+                                                    </a>
+                                                @endif
 
-                                                <x-button
-                                                    type="button"
-                                                    color="bg-red-600"
-                                                    text="Delete"
-                                                    icon="trash"
-                                                    onclick="document.getElementById('deleteModal-{{ $employee->id }}').classList.remove('hidden')" />
+                                                @if (checkPermission('employee.delete'))
+                                                    <x-button type="button" color="bg-red-600" text="Delete"
+                                                        icon="trash"
+                                                        onclick="document.getElementById('deleteModal-{{ $employee->id }}').classList.remove('hidden')" />
+                                                @endif
 
                                             </div>
 
-                                            <x-genral-modal
-                                                id="deleteModal-{{ $employee->id }}"
+                                            <x-genral-modal id="deleteModal-{{ $employee->id }}"
                                                 title="Delete Employee"
                                                 description="Are you sure you want to delete this employee?">
 
                                                 <div class="mt-6 flex justify-end gap-3">
-                                                    <x-button
-                                                        type="button"
-                                                        color="bg-indigo-600"
-                                                        text="Cancel"
+                                                    <x-button type="button" color="bg-indigo-600" text="Cancel"
                                                         icon="cancel"
                                                         onclick="document.getElementById('deleteModal-{{ $employee->id }}').classList.add('hidden')" />
 
-                                                    <a href="{{ route('employee.delete', ['employee' => $employee->id]) }}">
-                                                        <x-button
-                                                            type="button"
-                                                            color="bg-red-600"
-                                                            text="Yes, Delete"
+                                                    <a
+                                                        href="{{ route('employee.delete', ['employee' => $employee->id]) }}">
+                                                        <x-button type="button" color="bg-red-600" text="Yes, Delete"
                                                             icon="trash" />
                                                     </a>
                                                 </div>
                                             </x-genral-modal>
 
-                                            <x-form-modal
-                                                id="editModal-{{ $employee->id }}"
-                                                title="Edit Employee"
+                                            <x-form-modal id="editModal-{{ $employee->id }}" title="Edit Employee"
                                                 action="{{ route('employee.save') }}">
 
                                                 <input type="hidden" name="id" value="{{ $employee->id }}">
@@ -211,5 +197,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </x-card>
 </x-pannel-layout>

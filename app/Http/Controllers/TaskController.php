@@ -10,6 +10,9 @@ class TaskController extends Controller
 {
     public function show(Request $request, $project)
     {
+        if (!checkPermission(['task.view'])) {
+            return redirect()->route('dashboard');
+        }
         $query = Task::with('comments')->where("project_id", $project);
 
         if ($request->filled('tag_id')) {

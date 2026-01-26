@@ -38,7 +38,9 @@
     </style>
 </head>
 
-@php $user = Auth::user(); @endphp
+@php
+    $user = Auth::user();
+@endphp
 
 <body class="bg-gray-50 font-figtree">
 
@@ -59,77 +61,75 @@
                 <span class="font-bold text-lg truncate">{{ $setting->site_name }}</span>
             </div>
 
-            @if ($user)
-                <nav class="flex-1 px-3 py-4 space-y-1 sidebar overflow-y-auto">
-                    @php
-                        $navItem = 'flex items-center gap-3 px-4 py-2 text-sm rounded-md transition';
-                        $inactive = 'text-gray-600 hover:bg-gray-100';
-                    @endphp
+            <nav class="flex-1 px-3 py-4 space-y-1 sidebar overflow-y-auto">
+                @php
+                    $navItem = 'flex items-center gap-3 px-4 py-2 text-sm rounded-md transition';
+                    $inactive = 'text-gray-600 hover:bg-gray-100';
+                @endphp
 
-                    <a href="{{ route('dashboard') }}"
-                        class="{{ $navItem }} {{ request()->routeIs('dashboard') ? 'active' : $inactive }}">
-                        <i class="fa fa-home"></i>
-                        Dashboard
+                <a href="{{ route('dashboard') }}"
+                    class="{{ $navItem }} {{ request()->routeIs('dashboard') ? 'active' : $inactive }}">
+                    <i class="fa fa-home"></i>
+                    Dashboard
+                </a>
+
+
+
+                @if (checkPermission(['project.view']))
+                    <a href="{{ route('project.show') }}"
+                        class="{{ $navItem }} {{ request()->is('project/*') ? 'active' : $inactive }}">
+                        <i class="fa-solid fa-diagram-project"></i>
+                        Projects
+                    </a>
+                @endif
+
+                @if (checkPermission(['employee.view']))
+                    <a href="{{ route('employee.show') }}"
+                        class="{{ $navItem }} {{ request()->is('employee/*') ? 'active' : $inactive }}">
+                        <i class="fa-solid fa-briefcase"></i>
+                        Employees
+                    </a>
+                @endif
+
+                @if (checkPermission(['role.view']))
+                    <a href="{{ route('role.show') }}"
+                        class="{{ $navItem }} {{ request()->is('role/*') ? 'active' : $inactive }}">
+                        <i class="fa-solid fa-building-shield"></i>
+                        Roles
+                    </a>
+                @endif
+
+                @if (checkPermission(['user.view']))
+                    <a href="{{ route('user.show') }}"
+                        class="{{ $navItem }} {{ request()->is('user/*') ? 'active' : $inactive }}">
+                        <i class="fa-solid fa-users"></i>
+                        Users
+                    </a>
+                @endif
+
+                @if (checkPermission(['tags.view']))
+                    <a href="{{ route('tag.show') }}"
+                        class="{{ $navItem }} {{ request()->is('tag/*') ? 'active' : $inactive }}">
+                        <i class="fa-solid fa-tag"></i>
+                        Tags
+                    </a>
+                @endif
+
+                @if (checkPermission(['setting.view', 'setting.edit']))
+                    <a href="{{ route('setting.general') }}"
+                        class="{{ $navItem }} {{ request()->is('setting/*') ? 'active' : $inactive }}">
+                        <i class="fa fa-gear"></i>
+                        Settings
                     </a>
 
-                    @can('project.view')
-                        <a href="{{ route('project.show') }}"
-                            class="{{ $navItem }} {{ request()->is('project/*') ? 'active' : $inactive }}">
-                            <i class="fa-solid fa-diagram-project"></i>
-                            Projects
-                        </a>
-                    @endcan
-
-                    @can('employee.view')
-                        <a href="{{ route('employee.show') }}"
-                            class="{{ $navItem }} {{ request()->is('employee/*') ? 'active' : $inactive }}">
-                            <i class="fa-solid fa-briefcase"></i>
-                            Employees
-                        </a>
-                    @endcan
-
-                    @can('role.view')
-                        <a href="{{ route('role.show') }}"
-                            class="{{ $navItem }} {{ request()->is('role/*') ? 'active' : $inactive }}">
-                            <i class="fa-solid fa-building-shield"></i>
-                            Roles
-                        </a>
-                    @endcan
-
-                    @can('user.view')
-                        <a href="{{ route('user.show') }}"
-                            class="{{ $navItem }} {{ request()->is('user/*') ? 'active' : $inactive }}">
-                            <i class="fa-solid fa-users"></i>
-                            Users
-                        </a>
-                    @endcan
-
-                    @can('tags.view')
-                        <a href="{{ route('tag.show') }}"
-                            class="{{ $navItem }} {{ request()->is('tag/*') ? 'active' : $inactive }}">
-                            <i class="fa-solid fa-tag"></i>
-                            Tags
-                        </a>
-                    @endcan
-
-                    @can('setting.view')
-                        <a href="{{ route('setting.general') }}"
-                            class="{{ $navItem }} {{ request()->is('setting/*') ? 'active' : $inactive }}">
-                            <i class="fa fa-gear"></i>
-                            Settings
-                        </a>
-                    @endcan
-                </nav>
+            </nav>
             @endif
         </aside>
 
-        <!-- Main Content -->
         <div class="flex flex-col flex-1">
 
-            <!-- Header -->
             <header class="sticky top-0 z-30 bg-white border-b h-16 px-4 flex items-center justify-between">
 
-                <!-- Mobile Menu Button -->
                 <button onclick="toggleSidebar()" class="lg:hidden text-gray-600 hover:text-black">
                     <i class="fa fa-bars text-xl"></i>
                 </button>
@@ -149,7 +149,6 @@
                 </div>
             </header>
 
-            <!-- Page Content -->
             <main class="flex-1 p-4 overflow-y-auto">
                 {{ $slot }}
             </main>
@@ -157,7 +156,6 @@
         </div>
     </div>
 
-    <!-- Sidebar Toggle Script -->
     <script>
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');

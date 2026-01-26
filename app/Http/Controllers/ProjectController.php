@@ -13,6 +13,9 @@ class ProjectController extends Controller
 {
     public function show(Request $request)
     {
+        if (!checkPermission(['project.view'])) {
+            return redirect()->route('dashboard');
+        }
         $projects = Project::all();
 
         if ($request->filled('tag_id')) {

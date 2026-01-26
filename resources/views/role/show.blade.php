@@ -1,5 +1,5 @@
 <x-pannel-layout>
-    <div>
+    <x-card>
         <div class="flex justify-between items-center">
             <div class="p-4">
                 <h3 class="text-2xl font-semibold text-black">
@@ -10,11 +10,13 @@
                 </p>
             </div>
 
-            <div class="p-2">
-                <a href="{{ route('role.add') }}">
-                    <x-button type="button" icon="plus" color="bg-indigo-600" text="Add Role" />
-                </a>
-            </div>
+            @if (checkPermission('role.create'))
+                <div class="p-2">
+                    <a href="{{ route('role.add') }}">
+                        <x-button type="button" icon="plus" color="bg-indigo-600" text="Add Role" />
+                    </a>
+                </div>
+            @endif
         </div>
 
         @if (session('error'))
@@ -51,23 +53,30 @@
                                         <x-table.td class="text-end">
                                             <div class="inline-flex flex-wrap gap-2 justify-end">
 
-                                                <a href="{{ route('role.add', ['role' => $role->id]) }}">
-                                                    <x-button type="button" icon="edit" color="bg-indigo-600" text="Edit" />
-                                                </a>
-
-                                                <x-button type="button" color="bg-red-600" text="Delete" icon="trash"
-                                                    onclick="document.getElementById('deleteModal-{{ $role->id }}').classList.remove('hidden')" />
+                                                @if (checkPermission('role.edit'))
+                                                    <a href="{{ route('role.add', ['role' => $role->id]) }}">
+                                                        <x-button type="button" icon="edit" color="bg-indigo-600"
+                                                            text="Edit" />
+                                                    </a>
+                                                @endif
+                                                @if (checkPermission('role.delete'))
+                                                    <x-button type="button" color="bg-red-600" text="Delete"
+                                                        icon="trash"
+                                                        onclick="document.getElementById('deleteModal-{{ $role->id }}').classList.remove('hidden')" />
+                                                @endif
 
                                             </div>
 
                                             <x-genral-modal id="deleteModal-{{ $role->id }}" title="Delete Role"
                                                 description="Are you sure you want to delete this role?">
                                                 <div class="mt-6 flex justify-end gap-3">
-                                                    <x-button type="button" color="bg-indigo-600" text="Cancel" icon="cancel"
+                                                    <x-button type="button" color="bg-indigo-600" text="Cancel"
+                                                        icon="cancel"
                                                         onclick="document.getElementById('deleteModal-{{ $role->id }}').classList.add('hidden')" />
 
                                                     <a href="{{ route('role.delete', ['role' => $role->id]) }}">
-                                                        <x-button type="button" color="bg-red-600" text="Yes, Delete" icon="trash" />
+                                                        <x-button type="button" color="bg-red-600" text="Yes, Delete"
+                                                            icon="trash" />
                                                     </a>
                                                 </div>
                                             </x-genral-modal>
@@ -81,5 +90,5 @@
                 </div>
             </div>
         </div>
-    </div>
+   </x-card>
 </x-pannel-layout>

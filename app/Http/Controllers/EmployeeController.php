@@ -12,6 +12,9 @@ class EmployeeController extends Controller
 {
     public function show()
     {
+        if (!checkPermission(['employee.view'])) {
+            return redirect()->route('dashboard');
+        }
         $employees = Employee::all();
         return view("employee.show", compact("employees"));
     }
